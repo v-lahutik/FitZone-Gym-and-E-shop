@@ -3,6 +3,7 @@ import cors from 'cors';
 import { createError } from './utils/helper';
 import { connectToDB } from './utils/db';
 import dotenv from 'dotenv';
+import userRouter from './routers/user.router';
 
 
 dotenv.config();
@@ -16,7 +17,7 @@ app.use(express.json());
 app.use(cors());
 
 // routers
-
+app.use('/users', userRouter)
 
 // error handlers
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -30,5 +31,5 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 // server
-const port = 5000;
+const port = 6000;
 app.listen(port, () => console.log(`server is up on port: ${port} 🚀`));
