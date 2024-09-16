@@ -1,3 +1,4 @@
+
 import Verify from '../models/verify.model';
 import { UserDocument } from '../models/user.model';
 import crypto from 'crypto';
@@ -5,19 +6,19 @@ import nodemailer from 'nodemailer';
 import { ObjectId } from 'mongoose';
 
 export class CustomError extends Error {
-    status: number;
-  
-    constructor(message: string, status: number) {
-      super(message);
-      this.status = status;
-      // Set the prototype explicitly when extending a built-in class
-      Object.setPrototypeOf(this, CustomError.prototype);
-    }
-  }
+  status: number;
 
-  export const createError = (msg: string, status: number)=> {
-    return new CustomError(msg, status);
-  };
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+    // Set the prototype explicitly when extending a built-in class
+    Object.setPrototypeOf(this, CustomError.prototype);
+  }
+}
+export const createError = (msg: string, status: number) => {
+  return new CustomError(msg, status);
+};
+
 
 
 export const generateVerificationToken=async(user:UserDocument): Promise<string> =>{
@@ -91,3 +92,6 @@ export const emailTemplate = (name: string, token:string, userId: ObjectId) => {
   </div>
 `;
 };
+
+
+
