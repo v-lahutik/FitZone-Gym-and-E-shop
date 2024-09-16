@@ -1,11 +1,11 @@
-
+import Header from "./components/Header.tsx"
 
 function App() {
 
 
   return (
     <>
-      <h1>Final Project</h1>
+      <Header/>
     </>
   )
 }
