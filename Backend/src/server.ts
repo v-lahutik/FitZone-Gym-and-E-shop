@@ -3,7 +3,9 @@ import cors from 'cors';
 import { createError } from './utils/helper';
 import { connectToDB } from './utils/db';
 import dotenv from 'dotenv';
+import morgan from 'morgan'
 import userRouter from './routers/user.router';
+import courseRouter from './routers/course.router';
 
 
 dotenv.config();
@@ -15,9 +17,11 @@ connectToDB();
 // middlewares
 app.use(express.json());
 app.use(cors());
+app.use(morgan('dev'));
 
 // routers
 app.use('/users', userRouter)
+app.use('/courses', courseRouter)
 
 // error handlers
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -31,5 +35,5 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 // server
-const port = 6000;
+const port = process.env.PORT || 6000;
 app.listen(port, () => console.log(`server is up on port: ${port} 🚀`));
