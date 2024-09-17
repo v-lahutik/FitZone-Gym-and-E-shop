@@ -48,8 +48,8 @@ export const addNewCourse = async (
 export const editCourse = async (req:Request, res:Response, next:NextFunction) => {
     try {
         const cid = req.params.cid
-        const { name, category, weekday, time, maxParticipants, description, instructor } = req.body;
-        const editedCourse = await Course.findByIdAndUpdate(cid, { name, category, weekday, time, maxParticipants, description, instructor }, { new: true });
+        const{courseName,category,weekday,date,time,maxParticipants,description,instructor} = req.body;
+        const editedCourse = await Course.findByIdAndUpdate(cid, {courseName,category,weekday,date,time,maxParticipants,description,instructor}, { new: true });
         res.status(200).json({ msg: "Course edited successfully", editedCourse });
     } catch (error) {
         next(error);

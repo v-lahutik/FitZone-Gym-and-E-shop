@@ -61,7 +61,7 @@ export const sendVerificationEmail = async (user: UserDocument, token: string) =
 
 export const emailTemplate = (name: string, token:string, userId: ObjectId) => {
   console.log("token", token, "userId", userId);
-  const link = `https://localhost:5000/users/verify/${token}/${userId}`
+  const link = `https://localhost:8000/users/verify/${token}/${userId}`
 
   return `
   <div style="font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; padding: 20px;">
