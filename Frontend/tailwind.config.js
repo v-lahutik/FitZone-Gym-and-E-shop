@@ -4,6 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
+
         primary: {
           DEFAULT: "#F41E1E",
           light: "#f64f4f",
@@ -35,11 +36,14 @@ export default {
         thBorderColor5: "#49515C",
         thBorderColor6: "#383D46",
         thBodyBackground: "#ffffff",
+        blight: '#F2F2F2', //light background for cards etc.
+        bdark: '#1D2228' //dark background for cards etc.
       },
       fontFamily: {
         archivo: ["Archivo", "sans-serif"],
         kanit: ["Kanit", "sans-serif"],
       },
+
     },
   },
   plugins: [],

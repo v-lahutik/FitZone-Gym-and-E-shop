@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, ObjectId } from "mongoose";
 
 export enum UserRole {
   member = "member",
@@ -47,6 +47,7 @@ export interface UserInput {
 }
 
 export interface UserDocument extends UserInput, Document {
+  _id: ObjectId
   role: string;
   pass_changed_at?: Date; //optional field
   is_activated: boolean;
@@ -79,6 +80,10 @@ const userSchema = new Schema<UserDocument>({
     type: String,
     enum: Object.values(UserRole),
     default: UserRole.member,
+  },
+  is_activated: {
+    type: Boolean,
+    default: false,
   },
   
 },{timestamps: true});

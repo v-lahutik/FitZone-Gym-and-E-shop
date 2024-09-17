@@ -1,11 +1,14 @@
-import { nextTick } from "process";
 import User from "../models/user.model";
+import Verify from "../models/verify.model";
+import { createError } from "../utils/helper";
 import { NextFunction, Request, Response } from 'express';
+import { generateVerificationToken, sendVerificationEmail } from "../utils/helper";
 
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { firstName, lastName, email, password, address } = req.body;
+
         if (!firstName || !lastName || !email || !password) {
             return res.status(400).json({ msg: 'Please fill all fields' });
         }
@@ -14,9 +17,13 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
             return res.status(400).json({ msg: 'User already exist' });
         }
        const newUser =  new User({ firstName, lastName, email, password, address });
+
+       const verificationToken: string = await generateVerificationToken(newUser);
+       await sendVerificationEmail(newUser, verificationToken);
+
         await newUser.save();
         res.status(201).json({
-            msg: 'User registration successful',
+            msg: 'User registration successful. Please verify email',
             user: {
                 id: newUser._id,
                 firstName: newUser.firstName,
@@ -28,6 +35,38 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         next(error);
     }
 }
+
+
+export const verifyAccount = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { verifyToken: token, uid: userId } = req.params;
+     
+      const verified = await Verify.findOne({ token, userId });
+      if (!verified) {
+        return res.status(401).json({message: 'Verification link is not valid or has expired.'});
+        
+      }
+  
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({message: 'User not found or already deleted.'}); 
+      }
+  
+      if (user.is_activated) {
+        return res.status(400).json({message: 'User account is already activated.'});
+      }
+  
+      user.is_activated = true;
+      await user.save();
+  
+       res.status(200).json({
+      status: 'Account verified!',
+      message: 'Account has been successfully verified.',
+    });
+    } catch (error) {
+      next(error);
+    }
+  };
 
 export const login= async (req: Request, res: Response, next: NextFunction) => {
     try {

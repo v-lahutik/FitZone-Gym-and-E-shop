@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
 body {
-  @apply bg-[#fafafa] font-archivo;
+  @apply bg-[#ffffff] font-archivo;
 }
+
