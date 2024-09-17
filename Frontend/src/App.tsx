@@ -1,13 +1,13 @@
-import Header from "./components/Header.tsx"
+import Header from "./components/Header.tsx";
+import Hero from "./components/Hero/Hero.tsx";
 
 function App() {
-
-
   return (
     <>
-      <Header/>
+      <Header />
+      <Hero />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
