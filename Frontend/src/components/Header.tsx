@@ -9,7 +9,7 @@ export default function Header() {
   return (
     <header className="bg-primary flex items-center p-4 sm:p-8 justify-between min-h-[50px] my-auto">
       <div className="basis-1/4 ">
-        <img src={Logo} alt="Logo" className="sm:mr-4 min-w-24" />
+        <img src={Logo} alt="Logo" className="sm:mr-4 min-w-[100px] max-w-[300px] h-auto w-full" />
       </div>
 
       <div className="basis-1/2 flex justify-evenly">
