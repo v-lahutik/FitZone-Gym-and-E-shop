@@ -23,7 +23,7 @@ interface Payload {
 
 
 // Create token
-export const createToken = async (
+export const createJwtToken = async (
   payload: Payload,
   secret: string,
   options?: SignOptions

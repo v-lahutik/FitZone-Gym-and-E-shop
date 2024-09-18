@@ -4,6 +4,7 @@ import { createError } from "../utils/helper";
 import { NextFunction, Request, Response } from 'express';
 import { createToken, sendVerificationEmail } from "../utils/helper";
 import { create } from "domain";
+import { createJwtToken } from "../utils/jwt";
 
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
@@ -89,7 +90,7 @@ export const login= async (req: Request, res: Response, next: NextFunction) => {
             return res.status(400).json({ msg: 'Email or Password is incorrect' });
         }
 
-        const token = await createToken(user);
+        const token = await createJwtToken({ id: user.id, email: user.email, role:user.role },process.env.JWT_SECRET as string)
 
         res.cookie('token', token, {
           expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
