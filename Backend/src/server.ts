@@ -7,6 +7,7 @@ import morgan from 'morgan'
 import userRouter from './routers/user.router';
 import courseRouter from './routers/course.router';
 import productRouter from './routers/product.router';
+import cookieParser from 'cookie-parser';
 
 
 dotenv.config();
@@ -19,6 +20,7 @@ connectToDB();
 app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
+app.use(cookieParser());
 
 // routers
 app.use('/users', userRouter)
