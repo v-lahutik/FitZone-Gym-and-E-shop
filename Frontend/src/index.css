@@ -3,3 +3,7 @@
 @tailwind utilities;
 
 
+body {
+  @apply bg-[#ffffff] font-archivo;
+}
+
