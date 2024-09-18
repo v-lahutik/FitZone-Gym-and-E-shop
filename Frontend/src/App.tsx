@@ -1,18 +1,14 @@
-
-import Header from "./components/Header.tsx"
-import WhyChooseUs from "./components/WhyUsSection.tsx"
+import Header from "./components/Header/Header.tsx";
+import WhyChooseUs from "./components/WhyUs/WhyUsSection.tsx";
 
 import Hero from "./components/Hero/Hero.tsx";
-
 
 function App() {
   return (
     <>
-
-      <Header/>
-       <Hero />
-      <WhyChooseUs/>
-
+      <Header />
+      <Hero />
+      <WhyChooseUs />
     </>
   );
 }
