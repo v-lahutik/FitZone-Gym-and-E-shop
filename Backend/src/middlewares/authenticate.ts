@@ -30,7 +30,6 @@ export const authenticateUser = async (
         msg: "Token does not exist in cookies",
       });
     }
-
     // Verify token
     const token_payload = await verifyToken(token, process.env.JWT_SECRET as string);
 
@@ -47,3 +46,33 @@ export const authenticateUser = async (
     next(error);
   }
 };
+
+
+
+// export const authenticateUser = async (
+//   req: Request & { token_payload?: any }, 
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     const token = req.cookies.token;
+//     if (!token) {
+//       return res.status(400).json({
+//         status: "failure",
+//         msg: "Cookie does not exist",
+//       });
+//     }
+
+//     // Verify token
+//     const token_payload = await verifyToken(token, process.env.JWT_SECRET as string);
+//     const user = await User.findById(token_payload.id);
+//     if (!user) {
+//       throw createError("User not found!", 404);
+//     }
+
+//     req.token_payload = token_payload;
+//     next();
+//   } catch (error) {
+//     next(error);
+//   }
+// };
