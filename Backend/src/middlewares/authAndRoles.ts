@@ -3,7 +3,7 @@ import User from "../models/user.model";
 import { createError } from "../utils/helper";
 import { verifyToken } from "../utils/jwt";
 
-export const authorizeRoles = (role: string) => {
+export const authenticateAndCheckRoles = (role: string) => {
   return async (req: Request,res: Response,next: NextFunction) => {
     try {
       const token = req.cookies.token;

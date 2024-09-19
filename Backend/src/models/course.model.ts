@@ -1,4 +1,4 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, ObjectId } from "mongoose";
 
 export interface CourseInput {
   courseName: string;
@@ -9,10 +9,10 @@ export interface CourseInput {
   maxParticipants: number;
   description?: string;
   instructor?: string
-  participants?: string[];
 }
 
 export interface CourseDocument extends CourseInput, Document {
+    participants?: Schema.Types.ObjectId[];
     createdAt: Date;
     updatedAt: Date;
 }
