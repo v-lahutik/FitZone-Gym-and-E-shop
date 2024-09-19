@@ -6,7 +6,7 @@ import { authorizeRoles } from '../middlewares/authRoleAdmin'
 
 const productRouter = Router()
 
-productRouter.post("/add",authenticateUser,addNewProduct)
+productRouter.post("/add",authorizeRoles('admin'), addNewProduct)
 productRouter.patch("/edit/:pid",editProduct)
 productRouter.delete("/delete/:pid",deleteProduct)
 productRouter.get("/",seeAllProducts)

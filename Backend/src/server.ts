@@ -8,6 +8,7 @@ import userRouter from './routers/user.router';
 import courseRouter from './routers/course.router';
 import productRouter from './routers/product.router';
 import cookieParser from 'cookie-parser';
+import adminRouter from './routers/admin.router';
 
 
 dotenv.config();
@@ -24,6 +25,7 @@ app.use(cookieParser());
 
 // routers
 app.use('/users', userRouter)
+app.use('/admin', adminRouter)
 app.use('/courses', courseRouter)
 app.use('/products', productRouter)
 
