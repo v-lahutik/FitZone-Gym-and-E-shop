@@ -1,19 +1,4 @@
 .hero {
   height: 760px;
 }
-.subtitle {
-  margin-bottom: 35px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 18px;
-  margin-top: -0.34em;
-}
-.subtitle::before {
-  content: "";
-  position: relative;
-  height: 2px;
-  width: 60px;
-  background: #f41e1e;
-}
+
