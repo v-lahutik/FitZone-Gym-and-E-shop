@@ -43,12 +43,12 @@ export interface UserInput {
   lastName: string;
   email: string;
   password: string;
-  address?: AddressInput
+  address?: AddressInput,
+  role: string;
 }
 
 export interface UserDocument extends UserInput, Document {
   _id: ObjectId
-  role: string;
   pass_changed_at?: Date; //optional field
   is_activated: boolean;
   bookedCourses: ObjectId[]

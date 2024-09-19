@@ -7,6 +7,7 @@ export const authorizeRoles = (role: string) => {
   return async (req: Request,res: Response,next: NextFunction) => {
     try {
       const token = req.cookies.token;
+      
       if (!token) {
         return res.status(400).json({
           status: "failure",

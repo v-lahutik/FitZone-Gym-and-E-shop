@@ -1,44 +1,8 @@
 import User from "../models/user.model";
 import Verify from "../models/verify.model";
-import { createError } from "../utils/helper";
 import { NextFunction, Request, Response } from 'express';
-import { createToken, sendVerificationEmail } from "../utils/helper";
-import { create } from "domain";
+import { createToken} from "../utils/helper";
 import { createJwtToken } from "../utils/jwt";
-
-
-export const register = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { firstName, lastName, email, password, address } = req.body;
-
-        if (!firstName || !lastName || !email || !password) {
-            return res.status(400).json({ msg: 'Please fill all fields' });
-        }
-        const userExist= await User.findOne({ email });
-        if (userExist) {
-          return res.status(400).json({ msg: 'User already exists' });
-        }
-
-        const newUser = new User({ firstName, lastName, email, password, address });
-
-        const verificationToken: string = await createToken(newUser);
-
-        await sendVerificationEmail(newUser, verificationToken);
-
-        await newUser.save();
-        res.status(201).json({
-            msg: 'User registration successful. Please verify email',
-            user: {
-                id: newUser._id,
-                firstName: newUser.firstName,
-                lastName: newUser.lastName,
-                email: newUser.email,
-                address: newUser.address,
-            }});
-    } catch (error: any) {
-        next(error);
-    }
-}
 
 
 export const verifyAccount = async(req: Request, res: Response, next: NextFunction) => {
@@ -71,8 +35,7 @@ export const verifyAccount = async(req: Request, res: Response, next: NextFuncti
       next(error);
     }
   };
-
-export const login= async (req: Request, res: Response, next: NextFunction) => {
+  export const login= async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
@@ -102,6 +65,7 @@ export const login= async (req: Request, res: Response, next: NextFunction) => {
        next(error);
     }
 }
+
 
 export const logout = async (req: Request, res: Response) => {
     res.clearCookie('token').json({ msg: 'User logged out' });
