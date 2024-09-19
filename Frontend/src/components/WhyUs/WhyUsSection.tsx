@@ -8,8 +8,8 @@ import "./WhyUs.css";
 const WhyChooseUs: React.FC = () => {
   return (
     <>
-      <div className="container h-auto-16 pt-20 text-center bg-[#141414] grid grid-cols-4 justify-center max-w-[1280px] mx-auto ">
-        <div className="col-span-4 text-white text-4xl md:text-6xl mb-14">
+      <div className="container h-auto pt-20 text-center bg-[#141414] grid grid-cols-4 justify-center max-w-[1280px] mx-auto px-4 ">
+        <div className="col-span-4 text-white text-4xl md:text-6xl mb-14 font-kanit">
           Why choose us?
         </div>
         <h3 className="text-primary text-xl text-semibold uppercase font-kanit subtitle col-span-4">
