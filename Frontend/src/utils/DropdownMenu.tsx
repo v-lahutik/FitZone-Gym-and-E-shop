@@ -41,7 +41,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
 
   return (
     <div ref={dropdownRef}
-      className="sm:hidden mx-4 mt-4 text-gray-400 text-xl"
+      className="md:hidden mx-4 mt-4 text-gray-400 text-xl"
       onClick={toggleDropdown}
     >
       <GiHamburgerMenu />
