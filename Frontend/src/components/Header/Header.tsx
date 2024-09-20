@@ -6,7 +6,7 @@ export default function Header() {
   const menuItems = ["Membership", "Courses", "Shop", "Contact"];
 
   return (
-    <header className="bg-[#141414] flex items-center p-4 sm:p-8 justify-between min-h-[50px] my-auto">
+    <header className="bg-[#141414] flex items-center p-4 sm:p-8 justify-between min-h-[50px] my-auto sticky top-0 z-10">
       <div className="basis-1/4 ">
         <img
           src={Logo}
@@ -18,16 +18,16 @@ export default function Header() {
       <div className="basis-1/2 flex justify-evenly">
         <nav>
           <ul className="hidden sm:flex space-x-8 md:space-x-12 mx-4 mt-4">
-            <li className="text-gray-400 hover:text-gray-300 cursor-pointer">
+            <li className="textLink">
               MEMBERSHIP
             </li>
-            <li className="text-gray-400 hover:text-gray-300 cursor-pointer">
+            <li className="textLink">
               COURSES
             </li>
-            <li className="text-gray-400 hover:text-gray-300 cursor-pointer">
+            <li className="textLink">
               SHOP
             </li>
-            <li className="text-gray-400 hover:text-gray-300 cursor-pointer">
+            <li className="textLink">
               CONTACT
             </li>
           </ul>
@@ -40,7 +40,7 @@ export default function Header() {
             LOGIN
           </button>
         </div>
-        <div className="ml-4 mt-5 text-gray-400 text-2xl sm:text-3xl cursor-pointer">
+        <div className="ml-4 mt-5 textLink text-2xl sm:text-3xl">
           <IoCart />
         </div>
       </div>

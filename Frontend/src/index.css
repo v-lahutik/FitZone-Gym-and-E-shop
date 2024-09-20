@@ -23,3 +23,12 @@ body {
   width: 60px;
   background: #f41e1e;
 }
+
+.textLink {
+  color: #9ca3af;
+  cursor: pointer;
+}
+.textLink:hover {
+  color: #d1d5db;
+  scale: 1.1;
+}

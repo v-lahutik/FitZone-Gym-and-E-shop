@@ -1,0 +1,23 @@
+
+
+.contact {
+    position: relative;
+    width: 90%;
+    height: 200px;
+    border-radius: 120px;
+    margin: 10rem auto 0;
+}
+
+.contact::after {
+    content: '';
+    box-sizing: content-box;
+    position: absolute;
+    width: 100%;
+    height: 100%; 
+    bottom: -5px;
+    left: -5px;
+    padding: 5px;
+    background: linear-gradient(to bottom, transparent 49%, red 50%, red 100%);
+    border-radius: 120px;
+    z-index: -1;
+  }
