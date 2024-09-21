@@ -53,7 +53,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
                 key={index}
                 className="text-gray-400 hover:text-gray-300 cursor-pointer"
               >
-                {item.toUpperCase()}
+              <a href={`#${item}`}>{item.toUpperCase()}</a>  
               </li>
             ))}
           </ul>

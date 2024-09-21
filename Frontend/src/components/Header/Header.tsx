@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 
 export default function Header() {
-  const menuItems = ["Membership", "Courses", "Shop", "Contact"];
+  const menuItems = ["membership", "courses", "shop", "contact"];
 
   const [isScrolled, setIsScrolled] = useState(false);
 
