@@ -7,7 +7,7 @@ body {
 }
 
 .subtitle {
-  /* margin-bottom: 35px; */
+  margin-bottom: 35px;
   font-weight: 600;
   display: flex;
   align-items: center;

@@ -7,7 +7,7 @@ import Membership from "./components/Membership/Membership.tsx";
 function App() {
   return (
     <>
-      <Header />
+      <Header menuItems={["Membership", "Courses", "Shop", "Contact"]}/>
       <Hero />
       <WhyChooseUs />
       <Membership />

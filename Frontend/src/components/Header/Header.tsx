@@ -1,10 +1,13 @@
-import Logo from "../../assets/images/Logo/fitzone_logo.png";
-import { IoCart } from "react-icons/io5";
-import DropdownMenu from "../../utils/DropdownMenu";
+import Logo from '../../assets/images/Logo/fitzone_logo.png';
+import { IoCart } from 'react-icons/io5';
+import DropdownMenu from '../../utils/DropdownMenu';
 
-export default function Header() {
-  const menuItems = ["Membership", "Courses", "Shop", "Contact"];
 
+interface HeaderProps {
+  menuItems: string[];
+}
+
+const Header: React.FC<HeaderProps> = ({ menuItems }) => {
   return (
     <header className="bg-[#141414] flex items-center p-4 sm:p-8 justify-between min-h-[50px] my-auto">
       <div className="basis-1/4 ">
@@ -18,18 +21,15 @@ export default function Header() {
       <div className="basis-1/2 flex justify-evenly">
         <nav>
           <ul className="hidden sm:flex space-x-8 md:space-x-12 mx-4 mt-4">
-            <li className="text-gray-400 hover:text-gray-300 cursor-pointer">
-              MEMBERSHIP
-            </li>
-            <li className="text-gray-400 hover:text-gray-300 cursor-pointer">
-              COURSES
-            </li>
-            <li className="text-gray-400 hover:text-gray-300 cursor-pointer">
-              SHOP
-            </li>
-            <li className="text-gray-400 hover:text-gray-300 cursor-pointer">
-              CONTACT
-            </li>
+            {menuItems.map((item, index) => (
+              <li
+                key={index}
+                className="text-gray-400 hover:text-gray-300 cursor-pointer"
+              >
+                {' '}
+                {item.toUpperCase()}{' '}
+              </li>
+            ))}
           </ul>
         </nav>
       </div>
@@ -47,3 +47,6 @@ export default function Header() {
     </header>
   );
 }
+
+
+export default Header;
