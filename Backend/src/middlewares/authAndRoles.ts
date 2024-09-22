@@ -4,7 +4,7 @@ import { createError } from "../utils/helper";
 import { verifyToken } from "../utils/jwt";
 
 export const authenticateAndCheckRoles = (role: string) => {
-  return async (req: Request,res: Response,next: NextFunction) => {
+  return async (req: Request & { payload?: any },res: Response,next: NextFunction) => {
     try {
       const token = req.cookies.token;
       if (!token) {
@@ -23,7 +23,7 @@ export const authenticateAndCheckRoles = (role: string) => {
       if (role !== user.role) {
         throw createError("You are not permitted to do this operation", 403);
       }
-
+      req.payload = token_payload
       next();
     } catch (error) {
       next(error);

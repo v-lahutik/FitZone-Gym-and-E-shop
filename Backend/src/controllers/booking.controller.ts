@@ -7,19 +7,16 @@ import mongoose from "mongoose";
 mongoose.set("strictPopulate", false);
 
 export const bookingCourse = async (
-  req: Request,
+  req: Request & { payload?: any },
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const token = req.cookies.token;
+    const payload = req.payload;
     // cid == course ID
     const cid: any = req.params.cid;
-    const isVerified = await verifyToken(
-      token,
-      process.env.JWT_SECRET as string
-    );
-    if (!isVerified) {
+    
+    if (!payload) {
       return res
         .status(401)
         .json({ msg: "no valid token found you need to login first!!" });
@@ -28,7 +25,7 @@ export const bookingCourse = async (
       return res.status(400).json({ msg: "No such course" });
     }
 
-    const user = await User.findById(isVerified.id).select('-password -address -is_activated -createdAt -updatedAt -__v');
+    const user = await User.findById(payload.id).select('-password -address -is_activated -createdAt -updatedAt -__v');
     if (!user) {
       return res.status(404).json({ msg: "User not found" });
     }
@@ -68,18 +65,14 @@ export const bookingCourse = async (
 };
 
 export const cancelBooking = async (
-  req: Request,
+  req: Request & { payload?: any },
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const token = req.cookies.token;
+    const payload = req.payload;
     const cid: any = req.params.cid;
-    const isVerified = await verifyToken(
-      token,
-      process.env.JWT_SECRET as string
-    );
-    if (!isVerified) {
+    if (!payload) {
       return res
         .status(401)
         .json({ msg: "no valid token found you need to login first!!" });
@@ -88,7 +81,7 @@ export const cancelBooking = async (
       return res.status(400).json({ msg: "No such course" });
     }
 
-    const user = await User.findById(isVerified.id)
+    const user = await User.findById(payload.id)
     if (!user) {
       return res.status(404).json({ msg: "User not found" });
     }
