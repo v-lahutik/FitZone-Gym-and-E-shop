@@ -72,6 +72,56 @@ const courses: Course[] = [
     description:
       'A calming yoga flow to improve flexibility and reduce stress.',
     instructor: 'Jane Smith'
+  },
+  {
+    name: 'Yoga Flow',
+    category: ['flexibility'],
+    weekday: 'Tuesday',
+    time: { start: '18:30', end: '19:30' },
+    maxParticipants: 12,
+    description:
+      'A calming yoga flow to improve flexibility and reduce stress.',
+    instructor: 'Jane Smith'
+  },
+  {
+    name: 'Yoga Flow',
+    category: ['flexibility'],
+    weekday: 'Thursday',
+    time: { start: '12:30', end: '13:30' },
+    maxParticipants: 12,
+    description:
+      'A calming yoga flow to improve flexibility and reduce stress.',
+    instructor: 'Jane Smith'
+  },
+  {
+    name: 'Yoga Flow',
+    category: ['flexibility'],
+    weekday: 'Wednesday',
+    time: { start: '12:30', end: '13:30' },
+    maxParticipants: 12,
+    description:
+      'A calming yoga flow to improve flexibility and reduce stress.',
+    instructor: 'Jane Smith'
+  },
+  {
+    name: 'Yoga Flow',
+    category: ['flexibility'],
+    weekday: 'Friday',
+    time: { start: '12:30', end: '13:30' },
+    maxParticipants: 12,
+    description:
+      'A calming yoga flow to improve flexibility and reduce stress.',
+    instructor: 'Jane Smith'
+  },
+  {
+    name: 'Yoga Flow',
+    category: ['flexibility'],
+    weekday: 'Saturday',
+    time: { start: '12:30', end: '13:30' },
+    maxParticipants: 12,
+    description:
+      'A calming yoga flow to improve flexibility and reduce stress.',
+    instructor: 'Jane Smith'
   }
 ];
 
@@ -83,6 +133,9 @@ const CourseTable: React.FC = () => {
     const endIndex = timeSlots.indexOf(end);
     return { startIndex, endIndex };
   };
+
+  //create a set to keep track of already spanned rows (so we don't render them again)
+  const spannedCells = new Set<string>();
 
   return (
     <div className="overflow-x-auto p-4">
@@ -103,24 +156,38 @@ const CourseTable: React.FC = () => {
           {/*loop over time slots to create rows*/}
           {timeSlots.map((slot, rowIndex) => (
             <tr key={slot}>
-              <td className="p-2 text-center border text-white border-gray-300">{slot}</td>
-              {/*loop over weekdays to create columns*/}
+              <td className="p-2 text-center border text-white border-gray-300">
+                {slot}
+              </td>
+              {/*loop over weekdays to create columns for this row*/}
               {weekdays.map((day, dayIndex) => {
-                {/*find course for current slot and day*/}
-              
-                const courseForSlot = courses.find(
-                  (course) =>             
-                    weekdays.indexOf(course.weekday) === dayIndex &&
-                    getCoursePosition(course.time.start, course.time.end) //check if course time matches current slot
-                      .startIndex === rowIndex
-                );
+               {/*check if cell is already spanned*/}
+                const cellKey = `${day}-${rowIndex}`;
+                if (spannedCells.has(cellKey)) {
+                  return null;
+                }  
 
+                {
+                  /*find course for current slot and day*/
+                }
+                const courseForSlot = courses.find(
+                  (course) =>
+                    weekdays.indexOf(course.weekday) === dayIndex &&
+                    getCoursePosition(course.time.start, course.time.end) 
+                      .startIndex === rowIndex //check if course start time matches current slot
+                );
+                
                 if (courseForSlot) {
                   const { startIndex, endIndex } = getCoursePosition(
                     courseForSlot.time.start,
                     courseForSlot.time.end
                   );
-                  const rowSpan = endIndex - startIndex;
+                  const rowSpan = endIndex - startIndex; //calculate row span - usually 2
+
+                  //add cells (slot) to spannedCells set - not to be rendered again in next row
+                  for (let i = startIndex; i < endIndex; i++) {
+                    spannedCells.add(`${day}-${i}`);
+                  }
 
                   return (
                     <td
@@ -135,20 +202,20 @@ const CourseTable: React.FC = () => {
                         <p className="text-sm">
                           Instructor: {courseForSlot.instructor}
                         </p>
+                        {/* edit this part for display participants/max participants */}
                         <p className="text-sm">
                           Max Participants: {courseForSlot.maxParticipants}
                         </p>
                       </div>
                     </td>
                   );
-                } else if (!courses.some((course) => course.weekday === day)) {
-                  return (
-                    <td
-                      key={`${day}-${slot}`}
-                      className="p-2 text-center border border-gray-300"
-                    ></td>
-                  );
                 }
+                return (
+                  <td
+                    key={`${day}-${slot}`}
+                    className="p-2 text-center border border-gray-300"
+                  ></td>
+                );
               })}
             </tr>
           ))}
@@ -157,6 +224,5 @@ const CourseTable: React.FC = () => {
     </div>
   );
 };
-
 
 export default CourseTable;
