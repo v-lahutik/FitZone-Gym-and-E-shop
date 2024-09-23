@@ -1,4 +1,4 @@
-import "./Hero.css";
+import './Hero.css';
 
 export default function Hero() {
   return (
@@ -7,13 +7,13 @@ export default function Hero() {
         id="hero-section"
         className="hero bg-cover bg-center flex items-center lg:items-end" 
         style={{
-          backgroundImage: "url('/src/assets/images/Hero/background_hero.png')",
+          backgroundImage: "url('/src/assets/images/Hero/background_hero.png')"
         }}
       >
         <div className="container mx-auto max-w-[1280px] px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 justify-end">
             <div className="flex flex-col justify-center items-start text-white">
-              <h3 className="text-primary text-xl text-semibold uppercase font-kanit subtitle">
+              <h3 className="text-primary text-xl text-semibold uppercase font-kanit subtitle mb-7">
                 welcome to fit zone gym
               </h3>
               <h1 className="text-3xl md:text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-kanit mb-4 font-bold uppercase">
@@ -22,7 +22,7 @@ export default function Hero() {
               </h1>
 
               <p className="text-lg md:text-xl mb-6">
-                Gym workouts are structured exercise sessions conducted in a{" "}
+                Gym workouts are structured exercise sessions conducted in a{' '}
                 fitness facility equipped with various training machines, free
                 weights, and amenities.
               </p>

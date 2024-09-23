@@ -7,12 +7,13 @@ html {
   scroll-behavior: smooth;
 }
 
+
 body {
   @apply bg-[#141414] font-archivo;
 }
 
 .subtitle {
-  margin-bottom: 35px;
+  /* margin-bottom: 35px; */
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -28,6 +29,7 @@ body {
   background: #f41e1e;
 }
 
+
 .textLink {
   color: #9ca3af;
   cursor: pointer;
@@ -36,3 +38,39 @@ body {
   color: #d1d5db;
   scale: 1.1;
 }
+
+/* // Variables */
+:root {
+  --primary: #f41e1e;
+  --primary-light: #f64f4f;
+  --primary-dark: #d50a0a;
+
+  --theme-color2: #3843c1;
+  --title-color: #1d2229;
+  --body-color: #6a6a6a;
+  --smoke-color: #f8f8f8;
+  --smoke-color2: #f6f6f6;
+  --smoke-color3: #f2f2f2;
+  --black-color: #000000;
+  --black-color2: #141414;
+  --black-color3: #171717;
+  --black-color4: #2f394a;
+  --black-color5: #22272e;
+  --black-color6: #2d333d;
+  --black-color7: #0e0e13;
+  --gray-color: #bdbdbd;
+  --white-color: #ffffff;
+  --light-color: #afb1c3;
+  --yellow-color: #ffb539;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  --th-border-color: #d8dde1;
+  --th-border-color2: #2f343b;
+  --th-border-color3: #252a31;
+  --th-border-color4: #353b45;
+  --th-border-color5: #49515c;
+  --th-border-color6: #383d46;
+  --title-font: "Kanit", sans-serif;
+  --body-font: "Archivo", sans-serif;
+}
+

@@ -1,0 +1,60 @@
+#membership {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.pricing-container {
+  text-align: center;
+}
+
+.pricing-tabs {
+  margin-bottom: 20px;
+}
+
+.duration {
+  font-size: 16px;
+  font-weight: 500;
+  font-family: var(--title-font);
+  color: var(--body-color);
+}
+.pricing-tabs {
+  --section-title-space: 55px;
+  display: flex;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.tab-button {
+  border: 0;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--body-font);
+  background: var(--th-border-color);
+  padding: 21px 30px;
+  color: var(--title-color);
+  text-transform: uppercase;
+  cursor: pointer;
+  min-width: 170px;
+  display: inline-flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  transition: 0.4s;
+}
+.tab-button.active {
+  background: var(--primary);
+  color: var(--white-color);
+}
+.tab-button:hover {
+  background: var(--th-border-color3);
+  color: var(--white-color);
+}
+.tab-button.active:hover {
+  background: var(--primary-dark);
+  color: var(--white-color);
+}
+
+@media (max-width: 768px) {
+  .subtitle::before {
+    display: none;
+  }
+}
