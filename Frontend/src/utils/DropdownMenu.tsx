@@ -41,7 +41,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
 
   return (
     <div ref={dropdownRef}
-      className="sm:hidden mx-4 mt-4 text-gray-400 text-xl"
+      className="md:hidden mx-4 mt-4 text-gray-400 text-xl"
       onClick={toggleDropdown}
     >
       <GiHamburgerMenu />
@@ -53,7 +53,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
                 key={index}
                 className="text-gray-400 hover:text-gray-300 cursor-pointer"
               >
-                {item.toUpperCase()}
+              <a href={`#${item}`}>{item.toUpperCase()}</a>  
               </li>
             ))}
           </ul>

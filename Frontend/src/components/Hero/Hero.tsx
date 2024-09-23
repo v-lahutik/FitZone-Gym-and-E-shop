@@ -5,7 +5,7 @@ export default function Hero() {
     <>
       <section
         id="hero-section"
-        className="hero bg-cover bg-center flex items-center lg:items-end"
+        className="hero bg-cover bg-center flex items-center lg:items-end" 
         style={{
           backgroundImage: "url('/src/assets/images/Hero/background_hero.png')"
         }}
