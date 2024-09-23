@@ -1,4 +1,5 @@
 import React from 'react';
+import { courseData } from '../../DummyData/courses';
 
 interface Course {
   name: string;
@@ -52,78 +53,80 @@ const weekdays = [
   'Sunday'
 ];
 
-const courses: Course[] = [
-  {
-    name: 'Yoga Flow',
-    category: ['flexibility'],
-    weekday: 'Monday',
-    time: { start: '10:30', end: '11:30' },
-    maxParticipants: 15,
-    description:
-      'A calming yoga flow to improve flexibility and reduce stress.',
-    instructor: 'Jane Smith'
-  },
-  {
-    name: 'Yoga Flow',
-    category: ['flexibility'],
-    weekday: 'Sunday',
-    time: { start: '12:30', end: '13:30' },
-    maxParticipants: 12,
-    description:
-      'A calming yoga flow to improve flexibility and reduce stress.',
-    instructor: 'Jane Smith'
-  },
-  {
-    name: 'Yoga Flow',
-    category: ['flexibility'],
-    weekday: 'Tuesday',
-    time: { start: '18:30', end: '19:30' },
-    maxParticipants: 12,
-    description:
-      'A calming yoga flow to improve flexibility and reduce stress.',
-    instructor: 'Jane Smith'
-  },
-  {
-    name: 'Yoga Flow',
-    category: ['flexibility'],
-    weekday: 'Thursday',
-    time: { start: '12:30', end: '13:30' },
-    maxParticipants: 12,
-    description:
-      'A calming yoga flow to improve flexibility and reduce stress.',
-    instructor: 'Jane Smith'
-  },
-  {
-    name: 'Yoga Flow',
-    category: ['flexibility'],
-    weekday: 'Wednesday',
-    time: { start: '12:30', end: '13:30' },
-    maxParticipants: 12,
-    description:
-      'A calming yoga flow to improve flexibility and reduce stress.',
-    instructor: 'Jane Smith'
-  },
-  {
-    name: 'Yoga Flow',
-    category: ['flexibility'],
-    weekday: 'Friday',
-    time: { start: '12:30', end: '13:30' },
-    maxParticipants: 12,
-    description:
-      'A calming yoga flow to improve flexibility and reduce stress.',
-    instructor: 'Jane Smith'
-  },
-  {
-    name: 'Yoga Flow',
-    category: ['flexibility'],
-    weekday: 'Saturday',
-    time: { start: '12:30', end: '13:30' },
-    maxParticipants: 12,
-    description:
-      'A calming yoga flow to improve flexibility and reduce stress.',
-    instructor: 'Jane Smith'
-  }
-];
+const courses = courseData;
+
+// const courses: Course[] = [
+//   {
+//     name: 'Yoga Flow',
+//     category: ['flexibility'],
+//     weekday: 'Monday',
+//     time: { start: '10:30', end: '11:30' },
+//     maxParticipants: 15,
+//     description:
+//       'A calming yoga flow to improve flexibility and reduce stress.',
+//     instructor: 'Jane Smith'
+//   },
+//   {
+//     name: 'Yoga Flow',
+//     category: ['flexibility'],
+//     weekday: 'Sunday',
+//     time: { start: '12:30', end: '13:30' },
+//     maxParticipants: 12,
+//     description:
+//       'A calming yoga flow to improve flexibility and reduce stress.',
+//     instructor: 'Jane Smith'
+//   },
+//   {
+//     name: 'Yoga Flow',
+//     category: ['flexibility'],
+//     weekday: 'Tuesday',
+//     time: { start: '18:30', end: '19:30' },
+//     maxParticipants: 12,
+//     description:
+//       'A calming yoga flow to improve flexibility and reduce stress.',
+//     instructor: 'Jane Smith'
+//   },
+//   {
+//     name: 'Yoga Flow',
+//     category: ['flexibility'],
+//     weekday: 'Thursday',
+//     time: { start: '12:30', end: '13:30' },
+//     maxParticipants: 12,
+//     description:
+//       'A calming yoga flow to improve flexibility and reduce stress.',
+//     instructor: 'Jane Smith'
+//   },
+//   {
+//     name: 'Yoga Flow',
+//     category: ['flexibility'],
+//     weekday: 'Wednesday',
+//     time: { start: '12:30', end: '13:30' },
+//     maxParticipants: 12,
+//     description:
+//       'A calming yoga flow to improve flexibility and reduce stress.',
+//     instructor: 'Jane Smith'
+//   },
+//   {
+//     name: 'Yoga Flow',
+//     category: ['flexibility'],
+//     weekday: 'Friday',
+//     time: { start: '12:30', end: '13:30' },
+//     maxParticipants: 12,
+//     description:
+//       'A calming yoga flow to improve flexibility and reduce stress.',
+//     instructor: 'Jane Smith'
+//   },
+//   {
+//     name: 'Yoga Flow',
+//     category: ['flexibility'],
+//     weekday: 'Saturday',
+//     time: { start: '12:30', end: '13:30' },
+//     maxParticipants: 12,
+//     description:
+//       'A calming yoga flow to improve flexibility and reduce stress.',
+//     instructor: 'Jane Smith'
+//   }
+// ];
 
 const CourseTable: React.FC = () => {
   //  calculate which rows the course spans based on time
