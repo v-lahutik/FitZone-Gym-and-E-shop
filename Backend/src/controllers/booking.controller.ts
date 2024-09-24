@@ -48,7 +48,7 @@ export const bookingCourse = async (
       user._id,
       { $push: { bookedCourses: cid } },
       { new: true }
-    ).select('-password -address -is_activated -createdAt -updatedAt -__v').populate("bookedCourses", "-createdAt -updatedAt -__v");
+    ).select('-password -address -is_activated -createdAt -updatedAt -__v').populate("bookedCourses", "-participants -createdAt -updatedAt -__v");
 
     //add user id to course's participants array
     const updatedCourse = await Course.findByIdAndUpdate(
