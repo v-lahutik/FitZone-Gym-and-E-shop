@@ -12,10 +12,10 @@ userRouter.get('/verify/:verifyToken/:uid', verifyAccount)
 userRouter.post('/login',loginValidation, validateRequest, login)
 userRouter.post('/logout', logout)
 
-userRouter.put('/booking/:cid',authenticateAndCheckRoles('member'),bookingCourse)
-userRouter.put('/cancelBooking/:cid',authenticateAndCheckRoles('member'),cancelBooking)
+userRouter.put('/booking/:cid',authenticateAndCheckRoles('Member'),bookingCourse)
+userRouter.put('/cancelBooking/:cid',authenticateAndCheckRoles('Member'),cancelBooking)
 
-userRouter.put('/cart/add/:pid',authenticateAndCheckRoles("member"),toAddToCart)
-userRouter.put('/cart/delete/:pid',authenticateAndCheckRoles("member"),toDeleteFromCart)
+userRouter.put('/cart/add/:pid',authenticateAndCheckRoles("Member"),toAddToCart)
+userRouter.put('/cart/delete/:pid',authenticateAndCheckRoles("Member"),toDeleteFromCart)
 
 export default userRouter;
