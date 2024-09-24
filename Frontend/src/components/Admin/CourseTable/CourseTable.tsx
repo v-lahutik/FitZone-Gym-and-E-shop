@@ -2,6 +2,7 @@ import React from 'react';
 import { courseData } from '../../DummyData/courses';
 import { weekdays, timeSlots } from './TimeSlots';
 
+
 interface Course {
   name: string;
   category: string[];
@@ -13,6 +14,7 @@ interface Course {
 }
 
 const courses: Course[] = courseData;
+
 
 const CourseTable: React.FC = () => {
   //  calculate which rows the course spans based on time
