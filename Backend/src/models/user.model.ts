@@ -58,6 +58,8 @@ export interface UserDocument extends UserInput, Document {
   password: string;
   pass_changed_at?: Date; 
   is_activated: boolean;
+  bookedCourses:Schema.Types.ObjectId[];
+  cart:Schema.Types.ObjectId[];
   comparePass(plainPassword: string): Promise<boolean>;
 }
 
@@ -100,6 +102,8 @@ const userSchema = new Schema<UserDocument>({
     type: Boolean,
     default: false,
   },
+  bookedCourses:[{ type: Schema.Types.ObjectId, ref:'Course'}],
+  cart:[{ type: Schema.Types.ObjectId, ref:'Product'}]
   
 },{timestamps: true});
 
