@@ -22,7 +22,7 @@ function Carousel() {
         <div
           className={`absolute inset-0 transition-all duration-300 ${
             activeSlide === 1
-              ? "opacity-100 z-10 visible"
+              ? "opacity-100 z-5 visible"
               : "opacity-0 z-0 invisible"
           }`}
         >
@@ -48,7 +48,7 @@ function Carousel() {
         <div
           className={`absolute inset-0 transition-all duration-300 ${
             activeSlide === 2
-              ? "opacity-100 z-10 visible"
+              ? "opacity-100 z-5 visible"
               : "opacity-0 z-0 invisible"
           }`}
         >
@@ -74,7 +74,7 @@ function Carousel() {
         <div
           className={`absolute inset-0 transition-all duration-300 ${
             activeSlide === 3
-              ? "opacity-100 z-10 visible"
+              ? "opacity-100 z-5 visible"
               : "opacity-0 z-0 invisible"
           }`}
         >
@@ -97,7 +97,7 @@ function Carousel() {
         </div>
 
         {/* Arrow Controls */}
-        <div className="absolute top-[266px] transform -translate-y-1/2 w-full flex justify-between z-20">
+        <div className="absolute top-[266px] transform -translate-y-1/2 w-full flex justify-between z-10">
           {/* Left Arrow */}
           <button
             onClick={() =>
@@ -126,7 +126,7 @@ function Carousel() {
 const CourseGallery: React.FC = () => {
   return (
     <>
-      <section id="courses" className="bg-blackColor2">
+      <section id="courses" className="bg-blackColor2 my-14">
         <div className="container h-auto pt-20 text-center text-white bg-blackColor2 justify-center max-w-[1280px] mx-auto px-4">
           <h1 className="sm:text-4xl text-2xl font-kanit mb-14">
             Get fit together with one of our many courses

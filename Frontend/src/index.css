@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
+html {
+  scroll-behavior: smooth;
+}
+
+
 body {
   @apply bg-[#141414] font-archivo;
 }
@@ -21,6 +27,16 @@ body {
   height: 2px;
   width: 60px;
   background: #f41e1e;
+}
+
+
+.textLink {
+  color: #9ca3af;
+  cursor: pointer;
+}
+.textLink:hover {
+  color: #d1d5db;
+  scale: 1.1;
 }
 
 /* // Variables */
@@ -57,3 +73,4 @@ body {
   --title-font: "Kanit", sans-serif;
   --body-font: "Archivo", sans-serif;
 }
+

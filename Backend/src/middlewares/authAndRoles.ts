@@ -3,11 +3,10 @@ import User from "../models/user.model";
 import { createError } from "../utils/helper";
 import { verifyToken } from "../utils/jwt";
 
-export const authorizeRoles = (role: string) => {
-  return async (req: Request,res: Response,next: NextFunction) => {
+export const authenticateAndCheckRoles = (role: string) => {
+  return async (req: Request & { payload?: any },res: Response,next: NextFunction) => {
     try {
       const token = req.cookies.token;
-      
       if (!token) {
         return res.status(400).json({
           status: "failure",
@@ -24,7 +23,7 @@ export const authorizeRoles = (role: string) => {
       if (role !== user.role) {
         throw createError("You are not permitted to do this operation", 403);
       }
-
+      req.payload = token_payload
       next();
     } catch (error) {
       next(error);
