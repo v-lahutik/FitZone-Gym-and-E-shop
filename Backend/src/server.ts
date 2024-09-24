@@ -9,6 +9,7 @@ import courseRouter from './routers/course.router';
 import productRouter from './routers/product.router';
 import cookieParser from 'cookie-parser';
 import adminRouter from './routers/admin.router';
+import courseTemplateRouter from './routers/courseTemplate.router';
 
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use(cookieParser());
 app.use('/users', userRouter)
 app.use('/admin', adminRouter)
 app.use('/courses', courseRouter)
+app.use('/courseTemplate', courseTemplateRouter)
 app.use('/products', productRouter)
 
 // error handlers
