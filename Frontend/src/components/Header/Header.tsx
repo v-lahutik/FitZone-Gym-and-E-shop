@@ -4,7 +4,7 @@ import DropdownMenu from "../../utils/DropdownMenu";
 import { useEffect, useState } from "react";
 
 
-export default function Header() {
+const Header: React.FC = () => {
   const menuItems = ["membership", "courses", "shop", "contact"];
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -59,3 +59,6 @@ export default function Header() {
     </header>
   );
 }
+
+
+export default Header;

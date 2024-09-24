@@ -5,7 +5,21 @@ import { createJwtToken } from "../utils/jwt";
 import { createToken } from "../utils/helper";
 
 
+
+export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+    console.log('get all users');
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (error: any) {
+        next(error);
+    }
+}
+
 export const register = async (req: Request, res: Response, next: NextFunction) => {
+   
+   
+    console.log(req.body);
     try {
         const { firstName, lastName, email, address, membership, role } = req.body;
 
@@ -19,9 +33,9 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
         const newUser = new User({ firstName, lastName, email, address, membership, role });
 
-        const verificationToken: string = await createToken(newUser);
+        // const verificationToken: string = await createToken(newUser);
 
-        await sendVerificationEmail(newUser, verificationToken);
+        // await sendVerificationEmail(newUser, verificationToken);
 
         await newUser.save();
         res.status(201).json({

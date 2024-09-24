@@ -2,9 +2,9 @@ import bcrypt from "bcrypt";
 import { Schema, model, Document, ObjectId } from "mongoose";
 
 export enum UserRole {
-  member = "member",
-  admin = "admin",
-  guest = "guest",
+  member = "Member",
+  admin = "Admin",
+  guest = "Guest",
 }
 export enum membership{
   basic = "Basic",
