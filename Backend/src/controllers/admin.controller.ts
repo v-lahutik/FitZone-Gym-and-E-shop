@@ -5,6 +5,17 @@ import { createJwtToken } from "../utils/jwt";
 import { createToken } from "../utils/helper";
 
 
+
+export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+    console.log('get all users');
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (error: any) {
+        next(error);
+    }
+}
+
 export const register = async (req: Request, res: Response, next: NextFunction) => {
    
    

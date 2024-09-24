@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import MemberForm from './MemberForm';
 import { membersData } from '../../DummyData/members';
 
@@ -34,30 +35,30 @@ const MembersTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const membersPerPage = 20;
 
-  // useEffect(() => {
-  //   // Fetch members data
-  //   const fetchMembers = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:3000/members');
-  //       const data = await response.json();
-  //       const sortedData = data.sort((a: Member, b: Member) => {
-  //         a.lastName.localeCompare(b.lastName);
-  //       });
-  //       setMembers(sortedData);
-  //       setFilteredMembers(sortedData);
-  //     } catch (error) {
-  //       console.error('Error fetching members data', error);
-  //     }
-  //   };
-  //   fetchMembers();
-  // }, []);
-
-// for testing purposes
   useEffect(() => {
-    const sortedMembers = membersData.sort((a, b) => a.lastName.localeCompare(b.lastName));
-    setMembers(sortedMembers);
-    setFilteredMembers(sortedMembers);
-  },[members]);
+    // Fetch members data
+    const fetchMembers = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/admin/members');
+
+        // Sort the data by lastName
+        const sortedData = response.data.sort((a: Member, b: Member) => 
+          a.lastName.localeCompare(b.lastName)
+        );
+
+        setMembers(sortedData);
+        setFilteredMembers(sortedData);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error('Error fetching members data', error.response?.data);
+        } else {
+          console.error('Unexpected error', error);
+        }
+      }
+    };
+
+    fetchMembers();
+  }, []);
 
  // Handle opening the form (either for new member or existing member)
  const openForm = (member: Member | null) => {
@@ -90,16 +91,16 @@ const MembersTable: React.FC = () => {
       });
     }
 
-    if (filterRole) {
-      filtered = members.filter((member) => {
-        return member.role === filterRole;
-      });
-    }
+    // if (filterRole) {
+    //   filtered = members.filter((member) => {
+    //     return member.role === filterRole;
+    //   });
+    // }
 
     if (filterIsActivated) {
       filtered = members.filter((member) => {
-       if (filterIsActivated.toLowerCase() === 'active') return member.isActivated === true;
-        if (filterIsActivated.toLowerCase() === 'inactive') return member.isActivated === false;
+       if (filterIsActivated.toLowerCase() === 'active') return member.isActivated;
+        if (filterIsActivated.toLowerCase() === 'inactive') return !member.isActivated;
       });
     }
     setFilteredMembers(filtered);

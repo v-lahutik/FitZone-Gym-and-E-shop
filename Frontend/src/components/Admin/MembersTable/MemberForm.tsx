@@ -41,7 +41,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setLocalMember({ ...localMember, [name]: value.toLowerCase() });
+    setLocalMember({ ...localMember, [name]: value });
   };
 
   // Handle checkbox change
