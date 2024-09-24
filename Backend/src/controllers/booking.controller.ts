@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { verifyToken } from "../utils/jwt";
 import User from "../models/user.model";
 import Course from "../models/course.model";
 import mongoose from "mongoose";
