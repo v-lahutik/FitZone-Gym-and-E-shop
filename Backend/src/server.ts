@@ -10,6 +10,7 @@ import productRouter from './routers/product.router';
 import cookieParser from 'cookie-parser';
 import adminRouter from './routers/admin.router';
 import courseTemplateRouter from './routers/courseTemplate.router';
+import { authenticateAndCheckRoles } from './middlewares/authAndRoles';
 
 
 dotenv.config();
@@ -24,11 +25,10 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(cookieParser());
 
+
 // routers
 app.use('/users', userRouter)
-app.use('/admin', adminRouter)
-app.use('/courses', courseRouter)
-app.use('/courseTemplate', courseTemplateRouter)
+app.use('/admin', authenticateAndCheckRoles('Admin'), adminRouter)
 app.use('/products', productRouter)
 
 // error handlers

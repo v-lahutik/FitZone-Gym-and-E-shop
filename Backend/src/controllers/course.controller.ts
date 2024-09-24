@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import Course from "../models/course.model";
 
 
-export const seeAllCourses = async (
+export const getAllCourses = async (
     req: Request,
     res: Response,
     next: NextFunction

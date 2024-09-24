@@ -4,7 +4,7 @@ import CourseTemplate from "../models/courseTemplate.model";
 
 
 
-export const seeAllCourseTemplate = async (
+export const getAllCourseTemplates = async (
     req: Request,
     res: Response,
     next: NextFunction
