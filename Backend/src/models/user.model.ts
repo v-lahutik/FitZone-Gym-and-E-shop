@@ -2,9 +2,15 @@ import bcrypt from "bcrypt";
 import { Schema, model, Document, ObjectId } from "mongoose";
 
 export enum UserRole {
-  member = "member",
-  admin = "admin",
-  guest = "guest",
+  member = "Member",
+  admin = "Admin",
+  guest = "Guest",
+}
+export enum membership{
+  basic = "Basic",
+  standard = "Standard",
+  premium = "Premium",
+  staff= "Staff"
 }
 
 export interface AddressInput {
@@ -42,17 +48,18 @@ export interface UserInput {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
-  address?: AddressInput,
+  address?: AddressInput
+  membership: string,
   role: string;
 }
 
 export interface UserDocument extends UserInput, Document {
-  _id: ObjectId
-  pass_changed_at?: Date; //optional field
+  _id: ObjectId;
+  password: string;
+  pass_changed_at?: Date; 
   is_activated: boolean;
-  bookedCourses: ObjectId[]
-  cart:ObjectId[]
+  bookedCourses:Schema.Types.ObjectId[];
+  cart:Schema.Types.ObjectId[];
   comparePass(plainPassword: string): Promise<boolean>;
 }
 
@@ -73,10 +80,18 @@ const userSchema = new Schema<UserDocument>({
   password: {
     type: String,
     required: true,
+    // default password because registration is done by admin
+    default: function () {
+      return (this.firstName + this.lastName).toLowerCase();
+    }
   },
- 
   address: {
     type: addressSchema,
+  },
+  membership: {
+    type: String,
+    enum: Object.values(membership),
+    default: membership.basic,
   },
   role: {
     type: String,
@@ -87,14 +102,14 @@ const userSchema = new Schema<UserDocument>({
     type: Boolean,
     default: false,
   },
-  bookedCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
-  cart:[{ type:Schema.Types.ObjectId, ref: "Product" }]
+  bookedCourses:[{ type: Schema.Types.ObjectId, ref:'Course'}],
+  cart:[{ type: Schema.Types.ObjectId, ref:'Product'}]
   
 },{timestamps: true});
 
 userSchema.pre<UserDocument>("save", async function (next) {
     try {
-        if (!this.isModified("password")) {
+        if (!this.isNew && !this.isModified("password")) {
             return next();
         }
         const salt = await bcrypt.genSalt(10);

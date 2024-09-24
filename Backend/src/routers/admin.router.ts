@@ -1,14 +1,35 @@
 import express from 'express'
 import { registerValidation } from '../validators/user.validator'
-import { deleteUser, register, updateUser } from '../controllers/admin.controller'
+import { deleteUser, register, updateUser, getAllUsers } from '../controllers/admin.controller'
 import { authenticateAndCheckRoles } from '../middlewares/authAndRoles'
-
+import {getAllCourseTemplates, createNewCourseTemplate, editCourseTemplate, deleteCourseTemplate} from '../controllers/courseTemplate.controller';
+import { addNewCourse, deleteCourse, editCourse, getAllCourses } from '../controllers/course.controller';
+import { addNewProduct, deleteProduct, editProduct, addNewCategory, deleteCategory } from '../controllers/product.controller'
 
 const adminRouter=express.Router()
+//edit Users
+adminRouter.get('/members', getAllUsers)
+adminRouter.post('/members/register', registerValidation, register)
+adminRouter.put('/members/update/:uid', authenticateAndCheckRoles('admin'), updateUser)
+adminRouter.delete('/members/delete/:uid', authenticateAndCheckRoles('admin'), deleteUser)
 
-adminRouter.post('/register', registerValidation, authenticateAndCheckRoles('admin'), register)
-adminRouter.put('/update/:uid', authenticateAndCheckRoles('admin'), updateUser)
-adminRouter.delete('/delete/:uid', authenticateAndCheckRoles('admin'), deleteUser)
+//edit CourseTemplates
+adminRouter.get('/coursesTemplates', getAllCourseTemplates)
+adminRouter.post('/courseTemplates/create', createNewCourseTemplate)
+adminRouter.put('/courseTemplates/update/:tid', authenticateAndCheckRoles('admin'), editCourseTemplate)
+adminRouter.delete('/courseTemplates/delete/:tid', authenticateAndCheckRoles('admin'), deleteCourseTemplate)
 
+//edit Courses
+adminRouter.get('/courses',getAllCourses)
+adminRouter.post('/courses/add',addNewCourse)
+adminRouter.delete('/courses/delete/:cid',deleteCourse)
+adminRouter.patch('/courses/edit/:cid',editCourse)
+
+//edit Products
+adminRouter.post("/products/add", addNewProduct)
+adminRouter.patch("/products/edit/:pid",editProduct)
+adminRouter.delete("/products/delete/:pid",deleteProduct)
+adminRouter.post("/products/category/add",addNewCategory)
+adminRouter.delete("/products/category/delete/:pid",deleteCategory)
 
 export default adminRouter

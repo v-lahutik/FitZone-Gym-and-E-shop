@@ -37,7 +37,7 @@ export default function PricingTable() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-center md:justify-start auto-cols-auto">
           <div className="">
             <div className="title-area md:text-start text-center">
-              <span className="justify-center md:justify-start  text-primary text-xl text-semibold uppercase font-kanit subtitle after-lg-none mb-4">
+              <span className="md:justify-start  text-primary text-xl text-semibold uppercase font-kanit subtitle after-lg-none mb-4">
                 Pricing Plan
               </span>
               <h2 className="justify-center md:justify-start text-4xl mb-10 font-kanit font-semibold">

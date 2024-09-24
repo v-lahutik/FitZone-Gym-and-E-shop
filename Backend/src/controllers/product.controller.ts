@@ -41,7 +41,7 @@ export const deleteProduct = async (req:Request, res:Response, next:NextFunction
     }
 };
 
-export const seeAllProducts = async (req: Request,res: Response,next: NextFunction) => {
+export const getAllProducts = async (req: Request,res: Response,next: NextFunction) => {
     try {
       const allProducts = await Product.find({}).populate("category").exec();
       res.status(200).json({ msg: "get all product successfully", allProducts });
