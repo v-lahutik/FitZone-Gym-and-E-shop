@@ -80,7 +80,7 @@ export const toDeleteFromCart = async (
       .select("-password -address -is_activated -createdAt -updatedAt -__v")
       .populate("cart", "-createdAt -updatedAt -__v");
 
-    res.status(200).json({msg: "You canceled the course !", updatedUser,});
+    res.status(200).json({msg: "the product removed from your cart", updatedUser,});
   } catch (error: any) {
     next(error);
   }
