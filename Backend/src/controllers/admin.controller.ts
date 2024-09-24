@@ -6,10 +6,13 @@ import { createToken } from "../utils/helper";
 
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
+   
+   
+    console.log(req.body);
     try {
-        const { firstName, lastName, email, password, address, role } = req.body;
+        const { firstName, lastName, email, address, role, membership } = req.body;
 
-        if (!firstName || !lastName || !email || !password || !address || !role) {
+        if (!firstName || !lastName || !email || !address || !role || !membership) {
             return res.status(400).json({ msg: 'Please fill all fields' });
         }
         const userExist= await User.findOne({ email });
@@ -17,11 +20,11 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
           return res.status(400).json({ msg: 'User already exists' });
         }
 
-        const newUser = new User({ firstName, lastName, email, password, address, role });
+        const newUser = new User({ firstName, lastName, email, address, role , membership});
 
-        const verificationToken: string = await createToken(newUser);
+        // const verificationToken: string = await createToken(newUser);
 
-        await sendVerificationEmail(newUser, verificationToken);
+        // await sendVerificationEmail(newUser, verificationToken);
 
         await newUser.save();
         res.status(201).json({

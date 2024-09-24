@@ -6,7 +6,8 @@ import { authorizeRoles } from '../middlewares/authRoleAdmin'
 
 const adminRouter=express.Router()
 
-adminRouter.post('/register', registerValidation, authorizeRoles("admin"), register)
+adminRouter.post('/register', registerValidation, register)
+// adminRouter.post('/register', registerValidation, authorizeRoles("admin"), register)
 adminRouter.put('/update/:uid', authorizeRoles("admin"), updateUser)
 adminRouter.delete('/delete/:uid', authorizeRoles("admin"), deleteUser)
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios, { AxiosError } from 'axios';
 import { Member } from './MembersTable'; // Import the Member interface
 
 interface MemberFormProps {
@@ -14,7 +15,8 @@ const MemberForm: React.FC<MemberFormProps> = ({
   setIsEditing,
   closeForm
 }) => {
-  const URL = import.meta.env.VITE_URL as string;
+  const URL = import.meta.env.VITE_API as string;
+
   const [localMember, setLocalMember] = useState<Member>(
     member || {
       id: '',
@@ -39,7 +41,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setLocalMember({ ...localMember, [name]: value });
+    setLocalMember({ ...localMember, [name]: value.toLowerCase() });
   };
 
   // Handle checkbox change
@@ -67,19 +69,50 @@ const MemberForm: React.FC<MemberFormProps> = ({
   };
 
   // Handle registering a new member
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (localMember) {
+      console.log(localMember);
       if (window.confirm('Are you sure you want to register this member?')) {
-        fetch(`${URL}/admin/register`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(localMember)
-        })
-          .then(() => {
-            alert('Member registered successfully!');
-            closeForm();
-          })
-          .catch((err) => console.error('Error registering member:', err));
+        try {
+          const response = await axios.post(
+            `${URL}/admin/register`,
+            localMember,
+            {
+              headers: { 'Content-Type': 'application/json' }
+            }
+          );
+          const { msg } = response.data;
+          alert(msg || 'Member registered successfully!');
+          closeForm();
+        } catch (err) {
+          if (axios.isAxiosError(err)) {
+            const axiosError = err as AxiosError;
+
+            if (axiosError.response) {
+              // The request was made and the server responded with an error status
+              const { status, data } = axiosError.response;
+              alert(
+                `Error: ${
+                  data?.msg || 'Something went wrong'
+                }. Status code: ${status}`
+              );
+            } else if (axiosError.request) {
+              // The request was made but no response was received
+              console.error('No response received:', axiosError.request);
+              alert(
+                'No response from the server. Please check your connection.'
+              );
+            } else {
+              // Something else happened in setting up the request
+              console.error('Error:', axiosError.message);
+              alert('An unexpected error occurred.');
+            }
+          } else {
+            // Handle non-Axios errors
+            console.error('Unexpected error:', err);
+            alert('An unexpected error occurred.');
+          }
+        }
       }
     }
   };

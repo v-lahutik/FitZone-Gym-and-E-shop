@@ -1,7 +1,6 @@
 import React from 'react';
 import { courseData } from '../../DummyData/courses';
-import { weekdays, timeSlots } from './TimeSlots';
-
+import { weekdays, timeSlots } from './TimeSlots.ts';
 
 interface Course {
   name: string;
@@ -121,6 +120,7 @@ const CourseTable: React.FC = () => {
           })}
         </tbody>
       </table>
+      <CourseCard/>
     </div>
   );
 };
