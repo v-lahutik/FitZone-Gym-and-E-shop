@@ -6,7 +6,7 @@ import { authenticateAndCheckRoles } from '../middlewares/authAndRoles'
 
 const adminRouter=express.Router()
 
-adminRouter.post('/register', registerValidation, authenticateAndCheckRoles('admin'), register)
+adminRouter.post('/register', registerValidation, register)
 adminRouter.put('/update/:uid', authenticateAndCheckRoles('admin'), updateUser)
 adminRouter.delete('/delete/:uid', authenticateAndCheckRoles('admin'), deleteUser)
 

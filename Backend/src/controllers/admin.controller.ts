@@ -7,9 +7,9 @@ import { createToken } from "../utils/helper";
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { firstName, lastName, email, password, address, role } = req.body;
+        const { firstName, lastName, email, address, membership, role } = req.body;
 
-        if (!firstName || !lastName || !email || !password || !address || !role) {
+        if (!firstName || !lastName || !email || !address || !membership || !role) {
             return res.status(400).json({ msg: 'Please fill all fields' });
         }
         const userExist= await User.findOne({ email });
@@ -17,7 +17,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
           return res.status(400).json({ msg: 'User already exists' });
         }
 
-        const newUser = new User({ firstName, lastName, email, password, address, role });
+        const newUser = new User({ firstName, lastName, email, address, membership, role });
 
         const verificationToken: string = await createToken(newUser);
 
@@ -32,6 +32,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
                 lastName: newUser.lastName,
                 email: newUser.email,
                 address: newUser.address,
+                membership: newUser.membership,
                 role: newUser.role
             }});
     } catch (error: any) {
@@ -41,14 +42,14 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { firstName, lastName, email, address, role } = req.body;
+        const { firstName, lastName, email, address, membership, role } = req.body;
         const { uid } = req.params; 
 
-        if (!firstName || !lastName || !email || !address || !role) {
+        if (!firstName || !lastName || !email || !address || !membership|| !role) {
             return res.status(400).json({ msg: 'Please fill all fields' });
         }
 
-        const user = await User.findByIdAndUpdate(uid, { firstName, lastName, email, address, role }, { new: true });
+        const user = await User.findByIdAndUpdate(uid, { firstName, lastName, email, address, membership, role }, { new: true });
 
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
@@ -59,7 +60,6 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
         next(error);
     }
 }
-
 
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
