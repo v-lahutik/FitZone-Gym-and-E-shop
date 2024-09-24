@@ -4,7 +4,9 @@ import { deleteUser, register, updateUser, getAllUsers } from '../controllers/ad
 import { authenticateAndCheckRoles } from '../middlewares/authAndRoles'
 import {getAllCourseTemplates, createNewCourseTemplate, editCourseTemplate, deleteCourseTemplate} from '../controllers/courseTemplate.controller';
 import { addNewCourse, deleteCourse, editCourse, getAllCourses } from '../controllers/course.controller';
-import { addNewProduct, deleteProduct, editProduct,} from '../controllers/product.controller'
+import { addNewProduct, deleteProduct, editProduct} from '../controllers/product.controller'
+import { addNewCategory, deleteCategory } from '../controllers/category.controller';
+
 
 const adminRouter=express.Router()
 //edit Users

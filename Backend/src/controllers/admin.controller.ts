@@ -9,7 +9,7 @@ import { createToken } from "../utils/helper";
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     console.log('get all users');
     try {
-        const users = await User.find();
+        const users = await User.find()
         res.status(200).json(users);
     } catch (error: any) {
         next(error);
@@ -57,14 +57,14 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     console.log('update user running');
     try {
-        const { firstName, lastName, email, address, membership, role } = req.body;
+        const { firstName, lastName, email, address, membership, role ,is_activated} = req.body;
         const { uid } = req.params; 
 
         if (!firstName || !lastName || !email || !address || !membership|| !role) {
             return res.status(400).json({ msg: 'Please fill all fields' });
         }
 
-        const user = await User.findByIdAndUpdate(uid, { firstName, lastName, email, address, membership, role }, { new: true });
+        const user = await User.findByIdAndUpdate(uid, { firstName, lastName, email, address, membership, role , is_activated}, { new: true });
 
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
@@ -78,9 +78,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
 
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        
         const user = await User.findByIdAndDelete(req.params.uid);
-        
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
         }

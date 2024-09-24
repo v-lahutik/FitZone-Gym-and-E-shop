@@ -5,12 +5,11 @@ import { connectToDB } from './utils/db';
 import dotenv from 'dotenv';
 import morgan from 'morgan'
 import userRouter from './routers/user.router';
-import courseRouter from './routers/course.router';
 import productRouter from './routers/product.router';
 import cookieParser from 'cookie-parser';
 import adminRouter from './routers/admin.router';
-import courseTemplateRouter from './routers/courseTemplate.router';
 import { authenticateAndCheckRoles } from './middlewares/authAndRoles';
+import { createWeeklyCourses } from './utils/setWeeklyCourse';
 
 
 dotenv.config();
@@ -18,6 +17,9 @@ const app: Application = express();
 
 // database connection
 connectToDB();
+
+// set courses for week
+// createWeeklyCourses()
 
 // middlewares
 app.use(express.json());
