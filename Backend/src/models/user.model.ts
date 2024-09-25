@@ -48,7 +48,7 @@ export interface UserInput {
   firstName: string;
   lastName: string;
   email: string;
-  address?: AddressInput
+  address: AddressInput
   membership: string,
   role: string;
 }
@@ -87,6 +87,7 @@ const userSchema = new Schema<UserDocument>({
   },
   address: {
     type: addressSchema,
+    required: true,
   },
   membership: {
     type: String,

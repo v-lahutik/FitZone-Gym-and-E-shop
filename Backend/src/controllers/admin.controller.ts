@@ -33,9 +33,9 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
         const newUser = new User({ firstName, lastName, email, address, membership, role });
 
-        // const verificationToken: string = await createToken(newUser);
+         const verificationToken: string = await createToken(newUser);
 
-        // await sendVerificationEmail(newUser, verificationToken);
+         await sendVerificationEmail(newUser, verificationToken);
 
         await newUser.save();
         res.status(201).json({
@@ -60,7 +60,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
         const { firstName, lastName, email, address, membership, role ,is_activated} = req.body;
         const { uid } = req.params; 
 
-        if (!firstName || !lastName || !email || !address || !membership|| !role) {
+        if (!firstName || !lastName || !email || !address || !membership|| !role || !is_activated) {
             return res.status(400).json({ msg: 'Please fill all fields' });
         }
 

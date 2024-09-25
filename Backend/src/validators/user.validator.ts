@@ -66,3 +66,48 @@ export const loginValidation: ValidationChain[] = [
     .isLength({ min: 5 })
 ];
 
+export const resetPasswordValidation: ValidationChain[] = [
+  body("newPassword")
+    .trim()
+    .notEmpty()
+    .withMessage("New password is required")
+    .isLength({ min: 5 })
+    .withMessage("Password must be at least 5 characters long")
+    .matches(/\d/)
+    .withMessage("Password must contain at least one number")
+    .matches(/[A-Z]/)
+    .withMessage("Password must contain at least one uppercase letter")
+    .matches(/[!@#$%^&*(),.?":{}|<>]/)
+    .withMessage("Password must contain at least one special character"),
+];
+
+export const changePasswordValidation: ValidationChain[] = [
+  body("currentPassword")
+    .trim()
+    .notEmpty()
+    .withMessage("Current password is required"),
+  
+  body("newPassword")
+    .trim()
+    .notEmpty()
+    .withMessage("New password is required")
+    .isLength({ min: 5 })
+    .withMessage("New password must be at least 5 characters long")
+    .matches(/\d/)
+    .withMessage("New password must contain at least one number")
+    .matches(/[A-Z]/)
+    .withMessage("New password must contain at least one uppercase letter")
+    .matches(/[!@#$%^&*(),.?":{}|<>]/)
+    .withMessage("New password must contain at least one special character"),
+    
+  body("confirmPassword")
+    .trim()
+    .notEmpty()
+    .withMessage("Please confirm your new password")
+    .custom((value, { req }) => {
+      if (value !== req.body.newPassword) {
+        throw new Error("Passwords do not match");
+      }
+      return true;
+    }),
+];

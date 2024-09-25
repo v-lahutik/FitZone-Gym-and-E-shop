@@ -17,11 +17,17 @@ export const authenticateAndCheckRoles = (role: string) => {
       const token_payload = await verifyToken(token,process.env.JWT_SECRET as string);
       const user = await User.findById(token_payload.id);
       if (!user) {
-        throw createError("User not found!", 404);
+       return res.status(404).json({
+        status: "failure",
+        msg: "User not found or already deleted."
+      });
       }
       // To check the role
       if (role !== user.role) {
-        throw createError("You are not permitted to do this operation", 403);
+        return res.status(401).json({
+          status: "failure",
+          msg: "You are not authorized to perform this operation"
+        });
       }
       req.payload = token_payload
       next();

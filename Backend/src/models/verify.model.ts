@@ -3,6 +3,7 @@ import { Schema, model, Document } from "mongoose";
 interface VerifyDocument extends Document {
     token: string;
     userId: string;
+    expiresAt: Date;
 }
 
 const verifySchema = new Schema<VerifyDocument>({
@@ -14,6 +15,11 @@ const verifySchema = new Schema<VerifyDocument>({
         type: String,
         required: true,
     },
+    expiresAt: {
+        type: Date,
+        required: true,
+    },
+
 });
 
 
