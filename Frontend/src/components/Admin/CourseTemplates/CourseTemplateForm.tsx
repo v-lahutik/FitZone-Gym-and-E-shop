@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { CourseTemplate } from './CourseTemplateDisplay';
 import { weekdays, timeSlots } from '../CourseTable/TimeSlots';
+import {
+  handleSaveNewTemplate,
+  handleUpdateTemplate
+} from './TemplateRequests';
 
 interface CourseFormProps {
   course: CourseTemplate | null;
   closeForm: () => void;
+  isEditing: boolean;
 }
 
 const CourseTemplateForm: React.FC<CourseFormProps> = ({
   course,
-  closeForm
+  closeForm,
+  isEditing
 }) => {
   const [localCourse, setLocalCourse] = useState<CourseTemplate>(
     course || {
@@ -26,15 +32,6 @@ const CourseTemplateForm: React.FC<CourseFormProps> = ({
       category: []
     }
   );
-
-  const handleSaveCourseTemplate = (
-    course: CourseTemplate,
-    closeForm: () => void
-  ) => {
-    // Save the course template
-    console.log(course);
-    closeForm();
-  };
 
   // Handle form field changes
   const handleChange = (
@@ -209,12 +206,22 @@ const CourseTemplateForm: React.FC<CourseFormProps> = ({
             </div>
 
             <div className="flex justify-end mt-4">
-              <button
-                onClick={() => handleSaveCourseTemplate(localCourse, closeForm)}
-                className="bg-green-500 text-white px-4 py-2 rounded"
-              >
-                Save
-              </button>
+              {!isEditing && (
+                <button
+                  onClick={() => handleUpdateTemplate(localCourse, closeForm)}
+                  className="bg-green-500 text-white px-4 py-2 rounded"
+                >
+                  Save changes
+                </button>
+              )}
+              {isEditing && (
+                <button
+                  onClick={() => handleSaveNewTemplate(localCourse, closeForm)}
+                  className="bg-green-500 text-white px-4 py-2 rounded"
+                >
+                  Save new Course
+                </button>
+              )}
             </div>
           </div>
         </div>

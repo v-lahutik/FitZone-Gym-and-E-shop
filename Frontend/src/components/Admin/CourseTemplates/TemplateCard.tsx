@@ -1,13 +1,14 @@
 import React from 'react';
 import { CourseTemplate } from './CourseTemplateDisplay';
+import { handleDeleteTemplate } from './TemplateRequests';
 
 interface TemplateCardProps {
   template: CourseTemplate;
-  closeForm: () => void;
-  openForm: (course: CourseTemplate | null) => void;
+  openForm: (course: CourseTemplate) => void;
+  setCurrentCourse: React.Dispatch<React.SetStateAction<CourseTemplate | null>>;
 }
 
-const TemplateCard: React.FC<TemplateCardProps> = ({ template }) => {
+const TemplateCard: React.FC<TemplateCardProps> = ({ template, openForm }) => {
   return (
     <div className="bg-white min-w-[200px] max-w-[280px] col-span-6 sm:col-span-4 md:col-span-3 xl:col-span-2 rounded-lg shadow-lg p-3">
       <h3 className="text-lg font-bold">{template.courseName}</h3>
@@ -19,10 +20,16 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ template }) => {
         </p>
       </div>
       <div className="flex justify-end">
-        <button className="bg-primary text-white px-2 py-1 rounded">
+        <button
+          onClick={() => openForm(template)}
+          className="bg-primary text-white px-2 py-1 rounded"
+        >
           Edit
         </button>
-        <button className="bg-red-500 text-white px-2 py-1 rounded ml-2">
+        <button
+          onClick={() => handleDeleteTemplate(template)}
+          className="bg-red-500 text-white px-2 py-1 rounded ml-2"
+        >
           Delete
         </button>
       </div>

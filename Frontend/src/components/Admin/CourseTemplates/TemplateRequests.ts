@@ -1,5 +1,5 @@
+import { CourseTemplate } from './CourseTemplateDisplay';
 import axios, { AxiosError } from 'axios';
-import { Member } from './MembersTable'; // Import the Member interface
 import { URL } from '../../../utils/URL';
 
 interface ServerResponse {
@@ -7,23 +7,49 @@ interface ServerResponse {
   status: number;
 }
 
-// Handle member update
-export const handleUpdateUser = async (
-  localMember: Member,
+// saving a new course template
+export const handleSaveNewTemplate = async (
+  localCourse: CourseTemplate,
   closeForm: () => void
 ) => {
-  if (localMember) {
-    if (window.confirm('Are you sure you want to change this member?')) {
+  console.log(URL);
+  if (window.confirm('Are you sure you want to save this Course?')) {
+    try {
+      const response = await axios.post<ServerResponse>(
+        `${URL}/admin/courseTemplates/create`,
+        localCourse,
+        {
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+      const { msg } = response.data;
+      alert(msg || 'Course created successfully!');
+      closeForm();
+    } catch (error) {
+      errorAlert(error as AxiosError);
+    }
+  }
+};
+
+// update course template
+export const handleUpdateTemplate = async (
+  localCourse: CourseTemplate,
+  closeForm: () => void
+) => {
+  if (localCourse) {
+    if (
+      window.confirm('Are you sure you want to change this course template?')
+    ) {
       try {
         const response = await axios.put<ServerResponse>(
-          `${URL}/admin/members/update/${localMember._id}`,
-          localMember,
+          `${URL}/admin/courseTemplates/update/${localCourse._id}`,
+          localCourse,
           {
             headers: { 'Content-Type': 'application/json' }
           }
         );
         const { msg } = response.data;
-        alert(msg || 'Member information updated successfully!');
+        alert(msg || 'Course template updated successfully!');
         closeForm();
       } catch (error) {
         errorAlert(error as AxiosError);
@@ -32,51 +58,23 @@ export const handleUpdateUser = async (
   }
 };
 
-// Handle registering a new member
-export const handleRegisterUser = async (
-  localMember: Member,
-  closeForm: () => void
-) => {
-  if (localMember) {
-    console.log(localMember);
-    if (window.confirm('Are you sure you want to register this member?')) {
-      try {
-        const response = await axios.post<ServerResponse>(
-          `${URL}/admin/members/register`,
-          localMember,
-          {
-            headers: { 'Content-Type': 'application/json' }
-          }
-        );
-        const { msg } = response.data;
-        alert(msg || 'Member registered successfully!');
-        closeForm();
-      } catch (error) {
-        errorAlert(error as AxiosError);
-      }
-    }
-  }
-};
-
-// Handle deleting a member
-export const handleDeleteUser = async (
-  localMember: Member,
-  closeForm: () => void
-) => {
-  if (localMember) {
-    if (window.confirm('Are you sure you want to delete this member?')) {
+//  deleting a course template
+export const handleDeleteTemplate = async (template: CourseTemplate) => {
+  if (template) {
+    if (
+      window.confirm('Are you sure you want to delete this course template?')
+    ) {
       try {
         const response = await axios.delete<ServerResponse>(
-          `${URL}/admin/members/delete/${localMember._id}`,
+          `${URL}/admin/courseTemplates/delete/${template._id}`,
           {
             headers: { 'Content-Type': 'application/json' }
           }
         );
         const { msg } = response.data;
-        alert(msg || 'Member information updated successfully!');
-        closeForm();
-      } catch (error) {
-        errorAlert(error as AxiosError);
+        alert(msg || 'Course template deleted successfully!');
+      } catch (err) {
+        errorAlert(err as AxiosError);
       }
     }
   }

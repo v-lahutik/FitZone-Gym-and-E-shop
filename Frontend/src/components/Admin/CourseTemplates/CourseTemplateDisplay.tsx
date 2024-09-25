@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import CourseTemplateForm from './CourseTemplateForm';
 import TemplateCard from './TemplateCard';
 import axios from 'axios';
-
-const URL = import.meta.env.VITE_API as string;
+import { URL } from '../../../utils/URL';
 
 export interface CourseTemplate {
   courseName: string;
@@ -29,6 +28,7 @@ export interface CourseTemplate {
 const CourseTemplateDisplay: React.FC = () => {
   const [templates, setTemplates] = useState<CourseTemplate[]>([]);
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [currentCourse, setCurrentCourse] = useState<CourseTemplate | null>(
     null
   );
@@ -37,11 +37,13 @@ const CourseTemplateDisplay: React.FC = () => {
   const openForm = (course: CourseTemplate | null) => {
     setCurrentCourse(course);
     setIsFormOpen(true);
+    setIsEditing(course === null); // Edit mode if new course
   };
 
   const closeForm = () => {
     setIsFormOpen(false);
     setCurrentCourse(null);
+    setIsEditing(false);
   };
 
   useEffect(() => {
@@ -78,8 +80,9 @@ const CourseTemplateDisplay: React.FC = () => {
             <TemplateCard
               key={template._id}
               template={template}
-              closeForm={closeForm}
               openForm={openForm}
+            
+              setCurrentCourse={setCurrentCourse}
             />
           ))}
           <div className="col-span-12 text-start">
@@ -92,11 +95,12 @@ const CourseTemplateDisplay: React.FC = () => {
           </div>{' '}
         </div>
         {isFormOpen && (
-        <CourseTemplateForm
-          course={currentCourse}
-          closeForm={closeForm}
-        />
-      )}
+          <CourseTemplateForm
+            isEditing={isEditing}
+            course={currentCourse}
+            closeForm={closeForm}
+          />
+        )}
       </div>
     </>
   );

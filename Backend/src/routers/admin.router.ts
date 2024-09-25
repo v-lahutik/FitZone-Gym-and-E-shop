@@ -16,7 +16,7 @@ adminRouter.put('/members/update/:uid', updateUser)
 adminRouter.delete('/members/delete/:uid', deleteUser)
 
 //edit CourseTemplates
-adminRouter.get('/coursesTemplates', getAllCourseTemplates)
+adminRouter.get('/courseTemplates', getAllCourseTemplates)
 adminRouter.post('/courseTemplates/create', createNewCourseTemplate)
 adminRouter.put('/courseTemplates/update/:tid', editCourseTemplate)
 adminRouter.delete('/courseTemplates/delete/:tid', deleteCourseTemplate)
