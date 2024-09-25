@@ -55,6 +55,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 }
 
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+    console.log('update user running');
     try {
         const { firstName, lastName, email, address, membership, role ,is_activated} = req.body;
         const { uid } = req.params; 
