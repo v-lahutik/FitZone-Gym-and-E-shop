@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 import adminRouter from './routers/admin.router';
 import { authenticateAndCheckRoles } from './middlewares/authAndRoles';
 import { createWeeklyCourses } from './utils/setWeeklyCourse';
+import cron from 'node-cron'
 
 
 dotenv.config();
@@ -19,7 +20,10 @@ const app: Application = express();
 connectToDB();
 
 // set courses for week
-// createWeeklyCourses()
+// every sunday at 6 am, this func is going to run to set the courses
+cron.schedule('0 6 * * 0', async()=>{
+  await createWeeklyCourses()
+})
 
 // middlewares
 app.use(express.json());
