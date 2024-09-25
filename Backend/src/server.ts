@@ -30,7 +30,8 @@ app.use(cookieParser());
 
 // routers
 app.use('/users', userRouter)
-app.use('/admin', authenticateAndCheckRoles('Admin'), adminRouter)
+// app.use('/admin', authenticateAndCheckRoles('Admin'), adminRouter)
+app.use('/admin', adminRouter)
 app.use('/products', productRouter)
 
 // error handlers

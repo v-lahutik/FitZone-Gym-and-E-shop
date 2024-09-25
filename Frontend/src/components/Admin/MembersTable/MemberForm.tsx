@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import { handleDeleteUser, handleUpdateUser, handleRegisterUser } from './RequestFunctions';
 import { Member } from './MembersTable'; // Import the Member interface
 
 interface MemberFormProps {
@@ -15,11 +15,11 @@ const MemberForm: React.FC<MemberFormProps> = ({
   setIsEditing,
   closeForm
 }) => {
-  const URL = import.meta.env.VITE_API as string;
+
 
   const [localMember, setLocalMember] = useState<Member>(
     member || {
-      id: '',
+      _id: '',
       firstName: '',
       lastName: '',
       email: '',
@@ -32,7 +32,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
       },
       membership: 'Basic',
       role: 'Member',
-      isActivated: false
+      is_activated: false
     }
   );
 
@@ -50,84 +50,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
     setLocalMember({ ...localMember, [name]: checked });
   };
 
-  // Handle form submission (register or update)
-  const handleSaveChanges = () => {
-    if (localMember) {
-      if (window.confirm('Are you sure you want to save changes?')) {
-        fetch(`${URL}/admin/update/${localMember.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(localMember)
-        })
-          .then(() => {
-            alert('Member updated successfully!');
-            closeForm();
-          })
-          .catch((err) => console.error('Error updating member:', err));
-      }
-    }
-  };
-
-  // Handle registering a new member
-  const handleRegister = async () => {
-    if (localMember) {
-      console.log(localMember);
-      if (window.confirm('Are you sure you want to register this member?')) {
-        try {
-          const response = await axios.post(
-            `${URL}/admin/register`,
-            localMember,
-            {
-              headers: { 'Content-Type': 'application/json' }
-            }
-          );
-          const { msg } = response.data;
-          alert(msg || 'Member registered successfully!');
-          closeForm();
-        } catch (err) {
-          if (axios.isAxiosError(err)) {
-            const axiosError = err as AxiosError;
-
-            if (axiosError.response) {
-              // The request was made and the server responded with an error status
-              const { status, data } = axiosError.response;
-              alert(
-                `Error: ${
-                  data?.msg || 'Something went wrong'
-                }. Status code: ${status}`
-              );
-            } else if (axiosError.request) {
-              // The request was made but no response was received
-              console.error('No response received:', axiosError.request);
-              alert(
-                'No response from the server. Please check your connection.'
-              );
-            } else {
-              // Something else happened in setting up the request
-              console.error('Error:', axiosError.message);
-              alert('An unexpected error occurred.');
-            }
-          } else {
-            // Handle non-Axios errors
-            console.error('Unexpected error:', err);
-            alert('An unexpected error occurred.');
-          }
-        }
-      }
-    }
-  };
-
-  // Handle deleting a member
-  const handleDelete = () => {
-    if (window.confirm('Are you sure you want to delete this member?')) {
-      fetch(`${URL}/admin/delete/${localMember.id}`, { method: 'DELETE' })
-        .then(() => {
-          alert('Member deleted successfully!');
-          closeForm();
-        })
-        .catch((err) => console.error('Error deleting member:', err));
-    }
-  };
+  
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
@@ -292,9 +215,9 @@ const MemberForm: React.FC<MemberFormProps> = ({
           {/* Active */}
           <label className="flex items-center mt-2">
             <input
-              name="isActive"
+              name="is_activated"
               type="checkbox"
-              checked={localMember.isActive}
+              checked={localMember.is_activated}
               disabled={!isEditing}
               onChange={handleCheckboxChange}
               className="mr-2"
@@ -306,13 +229,13 @@ const MemberForm: React.FC<MemberFormProps> = ({
             {isEditing && member ? (
               <>
                 <button
-                  onClick={handleDelete}
+                  onClick={()=>handleDeleteUser(localMember, closeForm)}
                   className="bg-red-500 text-white px-4 py-2 rounded mr-2"
                 >
                   Delete Member
                 </button>
                 <button
-                  onClick={handleSaveChanges}
+                  onClick={()=> handleUpdateUser(localMember, closeForm)}
                   className="bg-green-500 text-white px-4 py-2 rounded"
                 >
                   Save Changes
@@ -322,7 +245,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
 
             {!member && (
               <button
-                onClick={handleRegister}
+                onClick={()=> handleRegisterUser(localMember, closeForm)}
                 className="bg-green-500 text-white px-4 py-2 rounded"
               >
                 Register Member

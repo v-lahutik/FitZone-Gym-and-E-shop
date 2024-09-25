@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import MemberForm from './MemberForm';
-import { membersData } from '../../DummyData/members';
+
 
 interface Address {
   streetNumber: number;
@@ -15,11 +15,11 @@ export interface Member {
   firstName: string;
   lastName: string;
   email: string;
-  address?: Address;
+  address: Address;
   membership: 'Basic' | 'Standard' | 'Premium' | 'Staff';
   role: 'Member' | 'Admin';
-  isActivated: boolean;
-  id: string;
+  is_activated: boolean;
+  _id: string;
 }
 
 const MembersTable: React.FC = () => {
@@ -67,7 +67,7 @@ const MembersTable: React.FC = () => {
     setIsEditing(member === null); // Edit mode if new member
   };
 
-  const closeForm = () => {
+ const closeForm = () => {
     setIsFormOpen(false);
     setCurrentMember(null);
     setIsEditing(false);
@@ -192,7 +192,7 @@ const MembersTable: React.FC = () => {
           </thead>
           <tbody>
             {displayedMembers.map((member) => (
-              <tr key={member.id} onClick={() => openForm(member)} className="border-t border-gray-300 cursor-pointer">
+              <tr key={member._id} onClick={() => openForm(member)} className="border-t border-gray-300 cursor-pointer">
                 <td className="px-6 py-4 text-sm text-gray-900">
                   {member.lastName}
                 </td>
@@ -214,7 +214,7 @@ const MembersTable: React.FC = () => {
                   {member.role}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-900">
-                  {member.isActivated ? 'Active' : 'Inactive'}
+                  {member.is_activated ? 'Active' : 'Inactive'}
                 </td>
               </tr>
             ))}
