@@ -16,8 +16,8 @@ const MemberForm: React.FC<MemberFormProps> = ({
   closeForm
 }) => {
 
-
-  const [localMember, setLocalMember] = useState<Member>(
+  //to handle changes in form field
+   const [localMember, setLocalMember] = useState<Member>(
     member || {
       _id: '',
       firstName: '',

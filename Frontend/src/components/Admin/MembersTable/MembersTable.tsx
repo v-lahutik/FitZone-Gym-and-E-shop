@@ -3,6 +3,9 @@ import axios from 'axios';
 import MemberForm from './MemberForm';
 
 
+
+const URL = import.meta.env.VITE_API as string;
+
 interface Address {
   streetNumber: number;
   streetName: string;
@@ -10,6 +13,7 @@ interface Address {
   country: string;
   postCode: string;
 }
+
 
 export interface Member {
   firstName: string;
@@ -23,7 +27,7 @@ export interface Member {
 }
 
 const MembersTable: React.FC = () => {
-  const [members, setMembers] = useState<Member[]>([]);
+  const [members, setMembers] = useState<Member[]>([]); //store all members
   const [filteredMembers, setFilteredMembers] = useState<Member[]>([]);
   const [filterName, setFilterName] = useState<string>('');
   const [filterMembership, setFilterMembership] = useState<string>('');
@@ -31,7 +35,7 @@ const MembersTable: React.FC = () => {
   const [filterIsActivated, setFilterIsActivated] = useState<string>('');
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [currentMember, setCurrentMember] = useState<Member | null>(null);
+  const [currentMember, setCurrentMember] = useState<Member | null>(null); //select a member to edit
   const [currentPage, setCurrentPage] = useState<number>(1);
   const membersPerPage = 20;
 
@@ -39,7 +43,7 @@ const MembersTable: React.FC = () => {
     // Fetch members data
     const fetchMembers = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/admin/members');
+        const response = await axios.get(`${URL}/admin/members`);
 
         // Sort the data by lastName
         const sortedData = response.data.sort((a: Member, b: Member) => 
@@ -99,8 +103,8 @@ const MembersTable: React.FC = () => {
 
     if (filterIsActivated) {
       filtered = members.filter((member) => {
-       if (filterIsActivated.toLowerCase() === 'active') return member.isActivated;
-        if (filterIsActivated.toLowerCase() === 'inactive') return !member.isActivated;
+       if (filterIsActivated.toLowerCase() === 'active') return member.is_activated;
+        if (filterIsActivated.toLowerCase() === 'inactive') return !member.is_activated;
       });
     }
     setFilteredMembers(filtered);
