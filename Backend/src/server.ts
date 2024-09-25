@@ -26,11 +26,12 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 
 // routers
 app.use('/users', userRouter)
-app.use('/admin', authenticateAndCheckRoles('Admin'), adminRouter)
+app.use('/admin', authenticateAndCheckRoles("Admin"), adminRouter)
 app.use('/products', productRouter)
 
 // error handlers
