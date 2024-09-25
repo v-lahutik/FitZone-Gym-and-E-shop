@@ -59,7 +59,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
         const { firstName, lastName, email, address, membership, role ,is_activated} = req.body;
         const { uid } = req.params; 
 
-        if (!firstName || !lastName || !email || !address || !membership|| !role) {
+        if (!firstName || !lastName || !email || !address || !membership|| !role || !is_activated) {
             return res.status(400).json({ msg: 'Please fill all fields' });
         }
 
