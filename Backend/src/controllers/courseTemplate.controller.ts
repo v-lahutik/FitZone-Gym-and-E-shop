@@ -20,7 +20,7 @@ export const getAllCourseTemplates = async (
 
 export const deleteCourseTemplate = async (req:Request, res:Response, next:NextFunction) => {
     try {
-      const tid = req.params.tid;
+      const tid = req.params.tid; // tid is course template ID of mongoDB
       const deletedTemplate = await CourseTemplate.findByIdAndDelete(tid);
       if (deletedTemplate) {
         res.status(200).json({ msg: "Course template deleted successfully",deletedTemplate });
@@ -48,7 +48,7 @@ export const createNewCourseTemplate = async (
 
 export const editCourseTemplate = async (req:Request, res:Response, next:NextFunction) => {
     try {
-        const tid = req.params.tid
+        const tid = req.params.tid  // tid is course template ID of mongoDB
         const{courseName,category,weekday,time,maxParticipants,description,instructor} = req.body;
         const editedCourse = await CourseTemplate.findByIdAndUpdate(tid, {courseName,category,weekday,time,maxParticipants,description,instructor}, { new: true });
         res.status(200).json({ msg: "Course template edited successfully", editedCourse });

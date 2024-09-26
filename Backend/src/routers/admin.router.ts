@@ -31,7 +31,7 @@ adminRouter.patch('/courses/edit/:cid',editCourse)
 adminRouter.post("/products/add", addNewProduct)
 adminRouter.patch("/products/edit/:pid",editProduct)
 adminRouter.delete("/products/delete/:pid",deleteProduct)
-// adminRouter.post("/products/category/add",addNewCategory)
-// adminRouter.delete("/products/category/delete/:pid",deleteCategory)
+adminRouter.post("/products/category/add",addNewCategory)
+adminRouter.delete("/products/category/delete/:pid",deleteCategory)
 
 export default adminRouter

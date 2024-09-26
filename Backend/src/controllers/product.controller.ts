@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import Product from "../models/product.model";
 
 
-
+// Admin can create new product
 export const addNewProduct = async (req:Request,res:Response,next:NextFunction) => {
     try {
         const {productName,description,price,stock,image,category} = req.body
@@ -14,9 +14,10 @@ export const addNewProduct = async (req:Request,res:Response,next:NextFunction) 
     }
 }
 
+// Admin can edit info of existing product
 export const editProduct = async (req:Request,res:Response,next:NextFunction) => {
     try {
-        const pid = req.params.pid
+        const pid = req.params.pid // pid is product ID of mongoDB
         const {productName,description,prise,stock,image,category} = req.body
         const editedProduct = await Product.findByIdAndUpdate(pid, {productName,description,prise,stock,image,category}, { new: true });
         await editedProduct?.populate('category')
@@ -26,9 +27,10 @@ export const editProduct = async (req:Request,res:Response,next:NextFunction) =>
     }
 }
 
+// Admin can delete existing product
 export const deleteProduct = async (req:Request, res:Response, next:NextFunction) => {
     try {
-      const pid = req.params.pid;
+      const pid = req.params.pid; // pid is product ID of mongoDB
       const deletedProduct = await Product.findByIdAndDelete(pid);
       await deletedProduct?.populate("category")
       if (deletedProduct) {
@@ -41,6 +43,7 @@ export const deleteProduct = async (req:Request, res:Response, next:NextFunction
     }
 };
 
+// everyone can see all products in the online shop
 export const getAllProducts = async (req: Request,res: Response,next: NextFunction) => {
     try {
       const allProducts = await Product.find({}).populate("category").exec();
