@@ -20,6 +20,7 @@ export interface AddressInput {
   country: string;
   postCode: string;
 }
+
 const addressSchema = new Schema({
   streetNumber: {
       type: Number,
@@ -108,6 +109,8 @@ const userSchema = new Schema<UserDocument>({
   
 },{timestamps: true});
 
+
+//pre save hook to hash password before saving or changing password
 userSchema.pre<UserDocument>("save", async function (next) {
     try {
         if (!this.isNew && !this.isModified("password")) {

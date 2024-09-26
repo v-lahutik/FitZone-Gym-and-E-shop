@@ -9,6 +9,7 @@ import { addNewCategory, deleteCategory } from '../controllers/category.controll
 
 
 const adminRouter=express.Router()
+
 //edit Users
 adminRouter.get('/members', getAllUsers)
 adminRouter.post('/members/register', registerValidation, register)

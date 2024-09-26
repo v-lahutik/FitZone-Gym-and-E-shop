@@ -4,23 +4,9 @@ import { promisify } from "util";
 interface Payload {
     id: string;
     email: string;
-    role?: string;
+    role: string;
     [key: string]: any;  
   }
-  
-
-// export const createToken = async (payload: Payload, secret: string, options?: SignOptions): Promise<string> => {
-//   const asyncToken = promisify(jwt.sign);
-//   return await asyncToken(payload, secret, options);
-// };
-
-
-// export const verifyToken = async (token: string, secret: string): Promise<any> => {
-//   const asyncVerify = promisify(jwt.verify);
-//   return await asyncVerify(token, secret);
-// };
-
-
 
 // Create token
 export const createJwtToken = async (

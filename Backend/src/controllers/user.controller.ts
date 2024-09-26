@@ -8,7 +8,7 @@ import { sendVerificationEmail } from "../utils/helper";
 import { sendResetPasswordEmail } from "../utils/helper";
 import { CustomError, createError } from "../utils/helper";
 
-
+//verify account after registration
 export const verifyAccount = async (
   req: Request,
   res: Response,
@@ -48,6 +48,7 @@ export const verifyAccount = async (
     next(error);
   }
 };
+
 export const login = async (
   req: Request,
   res: Response,
@@ -55,7 +56,7 @@ export const login = async (
 ) => {
   try {
     const { email, password } = req.body;
-    console.log(email,password)
+    
     if (!email || !password) {
       return res.status(400).json({ msg: "Please fill all fields" });
     }
@@ -73,6 +74,7 @@ export const login = async (
       return res.status(400).json({ msg: "Email or Password is incorrect" });
     }
 
+    //create jwt token and store in cookie
     const token = await createJwtToken(
       { id: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET as string,
@@ -94,6 +96,7 @@ export const logout = async (req: Request, res: Response) => {
   res.clearCookie("token").json({ msg: "User logged out" });
 };
 
+//change password for logged in user
 export const changePassword = async (req: Request & { payload?: any }, res: Response, next: NextFunction) => {
   try {
     const { currentPassword, newPassword, confirmPassword } = req.body;
@@ -125,6 +128,7 @@ export const changePassword = async (req: Request & { payload?: any }, res: Resp
   }
 };
 
+//forgot password - send reset password link to user's email
 export const forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email } = req.body;
@@ -144,6 +148,7 @@ export const forgotPassword = async (req: Request, res: Response, next: NextFunc
   }
 };
 
+//reset password - verify reset link and reset password
 export const verifyResetLink = async (req: Request, res: Response, next: NextFunction) => {
   const { resetToken: token, uid: userId } = req.params;
 
@@ -159,6 +164,7 @@ export const verifyResetLink = async (req: Request, res: Response, next: NextFun
 
       return res.status(400).json({ message: "Invalid or expired token." });
     }
+    // Display form to reset password - needs to be changed to a frontend form
     res.send(`
     <form method="post" action="/users/resetPassword">
       <input type="hidden" name="token" value="${token}"> <!-- Hidden token -->
@@ -172,6 +178,8 @@ export const verifyResetLink = async (req: Request, res: Response, next: NextFun
     next(error);
   }
 };
+
+// reset password and delete reset token from verify database 
 export const resetPasswordHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { token, uid: userId, newPassword, confirmPassword } = req.body; // Access from the form submission
