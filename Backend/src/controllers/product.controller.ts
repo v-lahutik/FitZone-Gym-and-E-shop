@@ -1,12 +1,20 @@
 import { NextFunction, Request, Response } from "express";
 import Product from "../models/product.model";
+import { uploadImage } from "../utils/cloudinaryUploader";
 
 
 
 export const addNewProduct = async (req:Request,res:Response,next:NextFunction) => {
     try {
+
         const {productName,description,price,stock,image,category} = req.body
-        const newProduct = await Product.create({productName,description,price,stock,image,category})
+
+        const result = await uploadImage(image)
+        if(!result) return res.status(400).json({msg: "image upload failed"})
+
+       
+        const newProduct = await Product.create({productName,description,price,stock, image: result, category})
+
         await newProduct.populate("category")
         res.status(200).json({ msg: "new product added successfully", newProduct });
     } catch (error:any) {

@@ -18,8 +18,6 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
    
-   
-    console.log(req.body);
     try {
         const { firstName, lastName, email, address, membership, role } = req.body;
 
@@ -30,11 +28,11 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         if (userExist) {
           return res.status(400).json({ msg: 'User already exists' });
         }
-
+        //create new user
         const newUser = new User({ firstName, lastName, email, address, membership, role });
-
+        
+        //create verification token and send verification email
          const verificationToken: string = await createToken(newUser);
-
          await sendVerificationEmail(newUser, verificationToken);
 
         await newUser.save();

@@ -6,10 +6,12 @@ export interface ProductInput {
   price: number;
   stock: number;
   image?: string;
-  category?: string[];
+  
+  
 }
 
 export interface ProductDocument extends ProductInput, Document {
+  category: Schema.Types.ObjectId
     createdAt: Date;
     updatedAt: Date;
 }
@@ -20,7 +22,7 @@ const productSchema = new Schema<ProductDocument>({
     price: { type: Number, required: true, min: [0, 'Price must be a positive number'] },
     stock: { type: Number, required: true, min: [0, 'Stock must be a positive number'] },
     image: { type: String, required: true },
-    category:  [{ type: Schema.Types.ObjectId, ref: "Category" , required: true }]
+    category:  { type: Schema.Types.ObjectId, ref: "Category" , required: true }
   }, { timestamps: true }
 );
 

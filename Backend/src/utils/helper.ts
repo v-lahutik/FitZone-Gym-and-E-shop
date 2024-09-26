@@ -19,8 +19,7 @@ export const createError = (msg: string, status: number) => {
   return new CustomError(msg, status);
 };
 
-
-
+// Generates a verification token for the user and saves it in the database with an expiration time.
 export const createToken=async(user:UserDocument): Promise<string> =>{
   const verifyToken=crypto.randomBytes(16).toString('hex');
 
@@ -34,6 +33,7 @@ export const createToken=async(user:UserDocument): Promise<string> =>{
  return verifyToken
 }
 
+//verify account after registration
 export const sendVerificationEmail = async (user: UserDocument, token: string) => {
   try {
     let transporter = nodemailer.createTransport({
@@ -61,6 +61,7 @@ export const sendVerificationEmail = async (user: UserDocument, token: string) =
   }
 };
 
+// reset password email if user forgets password
 export const sendResetPasswordEmail = async (user: UserDocument, token: string) => {
   try {
     const transporter = nodemailer.createTransport({
@@ -88,6 +89,7 @@ export const sendResetPasswordEmail = async (user: UserDocument, token: string) 
   }
 };
 
+// email template for register verification
 
 export const emailTemplate = (name: string, token:string, userId: ObjectId) => {
   console.log("token", token, "userId", userId);
@@ -123,6 +125,8 @@ export const emailTemplate = (name: string, token:string, userId: ObjectId) => {
 `;
 };
 
+
+//email template for reset password
 export const resetPasswordTemplate = (name: string, token: string, userId: ObjectId) => {
   const link = `https://localhost:8000/users/resetPassword/${token}/${userId}`;
 

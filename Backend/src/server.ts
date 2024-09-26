@@ -11,6 +11,7 @@ import adminRouter from './routers/admin.router';
 import { authenticateAndCheckRoles } from './middlewares/authAndRoles';
 import { createWeeklyCourses } from './utils/setWeeklyCourse';
 import cron from 'node-cron'
+import { uploadImage, uploadMultipleImages } from './utils/cloudinaryUploader';
 
 
 dotenv.config();
@@ -35,7 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // routers
 app.use('/users', userRouter)
-app.use('/admin', authenticateAndCheckRoles("Admin"), adminRouter)
+app.use('/admin', adminRouter)
 app.use('/products', productRouter)
 
 // error handlers
