@@ -7,8 +7,7 @@ export default function Login() {
   const [user, setUser] = useState<User>({ email: '', password: '' });
   const [errors, setErrors] = useState<null | { [key: string]: string }>(null);
   const [beErr, setBeError] = useState(null);
-  const [status, setStatus] = useState(false);
-
+  // const [status, setStatus] = useState(false);  // I am not sure if this need ?
   const navigate = useNavigate();
 
   interface User {
@@ -28,35 +27,45 @@ export default function Login() {
     password: Yup.string()
       .required('Password is required')
       .min(5, 'Password is too short')
-      .matches(/[a-z]/, 'Password should contains lower-case letter')
-      .matches(/[A-Z]/, 'Password should contains upper-case letter')
-      .matches(/[0-9]/, 'Password should contains number')
+      // .matches(/[a-z]/, 'Password should contains lower-case letter')
+      // .matches(/[A-Z]/, 'Password should contains upper-case letter')
+      // .matches(/[0-9]/, 'Password should contains number')
   });
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      //validate user data
-      await loginSchema.validate(user, { abortEarly: false });
+      await loginSchema.validate(user, { abortEarly: false }); //validate user data
       console.log(user);
-      // clear errors
-      setErrors(null);
+      
+      setErrors(null) // clear errors
+      setBeError(null) // clear errors
 
       // send request to backend
-      // const res = await axios({
-      //   url: '',
-      //   method: 'POST',
-      //   data: user,
-      //   withCredentials: true
-      // });
-      // console.log(res);
-      // setStatus(res.statusText === 'OK' ? true : false);
+      const res = await axios({
+        url: 'http://localhost:8000/users/login',
+        method: 'POST',
+        data: user,
+        withCredentials: true
+      });
+      console.log(res);
 
+      // setStatus(res.statusText === 'OK' ? true : false);    // I am not sure if this need ?
+
+      // to navigate to different pages 
+      if (res.status === 200) {
+        const userRole = res.data.user.role;
+        if (userRole === 'Admin') {
+          navigate('/admin');
+        } else if (userRole === 'Member') {
+          navigate('/member');
+        }
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       // backend error
       if (error.response) {
-        // console.log(error.response)
+        console.log(error.response)
         setBeError(error.response.data.msg);
       }
 
@@ -66,7 +75,6 @@ export default function Login() {
         error.inner.forEach((err: { path: string; message: string }) => {
           vErrors[err.path] = err.message;
         });
-
         setErrors(vErrors);
       }
     }
@@ -129,6 +137,7 @@ export default function Login() {
             Login
           </button>
         </form>
+        {beErr? <p className="text-primary text-xl text-center mt-2 mb-6">{beErr}<br/>Please try again !!</p>:<p></p>}
       </div>
     </div>
   );
