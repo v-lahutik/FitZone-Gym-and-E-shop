@@ -120,7 +120,7 @@ const CourseTable: React.FC = () => {
           })}
         </tbody>
       </table>
-      <CourseCard/>
+   
     </div>
   );
 };

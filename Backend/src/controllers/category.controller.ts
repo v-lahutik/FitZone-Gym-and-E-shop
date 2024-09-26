@@ -15,7 +15,7 @@ export const addNewCategory = async (req:Request,res:Response,next:NextFunction)
 
 export const deleteCategory = async (req:Request,res:Response,next:NextFunction) => {
     try {
-        const cid = req.params.cid
+        const cid = req.params.cid  // cid is category ID of mongoDB 
         const deletedCategory = await Category.findByIdAndDelete(cid)
         if (deletedCategory) {
             res.status(200).json({ msg: "deleted the category successfully", deletedCategory});

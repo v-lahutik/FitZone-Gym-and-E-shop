@@ -19,7 +19,7 @@ export const getAllCourses = async (
 
 export const deleteCourse = async (req:Request, res:Response, next:NextFunction) => {
     try {
-      const cid = req.params.cid;
+      const cid = req.params.cid; // cid is course ID of mongoDB 
       const deletedCourse = await Course.findByIdAndDelete(cid);
       if (deletedCourse) {
         res.status(200).json({ msg: "Course deleted successfully",deletedCourse });
@@ -47,7 +47,7 @@ export const addNewCourse = async (
 
 export const editCourse = async (req:Request, res:Response, next:NextFunction) => {
     try {
-        const cid = req.params.cid
+        const cid = req.params.cid  // cid is course ID of mongoDB 
         const{courseName,category,weekday,date,time,maxParticipants,description,instructor} = req.body;
         const editedCourse = await Course.findByIdAndUpdate(cid, {courseName,category,weekday,date,time,maxParticipants,description,instructor}, { new: true });
         res.status(200).json({ msg: "Course edited successfully", editedCourse });
