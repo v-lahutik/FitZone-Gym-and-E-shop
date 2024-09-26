@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import MemberForm from './MemberForm';
-
+import { URL } from '../../../utils/URL';
 
 interface Address {
   streetNumber: number;
@@ -23,7 +23,7 @@ export interface Member {
 }
 
 const MembersTable: React.FC = () => {
-  const [members, setMembers] = useState<Member[]>([]);
+  const [members, setMembers] = useState<Member[]>([]); //store all members
   const [filteredMembers, setFilteredMembers] = useState<Member[]>([]);
   const [filterName, setFilterName] = useState<string>('');
   const [filterMembership, setFilterMembership] = useState<string>('');
@@ -31,7 +31,7 @@ const MembersTable: React.FC = () => {
   const [filterIsActivated, setFilterIsActivated] = useState<string>('');
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [currentMember, setCurrentMember] = useState<Member | null>(null);
+  const [currentMember, setCurrentMember] = useState<Member | null>(null); //select a member to edit
   const [currentPage, setCurrentPage] = useState<number>(1);
   const membersPerPage = 20;
 
@@ -39,10 +39,10 @@ const MembersTable: React.FC = () => {
     // Fetch members data
     const fetchMembers = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/admin/members');
+        const response = await axios.get(`${URL}/admin/members`);
 
         // Sort the data by lastName
-        const sortedData = response.data.sort((a: Member, b: Member) => 
+        const sortedData = response.data.sort((a: Member, b: Member) =>
           a.lastName.localeCompare(b.lastName)
         );
 
@@ -60,19 +60,18 @@ const MembersTable: React.FC = () => {
     fetchMembers();
   }, []);
 
- // Handle opening the form (either for new member or existing member)
- const openForm = (member: Member | null) => {
+  // Handle opening the form (either for new member or existing member)
+  const openForm = (member: Member | null) => {
     setCurrentMember(member);
     setIsFormOpen(true);
     setIsEditing(member === null); // Edit mode if new member
   };
 
- const closeForm = () => {
+  const closeForm = () => {
     setIsFormOpen(false);
     setCurrentMember(null);
     setIsEditing(false);
   };
-
 
   useEffect(() => {
     let filtered = members;
@@ -99,8 +98,10 @@ const MembersTable: React.FC = () => {
 
     if (filterIsActivated) {
       filtered = members.filter((member) => {
-       if (filterIsActivated.toLowerCase() === 'active') return member.isActivated;
-        if (filterIsActivated.toLowerCase() === 'inactive') return !member.isActivated;
+        if (filterIsActivated.toLowerCase() === 'active')
+          return member.is_activated;
+        if (filterIsActivated.toLowerCase() === 'inactive')
+          return !member.is_activated;
       });
     }
     setFilteredMembers(filtered);
@@ -192,7 +193,11 @@ const MembersTable: React.FC = () => {
           </thead>
           <tbody>
             {displayedMembers.map((member) => (
-              <tr key={member._id} onClick={() => openForm(member)} className="border-t border-gray-300 cursor-pointer">
+              <tr
+                key={member._id}
+                onClick={() => openForm(member)}
+                className="border-t border-gray-300 cursor-pointer"
+              >
                 <td className="px-6 py-4 text-sm text-gray-900">
                   {member.lastName}
                 </td>
@@ -226,7 +231,6 @@ const MembersTable: React.FC = () => {
 
       <div className="flex justify-between mt-4">
         <button
-     
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
           className={`px-4 py-2 border rounded text-gray-300 ${
@@ -242,7 +246,9 @@ const MembersTable: React.FC = () => {
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === totalPages || totalPages === 0}
           className={`px-4 py-2 border rounded text-gray-300 ${
-            currentPage === totalPages || totalPages === 0 ? 'cursor-not-allowed opacity-50' : ''
+            currentPage === totalPages || totalPages === 0
+              ? 'cursor-not-allowed opacity-50'
+              : ''
           }`}
         >
           Next
@@ -261,6 +267,3 @@ const MembersTable: React.FC = () => {
 };
 
 export default MembersTable;
-
-
-
