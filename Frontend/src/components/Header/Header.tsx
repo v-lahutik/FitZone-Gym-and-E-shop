@@ -2,12 +2,14 @@ import Logo from "../../assets/images/Logo/fitzone_logo.png";
 import { IoCart } from "react-icons/io5";
 import DropdownMenu from "../../utils/DropdownMenu";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const Header: React.FC = () => {
   const menuItems = ["membership", "courses", "shop", "contact"];
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,7 +50,7 @@ const Header: React.FC = () => {
       <DropdownMenu menuItems={menuItems} />
       <div className="basis-1/4 flex justify-end">
         <div>
-          <button className="mt-3 rounded p-2 bg-primary text-white">
+          <button className="mt-3 rounded p-2 bg-primary text-white" onClick={()=>navigate('/login')}>
             LOGIN
           </button>
         </div>
