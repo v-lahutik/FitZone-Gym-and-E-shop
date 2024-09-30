@@ -1,6 +1,6 @@
 import express from 'express'
 import { registerValidation } from '../validators/user.validator'
-import { deleteUser, register, updateUser, getAllUsers } from '../controllers/admin.controller'
+import { deleteUser, register, updateUser, getAllUsers, fetchAllDatabase } from '../controllers/admin.controller'
 import { authenticateAndCheckRoles } from '../middlewares/authAndRoles'
 import {getAllCourseTemplates, createNewCourseTemplate, editCourseTemplate, deleteCourseTemplate} from '../controllers/courseTemplate.controller';
 import { addNewCourse, deleteCourse, editCourse, getAllCourses } from '../controllers/course.controller';
@@ -11,6 +11,9 @@ import { deleteOrder, getAllOrders, getOneOrder, updateOrderStatus } from '../co
 import { UserRole } from '../models/user.model';
 
 const adminRouter=express.Router()
+
+//get all data from DB
+adminRouter.get('/fetchAllDatabase', fetchAllDatabase)
 
 //edit Users
 adminRouter.get('/members', getAllUsers)
