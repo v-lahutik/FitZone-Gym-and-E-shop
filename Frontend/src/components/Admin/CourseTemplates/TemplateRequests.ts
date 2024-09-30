@@ -19,8 +19,9 @@ export const handleSaveNewTemplate = async (
         `${URL}/admin/courseTemplates/create`,
         localCourse,
         {
-          headers: { 'Content-Type': 'application/json' }
-        }
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        },
       );
       const { msg } = response.data;
       alert(msg || 'Course created successfully!');
@@ -45,7 +46,8 @@ export const handleUpdateTemplate = async (
           `${URL}/admin/courseTemplates/update/${localCourse._id}`,
           localCourse,
           {
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true, 
           }
         );
         const { msg } = response.data;
@@ -68,7 +70,8 @@ export const handleDeleteTemplate = async (template: CourseTemplate) => {
         const response = await axios.delete<ServerResponse>(
           `${URL}/admin/courseTemplates/delete/${template._id}`,
           {
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
           }
         );
         const { msg } = response.data;

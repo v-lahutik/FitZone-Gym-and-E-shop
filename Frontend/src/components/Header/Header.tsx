@@ -2,6 +2,7 @@ import Logo from "../../assets/images/Logo/fitzone_logo.png";
 import { IoCart } from "react-icons/io5";
 import DropdownMenu from "../../utils/DropdownMenu";
 import { useEffect, useState } from "react";
+import {Link} from 'react-router-dom';
 
 
 const Header: React.FC = () => {
@@ -48,9 +49,9 @@ const Header: React.FC = () => {
       <DropdownMenu menuItems={menuItems} />
       <div className="basis-1/4 flex justify-end">
         <div>
-          <button className="mt-3 rounded p-2 bg-primary text-white">
+           <Link to='/login'><button className="mt-3 rounded p-2 bg-primary text-white">
             LOGIN
-          </button>
+          </button></Link> 
         </div>
         <div className="ml-4 mt-5 textLink text-2xl sm:text-3xl">
           <IoCart />

@@ -50,9 +50,13 @@ const CourseTemplateDisplay: React.FC = () => {
     // Fetch course template data
     const fetchCourseTemplates = async () => {
       try {
-        const response = await axios.get(`${URL}/admin/courseTemplates`);
+        const response = await axios({
+          url: `${URL}/admin/courseTemplates`,
+          method: 'GET',
+          withCredentials: true
+        });
         const data = response.data.allTemplates;
-        console.log(data);
+        // console.log(data);
         setTemplates(data);
       } catch (error) {
         if (axios.isAxiosError(error)) {

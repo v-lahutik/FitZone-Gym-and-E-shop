@@ -55,6 +55,7 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
+    console.log(req.body)
     const { email, password } = req.body;
     
     if (!email || !password) {
@@ -84,6 +85,9 @@ export const login = async (
     res.cookie("token", token, {
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       httpOnly: true,
+      secure: false,
+      sameSite: 'none',
+      path: '/',
     });
 
     res.status(200).json({
