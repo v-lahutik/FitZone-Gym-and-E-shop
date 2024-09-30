@@ -2,11 +2,12 @@ import User from "../models/user.model";
 import Verify from "../models/verify.model";
 import { NextFunction, Request, Response } from "express";
 import { createToken } from "../utils/helper";
-import { createJwtToken } from "../utils/jwt";
+import { createJwtToken, verifyToken } from "../utils/jwt";
 import crypto from "crypto";
 import { sendVerificationEmail } from "../utils/helper";
 import { sendResetPasswordEmail } from "../utils/helper";
 import { CustomError, createError } from "../utils/helper";
+
 
 //verify account after registration
 export const verifyAccount = async (
@@ -218,6 +219,38 @@ export const resetPasswordHandler = async (req: Request, res: Response, next: Ne
     await Verify.deleteOne({ _id: verifyEntry._id });
 
     res.status(200).json({ message: "Password has been changed successfully!" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+//authenticate
+
+export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(400).json({ message: "Cookie does not exist or cookie expired" });
+    }
+
+    const token_payload = await verifyToken(token, process.env.JWT_SECRET as string);
+    const user = await User.findById(token_payload.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found or already deleted." });
+    }
+
+    res.status(200).json({
+      user: {
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        address: user.address,
+        membership: user.membership,
+        role: user.role
+      }
+    });
   } catch (error) {
     next(error);
   }
