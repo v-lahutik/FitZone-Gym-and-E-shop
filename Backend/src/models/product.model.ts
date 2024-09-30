@@ -8,10 +8,7 @@ export interface ProductInput {
   stock: number;
   image?: string;
 
-  
-  
 }
-
 
 
 export interface ProductDocument extends ProductInput, Document {

@@ -6,7 +6,9 @@ import {getAllCourseTemplates, createNewCourseTemplate, editCourseTemplate, dele
 import { addNewCourse, deleteCourse, editCourse, getAllCourses } from '../controllers/course.controller';
 import { addNewProduct, deleteProduct, editProduct} from '../controllers/product.controller'
 import { addNewCategory, deleteCategory } from '../controllers/category.controller';
-
+import { error } from 'console';
+import { deleteOrder, getAllOrders, getOneOrder, updateOrderStatus } from '../controllers/order.controller';
+import { UserRole } from '../models/user.model';
 
 const adminRouter=express.Router()
 
@@ -32,7 +34,16 @@ adminRouter.patch('/courses/edit/:cid',editCourse)
 adminRouter.post("/products/add", addNewProduct)
 adminRouter.patch("/products/edit/:pid",editProduct)
 adminRouter.delete("/products/delete/:pid",deleteProduct)
+
+//edit Categories
 adminRouter.post("/products/category/add",addNewCategory)
 adminRouter.delete("/products/category/delete/:pid",deleteCategory)
+
+//edit Orders
+adminRouter.get('/orders',getAllOrders)
+adminRouter.get('/orders/:oid',getOneOrder)
+adminRouter.patch('/orders/:oid',updateOrderStatus)
+adminRouter.delete('/orders/:oid',deleteOrder)
+
 
 export default adminRouter

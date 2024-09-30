@@ -32,8 +32,8 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         const newUser = new User({ firstName, lastName, email, address, membership, role });
         
         //create verification token and send verification email
-         const verificationToken: string = await createToken(newUser);
-         await sendVerificationEmail(newUser, verificationToken);
+       //  const verificationToken: string = await createToken(newUser);
+        // await sendVerificationEmail(newUser, verificationToken);
 
         await newUser.save();
         res.status(201).json({
@@ -55,14 +55,14 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     console.log('update user running');
     try {
-        const { firstName, lastName, email, address, membership, role ,is_activated} = req.body;
+        const { firstName, lastName, email, address, membership, role ,is_activated, cart} = req.body;
         const { uid } = req.params; 
 
-        if (!firstName || !lastName || !email || !address || !membership|| !role || !is_activated) {
+        if (!firstName || !lastName || !email || !address || !membership|| !role || !is_activated || !cart) {
             return res.status(400).json({ msg: 'Please fill all fields' });
         }
 
-        const user = await User.findByIdAndUpdate(uid, { firstName, lastName, email, address, membership, role , is_activated}, { new: true });
+        const user = await User.findByIdAndUpdate(uid, { firstName, lastName, email, address, membership, role , is_activated, cart}, { new: true });
 
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
