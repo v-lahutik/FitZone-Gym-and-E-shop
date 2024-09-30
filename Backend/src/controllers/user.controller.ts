@@ -86,7 +86,18 @@ export const login = async (
       httpOnly: true,
     });
 
-    res.status(200).json({ msg: "User login successful" });
+    res.status(200).json({
+    msg: "User login successful",
+    user: {
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      address: user.address,
+      membership: user.membership,
+      role: user.role
+  } },
+    );
   } catch (error: any) {
     next(error);
   }

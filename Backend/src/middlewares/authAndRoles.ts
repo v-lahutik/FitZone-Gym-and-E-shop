@@ -2,8 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import User from "../models/user.model";
 import { createError } from "../utils/helper";
 import { verifyToken } from "../utils/jwt";
+import { UserRole } from "../models/user.model";
 
-export const authenticateAndCheckRoles = (role: string) => {
+export const authenticateAndCheckRoles = (roles: UserRole[]) => {
   return async (req: Request & { payload?: any },res: Response,next: NextFunction) => {
     try {
       const token = req.cookies.token;
@@ -23,7 +24,7 @@ export const authenticateAndCheckRoles = (role: string) => {
       });
       }
       // To check the role
-      if (role !== user.role) {
+      if (!roles.includes(user.role as UserRole)) {
         return res.status(401).json({
           status: "failure",
           msg: "You are not authorized to perform this operation"
