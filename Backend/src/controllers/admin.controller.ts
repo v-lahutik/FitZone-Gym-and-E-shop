@@ -1,9 +1,13 @@
-import User from "../models/user.model";
 import { NextFunction, Request, Response } from 'express';
 import { sendVerificationEmail } from "../utils/helper";
 import { createJwtToken } from "../utils/jwt";
 import { createToken } from "../utils/helper";
-
+import User from "../models/user.model";
+import Category from "../models/category.model";
+import Product from "../models/product.model";
+import Order from "../models/order.model";
+import Course from "../models/course.model";
+import CourseTemplate from "../models/courseTemplate.model";
 
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
@@ -83,6 +87,23 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
         
         res.status(200).json({ msg: 'User deleted', user });
     } catch (error: any) {
+        next(error);
+    }
+}
+
+export const fetchAllDatabase = async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const [users, categories, products, orders, courses, courseTemplates] = await Promise.all([
+            User.find().select("-password -createdAt -updatedAt -__v"),
+            Category.find().select("-createdAt -updatedAt -__v"),
+            Product.find().select("-createdAt -updatedAt -__v"),
+            Order.find().select("-createdAt -updatedAt -__v"),
+            Course.find().select("-createdAt -updatedAt -__v"),
+            CourseTemplate.find().select("-createdAt -updatedAt -__v")
+        ])
+        res.status(200).json({users, categories, products, orders, courses, courseTemplates});
+
+    }catch(error: any){
         next(error);
     }
 }
