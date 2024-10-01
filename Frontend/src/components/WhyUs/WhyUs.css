@@ -1,0 +1,9 @@
+.whyUsBox {
+  position: relative;
+  width: 13rem;
+  height: 15rem;
+  border-radius: 20px;
+  color: white;
+  box-shadow: 0 0 10px rgba(242, 238, 238, 0.5);
+  margin: 50px auto;
+}
