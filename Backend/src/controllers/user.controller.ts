@@ -2,7 +2,7 @@ import User from "../models/user.model";
 import Verify from "../models/verify.model";
 import { NextFunction, Request, Response } from "express";
 import { createToken } from "../utils/helper";
-import { createJwtToken } from "../utils/jwt";
+import { createJwtToken, verifyToken } from "../utils/jwt";
 import crypto from "crypto";
 import { sendVerificationEmail } from "../utils/helper";
 import { sendResetPasswordEmail } from "../utils/helper";
@@ -55,8 +55,9 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
+    console.log(req.body);
     const { email, password } = req.body;
-    
+
     if (!email || !password) {
       return res.status(400).json({ msg: "Please fill all fields" });
     }
@@ -78,15 +79,25 @@ export const login = async (
     const token = await createJwtToken(
       { id: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET as string,
-      { expiresIn: '24h' } 
+      { expiresIn: "24h" }
     );
 
     res.cookie("token", token, {
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
     });
 
-    res.status(200).json({ msg: "User login successful" });
+    res.status(200).json({
+      msg: "User login successful",
+      user: {
+        _id: user._id,
+        firstName: user.firstName,
+        role: user.role,
+      },
+    });
   } catch (error: any) {
     next(error);
   }
@@ -97,17 +108,28 @@ export const logout = async (req: Request, res: Response) => {
 };
 
 //change password for logged in user
-export const changePassword = async (req: Request & { payload?: any }, res: Response, next: NextFunction) => {
+export const changePassword = async (
+  req: Request & { payload?: any },
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { currentPassword, newPassword, confirmPassword } = req.body;
     const userId = req.payload.id;
 
     if (!currentPassword || !newPassword || !confirmPassword) {
-      return res.status(400).json({ message: "Please provide current password, new password, and confirm password." });
+      return res
+        .status(400)
+        .json({
+          message:
+            "Please provide current password, new password, and confirm password.",
+        });
     }
 
     if (newPassword !== confirmPassword) {
-      return res.status(400).json({ message: "New password and confirm password do not match." });
+      return res
+        .status(400)
+        .json({ message: "New password and confirm password do not match." });
     }
 
     const user = await User.findById(userId);
@@ -117,7 +139,9 @@ export const changePassword = async (req: Request & { payload?: any }, res: Resp
 
     const isMatch = await user.comparePass(currentPassword);
     if (!isMatch) {
-      return res.status(400).json({ message: "Current password is incorrect." });
+      return res
+        .status(400)
+        .json({ message: "Current password is incorrect." });
     }
     user.password = newPassword;
     await user.save();
@@ -129,34 +153,49 @@ export const changePassword = async (req: Request & { payload?: any }, res: Resp
 };
 
 //forgot password - send reset password link to user's email
-export const forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
+export const forgotPassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { email } = req.body;
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "No user found with that email." });
+      return res
+        .status(404)
+        .json({ message: "No user found with that email." });
     }
 
-    const resetToken = await createToken(user); 
+    const resetToken = await createToken(user);
     console.log("reset token", resetToken);
 
-    await sendResetPasswordEmail(user, resetToken); 
-    res.status(200).json({ message: "Password reset link has been sent to your email." });
+    await sendResetPasswordEmail(user, resetToken);
+    res
+      .status(200)
+      .json({ message: "Password reset link has been sent to your email." });
   } catch (error) {
     next(error);
   }
 };
 
 //reset password - verify reset link and reset password
-export const verifyResetLink = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyResetLink = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { resetToken: token, uid: userId } = req.params;
 
   try {
-    const verifyEntry = await Verify.findOne({ token, userId, expiresAt: { $gt: Date.now() } });
+    const verifyEntry = await Verify.findOne({
+      token,
+      userId,
+      expiresAt: { $gt: Date.now() },
+    });
 
     if (!verifyEntry) {
-
       console.log("verifyEntry", verifyEntry);
       console.log("Token:", token);
       console.log("User ID:", userId);
@@ -179,12 +218,20 @@ export const verifyResetLink = async (req: Request, res: Response, next: NextFun
   }
 };
 
-// reset password and delete reset token from verify database 
-export const resetPasswordHandler = async (req: Request, res: Response, next: NextFunction) => {
+// reset password and delete reset token from verify database
+export const resetPasswordHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { token, uid: userId, newPassword, confirmPassword } = req.body; // Access from the form submission
 
-    const verifyEntry = await Verify.findOne({ token, userId, expiresAt: { $gt: Date.now() } });
+    const verifyEntry = await Verify.findOne({
+      token,
+      userId,
+      expiresAt: { $gt: Date.now() },
+    });
 
     if (!verifyEntry) {
       console.log("verifyEntry", verifyEntry);
@@ -198,15 +245,55 @@ export const resetPasswordHandler = async (req: Request, res: Response, next: Ne
       return res.status(404).json({ message: "User not found." });
     }
     if (newPassword !== confirmPassword) {
-      return res.status(400).json({ message: "New password and confirm password do not match." });
+      return res
+        .status(400)
+        .json({ message: "New password and confirm password do not match." });
     }
 
-    user.password = newPassword; 
+    user.password = newPassword;
     await user.save();
 
     await Verify.deleteOne({ _id: verifyEntry._id });
 
-    res.status(200).json({ message: "Password has been changed successfully!" });
+    res
+      .status(200)
+      .json({ message: "Password has been changed successfully!" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+//authenticate
+
+export const authenticate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(400)
+        .json({ message: "Cookie does not exist or cookie expired" });
+    }
+
+    const token_payload = await verifyToken(
+      token,
+      process.env.JWT_SECRET as string
+    );
+    const user = await User.findById(token_payload.id);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "User not found or already deleted." });
+    }
+
+    res.status(200).json({
+      _id: user._id,
+      firstName: user.firstName,
+      role: user.role,
+    });
   } catch (error) {
     next(error);
   }

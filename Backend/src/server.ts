@@ -12,6 +12,7 @@ import { authenticateAndCheckRoles } from './middlewares/authAndRoles';
 import { createWeeklyCourses } from './utils/setWeeklyCourse';
 import cron from 'node-cron'
 import { uploadImage, uploadMultipleImages } from './utils/cloudinaryUploader';
+import { UserRole } from './models/user.model';
 
 
 dotenv.config();
@@ -28,7 +29,7 @@ cron.schedule('0 6 * * 0', async()=>{
 
 // middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -36,8 +37,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // routers
 app.use('/users', userRouter)
-app.use('/admin', adminRouter)
 app.use('/products', productRouter)
+app.use('/admin', authenticateAndCheckRoles([UserRole.admin]), adminRouter)
 
 // error handlers
 app.use((req: Request, res: Response, next: NextFunction) => {

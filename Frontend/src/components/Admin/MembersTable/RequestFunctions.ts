@@ -19,8 +19,9 @@ export const handleUpdateUser = async (
           `${URL}/admin/members/update/${localMember._id}`,
           localMember,
           {
-            headers: { 'Content-Type': 'application/json' }
-          }
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true
+          },
         );
         const { msg } = response.data;
         alert(msg || 'Member information updated successfully!');
@@ -45,8 +46,9 @@ export const handleRegisterUser = async (
           `${URL}/admin/members/register`,
           localMember,
           {
-            headers: { 'Content-Type': 'application/json' }
-          }
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true
+          },
         );
         const { msg } = response.data;
         alert(msg || 'Member registered successfully!');
@@ -69,8 +71,9 @@ export const handleDeleteUser = async (
         const response = await axios.delete<ServerResponse>(
           `${URL}/admin/members/delete/${localMember._id}`,
           {
-            headers: { 'Content-Type': 'application/json' }
-          }
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true
+          },
         );
         const { msg } = response.data;
         alert(msg || 'Member information updated successfully!');

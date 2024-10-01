@@ -1,14 +1,19 @@
 import express from 'express'
 import { registerValidation } from '../validators/user.validator'
-import { deleteUser, register, updateUser, getAllUsers } from '../controllers/admin.controller'
+import { deleteUser, register, updateUser, getAllUsers, fetchAllDatabase } from '../controllers/admin.controller'
 import { authenticateAndCheckRoles } from '../middlewares/authAndRoles'
 import {getAllCourseTemplates, createNewCourseTemplate, editCourseTemplate, deleteCourseTemplate} from '../controllers/courseTemplate.controller';
 import { addNewCourse, deleteCourse, editCourse, getAllCourses } from '../controllers/course.controller';
 import { addNewProduct, deleteProduct, editProduct} from '../controllers/product.controller'
 import { addNewCategory, deleteCategory } from '../controllers/category.controller';
-
+import { error } from 'console';
+import { deleteOrder, getAllOrders, getOneOrder, updateOrderStatus } from '../controllers/order.controller';
+import { UserRole } from '../models/user.model';
 
 const adminRouter=express.Router()
+
+//get all data from DB
+adminRouter.get('/fetchAllDatabase', fetchAllDatabase)
 
 //edit Users
 adminRouter.get('/members', getAllUsers)
@@ -32,7 +37,16 @@ adminRouter.patch('/courses/edit/:cid',editCourse)
 adminRouter.post("/products/add", addNewProduct)
 adminRouter.patch("/products/edit/:pid",editProduct)
 adminRouter.delete("/products/delete/:pid",deleteProduct)
+
+//edit Categories
 adminRouter.post("/products/category/add",addNewCategory)
 adminRouter.delete("/products/category/delete/:pid",deleteCategory)
+
+//edit Orders
+adminRouter.get('/orders',getAllOrders)
+adminRouter.get('/orders/:oid',getOneOrder)
+adminRouter.patch('/orders/:oid',updateOrderStatus)
+adminRouter.delete('/orders/:oid',deleteOrder)
+
 
 export default adminRouter
