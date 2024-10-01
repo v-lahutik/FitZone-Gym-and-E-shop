@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { URL } from '../../utils/URL';
@@ -8,10 +8,13 @@ export default function Login() {
   const [user, setUser] = useState<User>({ email: '', password: '' });
   const [errors, setErrors] = useState<null | { [key: string]: string }>(null);
   const [beErr, setBeError] = useState(null);
-  // const [status, setStatus] = useState(false);  // I am not sure if this need ?
   const userContext = useContext(UserContext);
-
+  const authenticate = userContext?.authenticate || (()=> alert('authenticate function not found'));
   const login = userContext?.login || (()=> alert('login function not found'));
+
+  useEffect(() => {
+    authenticate();
+  }, []);
 
 
   interface User {

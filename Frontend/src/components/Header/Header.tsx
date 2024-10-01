@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const menuItems = ['membership', 'courses', 'shop', 'contact'];
-
+  const [loginOpen, setLoginOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -20,6 +20,7 @@ const Header: React.FC = () => {
   }, []);
 
   return (
+    
     <header
       className={`bg-blackColor2 flex items-center p-4 md:p-8 justify-between min-h-[50px] w-full transition-all duration-500 ${
         isScrolled &&
@@ -53,17 +54,18 @@ const Header: React.FC = () => {
       <DropdownMenu menuItems={menuItems} />
       <div className="basis-1/4 flex justify-end">
         <div>
-          <Link to="/login">
+   
             <button className="mt-3 rounded p-2 bg-primary text-white">
               LOGIN
             </button>
-          </Link>
+ 
         </div>
         <div className="ml-4 mt-5 textLink text-2xl sm:text-3xl">
           <IoCart />
         </div>
       </div>
     </header>
+
   );
 };
 

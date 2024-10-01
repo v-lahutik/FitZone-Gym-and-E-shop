@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext } from 'react';
+import { useState, createContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactNode } from 'react';
 import { URL } from '../utils/URL';
@@ -13,6 +13,7 @@ interface UserContextType {
   isLoggedIn: boolean;
   login: (userData: { _id: string; firstName: string; role: string }) => void;
   logout: () => void;
+  authenticate: () => void;
 }
 
 export const UserContext = createContext<UserContextType | null>(null);
@@ -30,41 +31,39 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    const authenticate = async () => {
-      try {
-        const response = await axios.get(`${URL}/users/authenticate`, {
-          withCredentials: true
+  //check for cookies to authenticate user
+  const authenticate = async () => {
+    try {
+      const response = await axios.get(`${URL}/users/authenticate`, {
+        withCredentials: true
+      });
+      if (response.status === 200) {
+        const userData = response.data;
+        setUser({
+          userName: userData.firstName,
+          _id: userData._id,
+          role: userData.role
         });
-        if (response.status === 200) {
-          const userData = response.data;
-          setUser({
-            userName: userData.firstName,
-            _id: userData._id,
-            role: userData.role
-          });
-          setIsLoggedIn(true);
-          console.log('userData:', userData);
-          console.log(user);
+        setIsLoggedIn(true);
+        console.log('userData:', userData);
+        console.log(user);
 
-          // redirect to the appropriate page based on the user's role
-          if (userData.role === 'Admin') {
-            navigate('/admin');
-          } else {
-            navigate('/member');
-          }
+        // redirect to the appropriate page based on the user's role
+        if (userData.role === 'Admin') {
+          navigate('/admin');
+        } else {
+          navigate('/member');
         }
-      } catch (error) {
-        console.log('error during authentication:', error);
-
-        // if the user is not authenticated, reset the user state
-        setUser({ _id: null, userName: null, role: null });
-        navigate('/');
-        setIsLoggedIn(false);
       }
-    };
-    authenticate();
-  }, [navigate]);
+    } catch (error) {
+      console.log('error during authentication:', error);
+
+      // if the user is not authenticated, reset the user state
+      setUser({ _id: null, userName: null, role: null });
+      navigate('/');
+      setIsLoggedIn(false);
+    }
+  };
 
   const login = (userData: {
     firstName: string;
@@ -102,7 +101,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, isLoggedIn, login, logout }}>
+    <UserContext.Provider
+      value={{ user, isLoggedIn, login, logout, authenticate }}
+    >
       {children}
     </UserContext.Provider>
   );
