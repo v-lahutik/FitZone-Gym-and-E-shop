@@ -40,14 +40,14 @@ function App() {
           }
         >
           <Route index element={<CourseTable />} />
-          <Route path="admin/courses">
-            <Route path="admin/courses/week" element={<CourseTable />} />
+          <Route path="courses">
+            <Route path="week" element={<CourseTable />} />
             <Route
-              path="admin/courses/templates"
+              path="templates"
               element={<CourseTemplateDisplay />}
             />
           </Route>
-          <Route path="admin/members" element={<MembersTable />} />
+          <Route path="members" element={<MembersTable />} />
           {/* <Route path="/shop" element={<AdminShop />} /> */}
         </Route>
       </Routes>

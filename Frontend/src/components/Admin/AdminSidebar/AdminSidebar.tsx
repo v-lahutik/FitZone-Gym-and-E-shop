@@ -130,7 +130,7 @@ export default function AdminSidebar({
                     <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                       <li>
                         <NavLink
-                          to="/admin/test"
+                          to="admin/test"
                           className="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                         >
                           Test
@@ -164,7 +164,7 @@ export default function AdminSidebar({
                     <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                       <li>
                         <NavLink
-                          to="courses/week"
+                          to="/admin/courses/week"
                           className="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                         >
                           Weekly Courses
@@ -172,7 +172,7 @@ export default function AdminSidebar({
                       </li>
                       <li>
                         <NavLink
-                          to="courses/templates"
+                          to="/admin/courses/templates"
                           className="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                         >
                           Courses Templates
