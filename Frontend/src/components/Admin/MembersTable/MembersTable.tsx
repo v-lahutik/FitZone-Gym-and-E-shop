@@ -39,7 +39,10 @@ const MembersTable: React.FC = () => {
     // Fetch members data
     const fetchMembers = async () => {
       try {
-        const response = await axios.get(`${URL}/admin/members`);
+        const response = await axios.get(`${URL}/admin/members`, {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        });
 
         // Sort the data by lastName
         const sortedData = response.data.sort((a: Member, b: Member) =>

@@ -4,21 +4,34 @@ import './layout.css';
 export default function AdminLayout() {
   return (
     <div className="bg-white">
-      <h1>Admin Dashboard</h1>
       {/* Navigation for admin sub-pages */}
-      <nav>
-        <ul>
-          <li>
-            <Link to="/admin/">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/admin/members">Menage Users</Link>
-          </li>
-          <li>
-            <Link to="/admin/courses">Menage Courses</Link>
-          </li>
-        </ul>
-      </nav>
+      <div className="header">ADMINHEADER</div>
+      <div className="sidebar">
+        {' '}
+        SIDEBAR
+        <nav>
+          <ul>
+            <li>
+              <Link to="/admin">Dashboard</Link>
+            </li>
+            <li>
+              <Link to="/admin/members">Manage Users</Link>
+            </li>
+            <li>
+              {/* Only sub-navigation links */}
+              <span>Courses</span>
+              <ul>
+                <li>
+                  <Link to="/admin/courses/week">Course Week</Link>
+                </li>
+                <li>
+                  <Link to="/admin/courses/templates">Course Templates</Link>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </div>
 
       {/* Renders the nested routes */}
       <Outlet />
