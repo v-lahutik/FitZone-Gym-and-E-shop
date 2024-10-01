@@ -3,12 +3,14 @@ import AdminPage from './pages/AdminPage/AdminPage.tsx';
 import { Route, Routes } from 'react-router-dom';
 import Login from './components/Auth/Login.tsx';
 import LandingPage from './pages/LandingPage/LandingPage.tsx';
-import MemberRoute from './components/Layouts/MemberRoute.tsx';
-import MemberLayout from './components/Layouts/MemberLayout.tsx';
-import AdminRoute from './components/Layouts/AdminRoute.tsx';
-import AdminLayout from './components/Layouts/AdminLayout.tsx';
+import MemberRoute from './Layouts/MemberRoute.tsx';
+import MemberLayout from './Layouts/MemberLayout.tsx';
+import AdminRoute from './Layouts/AdminRoute.tsx';
+import AdminLayout from './Layouts/AdminLayout.tsx';
 import CourseTable from './components/Admin/CourseTable/CourseTable.tsx';
 import MembersTable from './components/Admin/MembersTable/MembersTable.tsx';
+import Test from './pages/Test.tsx';
+import CourseTemplateDisplay from './components/Admin/CourseTemplates/CourseTemplateDisplay.tsx';
 
 function App() {
   return (
@@ -48,8 +50,13 @@ function App() {
         }
       >
         <Route path="" element={<AdminPage />} />
-        <Route path="courses" element={<CourseTable />} />
+        <Route path="courses" element={<CourseTable />}>
+          <Route path="courses/week" element={<CourseTable />} />
+          <Route path="courses/templates" element={<CourseTemplateDisplay />} />
+        </Route>
+
         <Route path="members" element={<MembersTable />} />
+        <Route path="test" element={<Test />} />
       </Route>
     </Routes>
   );

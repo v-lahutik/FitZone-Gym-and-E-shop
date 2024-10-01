@@ -6,7 +6,7 @@ import CourseTemplateDisplay from '../../components/Admin/CourseTemplates/Course
 const AdminPage: React.FC = () => {
   return (
     <div>
-      <Header menuItems={['Members', 'Courses', 'Shop', 'Dashboard']} />
+      {/* <Header menuItems={['Members', 'Courses', 'Shop', 'Dashboard']} /> */}
       {/* <MembersTable /> */}
       {/* <CourseTable /> */}
       <CourseTemplateDisplay />
