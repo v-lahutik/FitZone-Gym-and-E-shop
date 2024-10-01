@@ -40,7 +40,7 @@ export default function Login() {
     e.preventDefault();
     try {
       await loginSchema.validate(user, { abortEarly: false }); //validate user data
-      console.log(user);
+      console.log('LOGIN INFORMATION:', user);
 
       setErrors(null); // clear errors
       setBeError(null); // clear errors
@@ -52,8 +52,9 @@ export default function Login() {
         data: user,
         withCredentials: true
       });
-      console.log(res.data.user);
-      login(res.data.user); // login user
+  
+      const userData = res.data.user;
+      login(userData); // login user
 
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

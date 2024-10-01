@@ -31,48 +31,50 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    const authenticate = async () => {
-      try {
-        const response = await fetch(`${URL}/users/authenticate`, {
-          method: 'GET',
-          credentials: 'include'
-        });
-        if (response.ok) {
-          const userData = await response.json();
-          setUser({
-            userName: userData.firstName,
-            _id: userData._id,
-            role: userData.role
-          });
-          setIsLoggedIn(true);
-          console.log('userData:', userData);
-          console.log(user);
-          if (userData.role === 'Admin') navigate('/admin');
-          else navigate('/member');
-        } else {
-          setUser({ _id: null, userName: null, role: null });
-          navigate('/login');
-          setIsLoggedIn(false);
-        }
-      } catch (error) {
-        console.log('error during authentication:', error);
-      }
-    };
-    authenticate();
-  }, [navigate]);
+  // useEffect(() => {
+  //   const authenticate = async () => {
+  //     try {
+  //       const response = await fetch(`${URL}/users/authenticate`, {
+  //         method: 'GET',
+  //         credentials: 'include'
+  //       });
+  //       if (response.ok) {
+  //         const userData = await response.json();
+  //         setUser({
+  //           userName: userData.firstName,
+  //           _id: userData._id,
+  //           role: userData.role
+  //         });
+  //         setIsLoggedIn(true);
+  //         console.log('userData:', userData);
+  //         console.log(user);
+  //         if (userData.role === 'Admin') navigate('/admin');
+  //         else navigate('/member');
+  //       } else {
+  //         setUser({ _id: null, userName: null, role: null });
+  //         navigate('/login');
+  //         setIsLoggedIn(false);
+  //       }
+  //     } catch (error) {
+  //       console.log('error during authentication:', error);
+  //     }
+  //   };
+  //   authenticate();
+  // }, [navigate]);
 
   const login = (userData: {
     firstName: string;
     _id: string;
     role: string;
   }) => {
+    console.log('userData:', userData);
     const { firstName, _id, role } = userData;
     setUser({
       userName: firstName,
       _id: _id,
       role: role
     });
+    console.log(user);
     if (userData.role === 'Admin') navigate('/admin');
     else navigate('/member');
     setIsLoggedIn(true);

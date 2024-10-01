@@ -85,7 +85,7 @@ export const login = async (
     res.cookie("token", token, {
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: 'none',
       path: '/',
     });
@@ -95,10 +95,6 @@ export const login = async (
     user: {
       _id: user._id,
       firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      address: user.address,
-      membership: user.membership,
       role: user.role
   } },
     );
