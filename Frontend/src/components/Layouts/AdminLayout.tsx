@@ -1,12 +1,10 @@
 import { Outlet, Link } from 'react-router-dom';
 import './layout.css';
-import Dashboard from '../Dashboard/Dashboard';
 
 export default function AdminLayout() {
   return (
     <div className="bg-white">
       <h1>Admin Dashboard</h1>
-      <Dashboard />
       {/* Navigation for admin sub-pages */}
       <nav>
         <ul>
