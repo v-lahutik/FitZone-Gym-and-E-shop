@@ -144,20 +144,17 @@ export default function AdminSidebar({
               {/* <!-- Menu Item Dashboard --> */}
 
               {/* <!-- Menu Item Courses --> */}
-              <li>
-                <NavLink
-                  to="courses"
-                  onClick={toggleCourseSubmenu}
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
-                >
-                  <IoSchoolOutline />
-                  Courses
-                  <IoIosArrowDown
-                    className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                      isCourseSubmenuOpen && 'rotate-180'
-                    }`}
-                  />
-                </NavLink>
+              <li
+                onClick={toggleCourseSubmenu}
+                className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
+              >
+                <IoSchoolOutline />
+                Courses
+                <IoIosArrowDown
+                  className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
+                    isCourseSubmenuOpen && 'rotate-180'
+                  }`}
+                />
                 {isCourseSubmenuOpen && (
                   <div
                     className={`translate transform overflow-hidden ${

@@ -3,8 +3,14 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { URL } from '../../utils/URL';
 import { UserContext } from '../../context/UserContext';
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
-export default function Login() {
+
+interface LoginProps {
+  setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Login: React.FC<LoginProps> = ({setLoginOpen}) => {
   const [user, setUser] = useState<User>({ email: '', password: '' });
   const [errors, setErrors] = useState<null | { [key: string]: string }>(null);
   const [beErr, setBeError] = useState(null);
@@ -79,15 +85,8 @@ export default function Login() {
     }
   };
   return (
-    <div className="flex items-center justify-center h-[100vh]">
-      <div className="absolute inset-0">
-        <img
-          src="/src/assets/images/BG/testi_bg_1_1.png"
-          alt="image"
-          className="h-full w-full object-cover"
-        />
-      </div>
-      <div className=" w-full relative max-w-xl py-6 px-12  h-min bg-white rounded shadow-xl ">
+      <div className="z-30 w-full absolute max-w-md py-6 px-12  h-min bg-white rounded shadow-xl ">
+        <div onClick={() => setLoginOpen(false)} className="absolute cursor-pointer top-4 right-4 text-2xl "><IoMdCloseCircleOutline /></div>
         <h2 className="text-5xl font-semibold text-gray-800 text-center font-kanit mb-3">
           Login
         </h2>
@@ -146,6 +145,8 @@ export default function Login() {
           <p></p>
         )}
       </div>
-    </div>
+  
   );
 }
+
+export default Login;
