@@ -30,7 +30,6 @@ const CourseTable: React.FC = () => {
 
   return (
     <>
-    <CourseCard />
    
     <div className="overflow-x-auto p-4">
       <table className="min-w-full table-fixed border-collapse border border-gray-300">
