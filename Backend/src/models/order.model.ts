@@ -79,4 +79,5 @@ const orderSchema = new Schema<OrderDocument>({
 }, { timestamps: true });
 
 
-export const Order = model<OrderDocument>('Order', orderSchema);
+const Order = model<OrderDocument>('Order', orderSchema);
+export default Order;
