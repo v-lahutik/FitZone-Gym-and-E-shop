@@ -1,5 +1,5 @@
 import React from 'react';
-import Yoga from '../../../assets/images//Courses/yoga.jpg';
+import Yoga from '../../assets/images/Courses/yoga.jpg';
 import { FaRegClock } from 'react-icons/fa';
 import { FaHeartPulse } from 'react-icons/fa6';
 import { ImUsers } from 'react-icons/im';

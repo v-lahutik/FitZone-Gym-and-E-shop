@@ -59,7 +59,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
         // if the user is not authenticated, reset the user state
         setUser({ _id: null, userName: null, role: null });
-        navigate('/login');
+        navigate('/');
         setIsLoggedIn(false);
       }
     };
