@@ -3,6 +3,16 @@
 // // import CourseTable from '../../components/Admin/CourseTable/CourseTable';
 // import CourseTemplateDisplay from '../../components/Admin/CourseTemplates/CourseTemplateDisplay';
 
+const AdminPage: React.FC = () => {
+  return (
+    <div>
+      {/* <Header menuItems={['Members', 'Courses', 'Shop', 'Dashboard']} /> */}
+      {/* <MembersTable /> */}
+      {/* <CourseTable /> */}
+      <CourseTemplateDisplay />
+    </div>
+  );
+};
 // const AdminPage: React.FC = () => {
 //   return (
 //     <div>
