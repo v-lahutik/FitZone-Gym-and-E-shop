@@ -39,7 +39,7 @@ function App() {
             </AdminRoute>
           }
         >
-          <Route index element={<MembersTable />} />
+          <Route index element={<CourseTable />} />
           <Route path="admin/courses">
             <Route path="admin/courses/week" element={<CourseTable />} />
             <Route

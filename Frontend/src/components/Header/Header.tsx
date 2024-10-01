@@ -2,11 +2,13 @@ import Logo from '../../assets/images/Logo/fitzone_logo.png';
 import { IoCart } from 'react-icons/io5';
 import DropdownMenu from '../../utils/DropdownMenu';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
   const menuItems = ['membership', 'courses', 'shop', 'contact'];
-
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -53,11 +55,12 @@ const Header: React.FC = () => {
       <DropdownMenu menuItems={menuItems} />
       <div className="basis-1/4 flex justify-end">
         <div>
-          <Link to="/login">
-            <button className="mt-3 rounded p-2 bg-primary text-white">
-              LOGIN
-            </button>
-          </Link>
+          <button
+            onClick={() => setLoginOpen(true)}
+            className="mt-3 rounded p-2 bg-primary text-white"
+          >
+            LOGIN
+          </button>
         </div>
         <div className="ml-4 mt-5 textLink text-2xl sm:text-3xl">
           <IoCart />
