@@ -23,11 +23,6 @@ interface UserProviderProps {
   children: ReactNode;
 }
 
-
-
-
-
-
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<{
     _id: string | null;
