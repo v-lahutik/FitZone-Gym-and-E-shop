@@ -1,6 +1,5 @@
 // import AdminPage from './pages/AdminPage/AdminPage.tsx';
 import { Route, Routes } from 'react-router-dom';
-import Login from './components/Auth/Login.tsx';
 import LandingPage from './pages/LandingPage/LandingPage.tsx';
 import MemberRoute from './Layouts/MemberRoute.tsx';
 import MemberLayout from './Layouts/MemberLayout.tsx';
@@ -19,7 +18,6 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
 
         {/* Private Routes for Members */}
         <Route
