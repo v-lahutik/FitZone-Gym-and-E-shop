@@ -182,13 +182,6 @@ const CourseTable: React.FC = () => {
                               </p>
                             </div>
                           </td>
-                          {/* {isCardOpen && currentCourse && (
-                            <CourseCardDisplay
-                              course={currentCourse}
-                              closeCard={closeCard}
-                              setCurrentCourse={setCurrentCourse}
-                            />
-                          )} */}
                         </>
                       );
                     }
