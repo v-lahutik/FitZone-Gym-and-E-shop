@@ -12,6 +12,7 @@ import { UserProvider } from './context/UserContext.tsx';
 import CourseTemplateDisplay from './components/Admin/CourseTemplates/CourseTemplateDisplay.tsx';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
 import UserProfile from './components/Members/UserProfile.tsx';
+import Orders from './components/Members/Orders.tsx';
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
           }
         >
           <Route index element={<UserProfile />} />
+          <Route path="orders" element={<Orders />} />
+
         </Route>
 
         {/* Admin Routes */}
