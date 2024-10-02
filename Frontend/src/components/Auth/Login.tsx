@@ -22,6 +22,7 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+
     console.log('Login re-render');
     console.log('isLoggedIn:', userContext?.isLoggedIn);
     if (!userContext?.isLoggedIn) {
@@ -37,6 +38,8 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
         navigate('/member');
       }
   }, [userContext?.isLoggedIn]);
+
+
 
   interface User {
     email: string;
