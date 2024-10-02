@@ -49,7 +49,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
           // redirect to the appropriate page based on the user's role
           if (userData.role === 'Admin') {
-            navigate('/admin');
+            // navigate('/admin');
           } else {
             navigate('/member');
           }

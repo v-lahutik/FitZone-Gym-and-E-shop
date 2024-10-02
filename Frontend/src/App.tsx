@@ -10,6 +10,7 @@ import CourseTable from './components/Admin/CourseTable/CourseTable.tsx';
 import MembersTable from './components/Admin/MembersTable/MembersTable.tsx';
 import { UserProvider } from './context/UserContext.tsx';
 import CourseTemplateDisplay from './components/Admin/CourseTemplates/CourseTemplateDisplay.tsx';
+import CourseDisplay from './components/Admin/CourseTable/CourseCardDisplay.tsx';
 
 function App() {
   return (
@@ -39,7 +40,7 @@ function App() {
             </AdminRoute>
           }
         >
-          <Route index element={<MembersTable />} />
+          <Route index element={<CourseTable />} />
           <Route path="admin/courses">
             <Route path="admin/courses/week" element={<CourseTable />} />
             <Route

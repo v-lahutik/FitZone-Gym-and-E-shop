@@ -1,18 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { courseData } from '../../DummyData/courses';
 import { weekdays, timeSlots } from './TimeSlots.ts';
+import CourseCardDisplay from './CourseCardDisplay.tsx';
+import axios from 'axios';
+import { URL } from '../../../utils/URL.ts';
 
-interface Course {
-  name: string;
-  category: string[];
-  weekday: string;
-  time: { start: string; end: string };
-  maxParticipants: number;
+// interface Course {
+//   name: string;
+//   category: string[];
+//   weekday: string;
+//   time: { start: string; end: string };
+//   maxParticipants: number;
+//   description: string;
+//   instructor: string;
+// }
+
+export interface Course {
+  courseName: string;
   description: string;
   instructor: string;
+  date:string;
+  time: {
+    start: string;
+    end: string;
+  };
+  weekday:
+    | 'Monday'
+    | 'Tuesday'
+    | 'Wednesday'
+    | 'Thursday'
+    | 'Friday'
+    | 'Saturday'
+    | 'Sunday';
+  maxParticipants: number;
+  participants: []
+  category: ('Flexibility' | 'Strength' | 'Cardio')[]; //takes 1 or more values in an array
+  _id: string;
 }
 
-const courses: Course[] = courseData;
+// const courses: Course[] = courseData;
+
 
 
 const CourseTable: React.FC = () => {
@@ -26,9 +53,36 @@ const CourseTable: React.FC = () => {
 
   //create a set to keep track of already spanned rows (so we don't render them again)
   const spannedCells = new Set<string>();
+  const [courses,setCourses] = useState<Course[]>([])
+  useEffect(() => {
+    // Fetch course template data
+    const fetchCourses = async () => {
+      try {
+        const response = await axios({
+          url: `${URL}/admin/courses`,
+          method: 'GET',
+          withCredentials: true
+        });
+        const data = response.data.allCourses;
+        console.log(data);
+        setCourses(data);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error(
+            'Error fetching courseTemplates data',
+            error.response?.data
+          );
+        } else {
+          console.error('Unexpected error', error);
+        }
+      }
+    };
 
+    fetchCourses();
+  }, []);
   return (
     <div className="overflow-x-auto p-4">
+      <CourseCardDisplay />
       <table className="min-w-full table-fixed border-collapse border border-gray-300">
         <thead>
           <tr>
@@ -95,7 +149,7 @@ const CourseTable: React.FC = () => {
                       >
                         <div className="bg-white shadow rounded-lg p-2">
                           <h3 className="text-sm font-semibold text-primary">
-                            {courseForSlot.name}
+                            {courseForSlot.courseName}
                           </h3>
                           <p className="text-xs hidden lg:block">
                             Instructor: {courseForSlot.instructor}
