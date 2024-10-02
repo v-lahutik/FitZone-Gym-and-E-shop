@@ -52,6 +52,7 @@ export interface UserInput {
   address: AddressInput
   membership: string,
   role: string;
+  profilePic?: string;
 }
 
 export interface UserDocument extends UserInput, Document {
@@ -99,6 +100,10 @@ const userSchema = new Schema<UserDocument>({
     type: String,
     enum: Object.values(UserRole),
     default: UserRole.member,
+  },
+  profilePic: {
+    type: String,
+    default: "https://res.cloudinary.com/dqwwj6av8/image/upload/v1727783301/uws5sujdjwjpvxj2ksdg.png",
   },
   is_activated: {
     type: Boolean,
