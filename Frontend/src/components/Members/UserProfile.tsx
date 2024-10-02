@@ -175,7 +175,6 @@ const handleChangePassword = async (e: React.FormEvent) => {
       <div className="p-4 border-t mx-8 mt-2">
         <button className="w-1/2 block mx-auto rounded-full bg-gray-900 hover:shadow-lg font-semibold text-white px-6 py-2" onClick={() => setIsModalOpen(true)}>Change Password</button>
       </div>
-
       {isModalOpen && (
   <div className="fixed inset-0 flex items-center justify-center z-50">
     <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative"> 
@@ -189,66 +188,81 @@ const handleChangePassword = async (e: React.FormEvent) => {
       </button>
       
       <h2 className="text-lg font-semibold">Change Password</h2>
-      {errorMessages.length > 0 && (
-        <ul className="text-red-500">
-          {errorMessages.map((msg, index) => (
-            <li key={index}>{msg}</li> // Display each error on a new line
-          ))}
-        </ul>
-      )}
+
+      {/* Success Message */}
       {successMessage && <p className="text-green-500">{successMessage}</p>} 
-            <form onSubmit={handleChangePassword}>
-              <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700">Current Password</label>
-                <input
-                  type="password"
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                  required
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                />
-              </div>
-              <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700">New Password</label>
-                <input
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  required
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                />
-              </div>
-              <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700">Confirm New Password</label>
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                />
-              </div>
-              <div className="mt-6">
-                <button
-                  type="submit"
-                  className="w-full bg-gray-900 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded"
-                >
-                  Change Password
-                </button>
-              </div>
-              <div className="mt-4 text-center">
-                <button
-                  type="button"
-                  className="text-gray-500 underline"
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
+
+      <form onSubmit={handleChangePassword}>
+
+        
+        <div className="mt-4">
+          <label className="block text-sm font-medium text-gray-700">Current Password</label>
+          <input
+            type="password"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            required
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+          />
+
+{errorMessages.length > 0 && errorMessages[0].includes("Current password") && (
+          <p className="block text-sm font-medium text-red-500 mt-2">{errorMessages[0]}</p>
+        )}
         </div>
-      )}
+
+       
+        <div className="mt-4">
+          <label className="block text-sm font-medium text-gray-700">New Password</label>
+       
+        <input
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+          /> 
+ {/* Display the first error for new password */}
+ {errorMessages.length > 0 && errorMessages[0].includes("New password" ) && (
+          <p className="block text-sm font-medium text-red-500 mt-2">{errorMessages[0]}</p> 
+        )} 
+        </div>
+
+        <div className="mt-4">
+          <label className="block text-sm font-medium text-gray-700">Confirm New Password</label>
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+          />
+           {errorMessages.length > 0 && (errorMessages[0].includes("Please confirm") || errorMessages[0].includes("Passwords do not match"))  && (
+          <p className="block text-sm font-medium text-red-500 mt-2">{errorMessages[0]}</p>
+        )}
+        </div>
+
+        <div className="mt-6">
+          <button
+            type="submit"
+            className="w-full bg-gray-900 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded"
+          >
+            Change Password
+          </button>
+        </div>
+        <div className="mt-4 text-center">
+          <button
+            type="button"
+            className="text-gray-500 underline"
+            onClick={() => setIsModalOpen(false)}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

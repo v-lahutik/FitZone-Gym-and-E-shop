@@ -19,6 +19,7 @@ const Login: React.FC<LoginProps> = ({setLoginOpen}) => {
   const login = userContext?.login || (()=> alert('login function not found'));
 
   useEffect(() => {
+    console.log("authenticating");
     authenticate();
   }, []);
 
