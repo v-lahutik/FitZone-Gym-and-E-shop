@@ -89,7 +89,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   const logout = async () => {
     try {
-      const response = await fetch(`${URL}/logout`, {
+      const response = await fetch(`${URL}/users/logout`, {
         method: 'POST',
         credentials: 'include'
       });
