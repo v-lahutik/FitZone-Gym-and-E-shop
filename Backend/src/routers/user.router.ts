@@ -1,5 +1,5 @@
 import express from "express";
-import { authenticate, changePassword, forgotPassword, login, logout, resetPasswordHandler, verifyAccount, verifyResetLink } from "../controllers/user.controller";
+import { authenticate, changePassword, forgotPassword, login, logout, profileData, resetPasswordHandler, verifyAccount, verifyResetLink } from "../controllers/user.controller";
 import { changePasswordValidation, loginValidation, resetPasswordValidation } from "../validators/user.validator";
 import { validateRequest } from "../middlewares/validationMiddleware";
 import { bookingCourse, cancelBooking } from "../controllers/booking.controller";
@@ -11,11 +11,13 @@ import { UserRole } from "../models/user.model";
 
 const userRouter =express.Router();
 
+
 //verify account /login/ logout
 userRouter.get('/verify/:verifyToken/:uid', verifyAccount)
 userRouter.post('/login',loginValidation, validateRequest, login)
 userRouter.post('/logout', logout)
 userRouter.get('/authenticate', authenticate)
+userRouter.get('/profile',authenticateAndCheckRoles([UserRole.admin, UserRole.member]),profileData)
 
 //password change
 userRouter.post('/changePassword',authenticateAndCheckRoles([UserRole.admin, UserRole.member]),changePasswordValidation,validateRequest, changePassword);

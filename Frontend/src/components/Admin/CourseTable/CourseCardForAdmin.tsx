@@ -5,16 +5,21 @@ import { FaHeartPulse } from 'react-icons/fa6';
 import { ImUsers } from 'react-icons/im';
 import { FaEdit } from 'react-icons/fa';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
-import { Course } from './CourseCardDisplay';
 import { handleDeleteCourse } from './CourseRequest';
+import { Course } from './CourseTable';
 
 interface CourseCardForAdminProps {
   course: Course;
   openForm: (course: Course) => void;
+  closeCard: (course: Course) => void;
   setCurrentCourse: React.Dispatch<React.SetStateAction<Course | null>>;
 }
 
-const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({ course, openForm }) => {
+const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
+  course,
+  openForm,
+  closeCard
+}) => {
   return (
     <>
       <div className="w-[280px] m-auto text-white border border-gray-300 rounded-lg p-2 bg-blight shadow-xl">
@@ -23,7 +28,9 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({ course, openFor
           src={Yoga}
           className="h-56 w-full rounded-md object-cover"
         />
-
+        <button onClick={() => closeCard(course)} className="text-red-500">
+          Close
+        </button>
         <div className="mt-2">
           <div className="flex justify-between">
             <div>
@@ -32,7 +39,9 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({ course, openFor
               </div>
 
               <div>
-                <dd className="font-medium text-primary">{course.courseName}</dd>
+                <dd className="font-medium text-primary">
+                  {course.courseName}
+                </dd>
               </div>
             </div>
             <div className="inline-flex shrink-0 items-center gap-2 text-gray-600">
@@ -51,9 +60,11 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({ course, openFor
               <FaRegClock className="text-lg" />
 
               <div className="mt-1.5 sm:mt-0">
-                <p className="text-gray-500">{course.date.slice(0,10)}</p>
+                <p className="text-gray-500">{course.date.slice(0, 10)}</p>
                 <p className="text-gray-500">{course.weekday}</p>
-                <p className="font-medium">{course.time.start} - {course.time.end}</p>
+                <p className="font-medium">
+                  {course.time.start} - {course.time.end}
+                </p>
               </div>
             </div>
 
@@ -63,15 +74,23 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({ course, openFor
               <div className="mt-1.5 sm:mt-0">
                 <p className="text-gray-500">Participants</p>
 
-                <p className="font-medium">{course.participants.length}/{course.maxParticipants}</p>
+                <p className="font-medium">
+                  {course.participants.length}/{course.maxParticipants}
+                </p>
               </div>
             </div>
           </div>
           <div className="m-2 flex justify-around">
-            <button onClick={() => openForm(course)} className="p-3 mx-3 rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 hover:text-white focus:outline-none focus:ring active:text-opacity-75">
+            <button
+              onClick={() => openForm(course)}
+              className="p-3 mx-3 rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+            >
               <FaEdit />
             </button>
-            <button onClick={() => handleDeleteCourse(course)} className="p-3 mx-3 rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 hover:text-white focus:outline-none focus:ring active:text-opacity-75">
+            <button
+              onClick={() => handleDeleteCourse(course)}
+              className="p-3 mx-3 rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+            >
               <RiDeleteBin6Fill />
             </button>
           </div>

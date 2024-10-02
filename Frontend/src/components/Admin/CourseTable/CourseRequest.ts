@@ -1,7 +1,8 @@
 
 import axios, { AxiosError } from 'axios';
 import { URL } from '../../../utils/URL';
-import { Course } from './CourseCardDisplay';
+import { Course } from './CourseTable';
+
 
 interface ServerResponse {
   msg: string;

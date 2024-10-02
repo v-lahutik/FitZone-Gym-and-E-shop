@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { UserContext } from '../../context/UserContext.tsx';
+import { UserContext } from '../context/UserContext.tsx';
 
 export default function AdminRoute({ children }: { children: JSX.Element }) {
   const userContext = useContext(UserContext);

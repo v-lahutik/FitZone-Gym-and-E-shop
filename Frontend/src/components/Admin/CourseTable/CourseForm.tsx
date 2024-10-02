@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Course } from './CourseCardDisplay';
 import { weekdays, timeSlots } from '../CourseTable/TimeSlots';
 import { handleSaveNewCourse, handleUpdateCourse } from './CourseRequest';
+import { Course } from './CourseTable';
 
 interface CourseFormProps {
   course: Course | null;

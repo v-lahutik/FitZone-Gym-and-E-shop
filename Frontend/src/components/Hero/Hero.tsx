@@ -1,11 +1,11 @@
 import './Hero.css';
 
-export default function Hero() {
+const Hero: React.FC = () => {
   return (
     <>
       <section
         id="hero-section"
-        className="hero bg-cover bg-center flex items-center lg:items-end" 
+        className="hero bg-cover bg-center flex items-center lg:items-end"
         style={{
           backgroundImage: "url('/src/assets/images/Hero/background_hero.png')"
         }}
@@ -42,4 +42,6 @@ export default function Hero() {
       </section>
     </>
   );
-}
+};
+
+export default Hero;
