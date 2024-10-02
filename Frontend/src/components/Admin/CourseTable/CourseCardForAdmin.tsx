@@ -22,17 +22,15 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
 }) => {
   return (
     <>
-      <div className="w-[280px] m-auto text-white border border-gray-300 rounded-lg p-2 bg-blight shadow-xl">
+      <div className="w-[320px] m-auto text-white border border-gray-300 rounded-lg p-2 bg-blight shadow-xl">
         <img
           alt=""
           src={Yoga}
           className="h-56 w-full rounded-md object-cover"
         />
-        <button onClick={() => closeCard(course)} className="text-red-500">
-          Close
-        </button>
+        
         <div className="mt-2">
-          <div className="flex justify-between">
+          <div className="flex justify-around">
             <div>
               <div>
                 <p className="text-sm text-gray-500">{course.instructor}</p>
@@ -73,28 +71,30 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
 
               <div className="mt-1.5 sm:mt-0">
                 <p className="text-gray-500">Participants</p>
-
                 <p className="font-medium">
                   {course.participants.length}/{course.maxParticipants}
                 </p>
               </div>
             </div>
           </div>
-          <div className="m-2 flex justify-around">
+          <div className="my-4 flex justify-around">
             <button
               onClick={() => openForm(course)}
-              className="p-3 mx-3 rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+              className="py-3 px-5 mx-3 rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
             >
               <FaEdit />
             </button>
             <button
               onClick={() => handleDeleteCourse(course)}
-              className="p-3 mx-3 rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+              className="py-3 px-5 mx-3 rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
             >
               <RiDeleteBin6Fill />
             </button>
           </div>
         </div>
+        <button onClick={() => closeCard(course)} className="text-red-500">
+          X Close
+        </button>
       </div>
     </>
   );

@@ -167,7 +167,7 @@ const CourseTable: React.FC = () => {
                           >
                             <div
                               onClick={() => openCard(courseForSlot)}
-                              className="bg-white shadow rounded-lg p-2"
+                              className="bg-white shadow rounded-lg p-2 hover:cursor-pointer hover:bg-red-100 duration-300 ease-in-out"
                             >
                               <h3 className="text-sm font-semibold text-primary">
                                 {courseForSlot.courseName}
