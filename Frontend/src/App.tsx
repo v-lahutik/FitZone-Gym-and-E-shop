@@ -10,6 +10,7 @@ import CourseTable from './components/Admin/CourseTable/CourseTable.tsx';
 import MembersTable from './components/Admin/MembersTable/MembersTable.tsx';
 import { UserProvider } from './context/UserContext.tsx';
 import CourseTemplateDisplay from './components/Admin/CourseTemplates/CourseTemplateDisplay.tsx';
+import Dashboard from './components/Dashboard/Dashboard.tsx';
 
 function App() {
   return (
@@ -39,15 +40,15 @@ function App() {
             </AdminRoute>
           }
         >
-          <Route index element={<CourseTable />} />
-          <Route path="admin/courses">
-            <Route path="admin/courses/week" element={<CourseTable />} />
+          <Route index element={<Dashboard />} />
+          <Route path="courses">
+            <Route path="week" element={<CourseTable />} />
             <Route
-              path="admin/courses/templates"
+              path="templates"
               element={<CourseTemplateDisplay />}
             />
           </Route>
-          <Route path="admin/members" element={<MembersTable />} />
+          <Route path="members" element={<MembersTable />} />
           {/* <Route path="/shop" element={<AdminShop />} /> */}
         </Route>
       </Routes>
