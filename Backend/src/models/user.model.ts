@@ -103,7 +103,7 @@ const userSchema = new Schema<UserDocument>({
   },
   profilePic: {
     type: String,
-    default: "https://res.cloudinary.com/dqwwj6av8/image/upload/v1727783301/uws5sujdjwjpvxj2ksdg.png",
+    default: "https://i.pinimg.com/736x/c5/ab/41/c5ab41e3f9766798af79b40d535f45e0.jpg",
   },
   is_activated: {
     type: Boolean,
