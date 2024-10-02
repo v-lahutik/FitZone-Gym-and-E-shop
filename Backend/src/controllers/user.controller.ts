@@ -8,6 +8,33 @@ import { sendVerificationEmail } from "../utils/helper";
 import { sendResetPasswordEmail } from "../utils/helper";
 import { CustomError, createError } from "../utils/helper";
 
+//profile data
+export const profileData = async (
+  req: Request & { payload?: any },
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.payload.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+    res.status(200).json({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      address: user.address,
+      role: user.role,
+      membership: user.membership,
+      profilePic: user.profilePic,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 //verify account after registration
 export const verifyAccount = async (
   req: Request,

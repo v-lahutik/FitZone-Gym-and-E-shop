@@ -1,6 +1,5 @@
 // import AdminPage from './pages/AdminPage/AdminPage.tsx';
 import { Route, Routes } from 'react-router-dom';
-import Login from './components/Auth/Login.tsx';
 import LandingPage from './pages/LandingPage/LandingPage.tsx';
 import MemberRoute from './Layouts/MemberRoute.tsx';
 import MemberLayout from './Layouts/MemberLayout.tsx';
@@ -11,6 +10,7 @@ import MembersTable from './components/Admin/MembersTable/MembersTable.tsx';
 import { UserProvider } from './context/UserContext.tsx';
 import CourseTemplateDisplay from './components/Admin/CourseTemplates/CourseTemplateDisplay.tsx';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
+import UserProfile from './components/Members/UserProfile.tsx';
 
 function App() {
   return (
@@ -18,7 +18,6 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
 
         {/* Private Routes for Members */}
         <Route
@@ -28,7 +27,9 @@ function App() {
               <MemberLayout />
             </MemberRoute>
           }
-        ></Route>
+        >
+          <Route index element={<UserProfile />} />
+        </Route>
 
         {/* Admin Routes */}
 
