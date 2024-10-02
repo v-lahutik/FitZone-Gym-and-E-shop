@@ -1,4 +1,4 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactNode } from 'react';
 import { URL } from '../utils/URL';
@@ -19,8 +19,14 @@ interface UserContextType {
 export const UserContext = createContext<UserContextType | null>(null);
 
 interface UserProviderProps {
+  authenticate: () => void;
   children: ReactNode;
 }
+
+
+
+
+
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<{
@@ -32,39 +38,42 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   //check for cookies to authenticate user
-  const authenticate = async () => {
-    try {
-      const response = await axios.get(`${URL}/users/authenticate`, {
-        withCredentials: true
-      });
-      if (response.status === 200) {
-        const userData = response.data;
-        setUser({
-          userName: userData.firstName,
-          _id: userData._id,
-          role: userData.role
+
+    const authenticate = async () => {
+      console.log('authenticating user');
+      try {
+        const response = await axios.get(`${URL}/users/authenticate`, {
+          withCredentials: true
         });
-        setIsLoggedIn(true);
-        console.log('userData:', userData);
-        console.log(user);
-
-        // redirect to the appropriate page based on the user's role
-        if (userData.role === 'Admin') {
-          navigate('/admin');
-        } else {
-          navigate('/member');
+        if (response.status === 200) {
+          const userData = response.data;
+          setUser({
+            userName: userData.firstName,
+            _id: userData._id,
+            role: userData.role
+          });
+          setIsLoggedIn(true);
+          console.log('userData:', userData);
+          console.log('user:', user);
+          const currentPath = window.location.pathname;
+          console.log('currentPath:', currentPath);
+       
         }
+      } catch (error) {
+        console.log('error during authentication:', error);
+    
+        // if the user is not authenticated, reset the user state
+        setUser({ _id: null, userName: null, role: null });
+        navigate('/');
+        setIsLoggedIn(false);
       }
-    } catch (error) {
-      console.log('error during authentication:', error);
+    };
 
-      // if the user is not authenticated, reset the user state
-      setUser({ _id: null, userName: null, role: null });
-      navigate('/');
-      setIsLoggedIn(false);
-    }
-  };
+    useEffect(() => { authenticate(); }, []);
 
+
+
+  
   const login = (userData: {
     firstName: string;
     _id: string;

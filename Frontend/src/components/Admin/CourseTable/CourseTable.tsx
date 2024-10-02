@@ -89,7 +89,7 @@ const CourseTable: React.FC = () => {
                     for (let i = startIndex; i < endIndex; i++) {
                       spannedCells.add(`${day}-${i}`);
                     }
-
+                            
                     return (
                       <td
                         key={`${day}-${slot}`}
@@ -100,6 +100,7 @@ const CourseTable: React.FC = () => {
                           <h3 className="text-sm font-semibold text-primary">
                             {courseForSlot.name}
                           </h3>
+                        
                           <p className="text-xs hidden lg:block">
                             Instructor: {courseForSlot.instructor}
                           </p>
