@@ -11,6 +11,7 @@ import MembersTable from './components/Admin/MembersTable/MembersTable.tsx';
 import { UserProvider } from './context/UserContext.tsx';
 import CourseTemplateDisplay from './components/Admin/CourseTemplates/CourseTemplateDisplay.tsx';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
+import UserProfile from './components/Members/UserProfile.tsx';
 
 function App() {
   return (
@@ -28,7 +29,9 @@ function App() {
               <MemberLayout />
             </MemberRoute>
           }
-        ></Route>
+        >
+          <Route index element={<UserProfile />} />
+        </Route>
 
         {/* Admin Routes */}
 
