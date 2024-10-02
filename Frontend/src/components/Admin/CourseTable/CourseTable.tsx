@@ -1,6 +1,7 @@
 import React from 'react';
 import { courseData } from '../../DummyData/courses';
 import { weekdays, timeSlots } from './TimeSlots.ts';
+import CourseCard from '../../Members/CourseCard.tsx';
 
 interface Course {
   name: string;
@@ -28,6 +29,8 @@ const CourseTable: React.FC = () => {
   const spannedCells = new Set<string>();
 
   return (
+    <>
+   
     <div className="overflow-x-auto p-4">
       <table className="min-w-full table-fixed border-collapse border border-gray-300">
         <thead>
@@ -121,7 +124,7 @@ const CourseTable: React.FC = () => {
         </tbody>
       </table>
    
-    </div>
+    </div> </>
   );
 };
 
