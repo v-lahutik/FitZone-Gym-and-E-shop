@@ -4,7 +4,8 @@ import { CiMenuBurger } from 'react-icons/ci';
 import { CiSearch } from 'react-icons/ci';
 import { FaRegBell } from 'react-icons/fa6';
 import { IoIosArrowDown } from 'react-icons/io';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { UserContext } from '/src/context/UserContext';
 
 const AdminHeader = (props: {
   sidebarOpen: string | boolean | undefined;
@@ -15,6 +16,9 @@ const AdminHeader = (props: {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
+  const userContext = useContext(UserContext);
+  const {logout}  = userContext;
 
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-sm ">
@@ -106,24 +110,24 @@ const AdminHeader = (props: {
               } `}
             >
               <div className="py-1">
-                <a
-                  href="#"
+                <li
+                  
                   className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
                 >
                   Your Profile
-                </a>
-                <a
-                  href="#"
+                </li>
+                <li
+                  
                   className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
                 >
                   Settings
-                </a>
-                <a
-                  href="#"
+                </li>
+                <li
+                  onClick={() => logout()}
                   className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
                 >
                   Sign out
-                </a>
+                </li>
               </div>
             </div>
           </div>

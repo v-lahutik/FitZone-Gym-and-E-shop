@@ -1,4 +1,4 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactNode } from 'react';
 import { URL } from '../utils/URL';
@@ -11,6 +11,7 @@ interface UserContextType {
     role: string | null;
   };
   isLoggedIn: boolean;
+  userLoading: boolean;
   login: (userData: { _id: string; firstName: string; role: string }) => void;
   logout: () => void;
   authenticate: () => void;
@@ -19,6 +20,7 @@ interface UserContextType {
 export const UserContext = createContext<UserContextType | null>(null);
 
 interface UserProviderProps {
+  authenticate: () => void;
   children: ReactNode;
 }
 
@@ -30,9 +32,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }>({ _id: null, userName: null, role: null });
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
 
   //check for cookies to authenticate user
+
   const authenticate = async () => {
+    console.log('authenticating user');
     try {
       const response = await axios.get(`${URL}/users/authenticate`, {
         withCredentials: true
@@ -46,14 +51,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         });
         setIsLoggedIn(true);
         console.log('userData:', userData);
-        console.log(user);
-
-        // redirect to the appropriate page based on the user's role
-        if (userData.role === 'Admin') {
-          navigate('/admin');
-        } else {
-          navigate('/member');
-        }
+        console.log('user:', user);
+        const currentPath = window.location.pathname;
+        console.log('currentPath:', currentPath);
       }
     } catch (error) {
       console.log('error during authentication:', error);
@@ -62,8 +62,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setUser({ _id: null, userName: null, role: null });
       navigate('/');
       setIsLoggedIn(false);
+    } finally {
+      //add a loading state to prevent the page from rendering before the user is authenticated
+      setUserLoading(false);
     }
   };
+
+  useEffect(() => {
+    authenticate();
+  }, []);
 
   const login = (userData: {
     firstName: string;
@@ -85,7 +92,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   const logout = async () => {
     try {
-      const response = await fetch(`${URL}/logout`, {
+      const response = await fetch(`${URL}/users/logout`, {
         method: 'POST',
         credentials: 'include'
       });
@@ -102,7 +109,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, isLoggedIn, login, logout, authenticate }}
+      value={{ user, isLoggedIn, login, logout, authenticate, userLoading }}
     >
       {children}
     </UserContext.Provider>

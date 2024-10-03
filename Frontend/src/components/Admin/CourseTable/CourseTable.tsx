@@ -185,11 +185,14 @@ const CourseTable: React.FC = () => {
                         </>
                       );
                     }
+
+
                     return (
                       <td
                         key={`${day}-${slot}`}
                         className="p-2 text-center border bg-gray-100 border-gray-300"
                       ></td>
+
                     );
                   })}
                 </tr>
