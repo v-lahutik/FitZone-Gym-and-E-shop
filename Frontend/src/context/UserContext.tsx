@@ -11,6 +11,7 @@ interface UserContextType {
     role: string | null;
   };
   isLoggedIn: boolean;
+  userLoading: boolean;
   login: (userData: { _id: string; firstName: string; role: string }) => void;
   logout: () => void;
   authenticate: () => void;
@@ -31,44 +32,46 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }>({ _id: null, userName: null, role: null });
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
 
   //check for cookies to authenticate user
 
-    const authenticate = async () => {
-      console.log('authenticating user');
-      try {
-        const response = await axios.get(`${URL}/users/authenticate`, {
-          withCredentials: true
+  const authenticate = async () => {
+    console.log('authenticating user');
+    try {
+      const response = await axios.get(`${URL}/users/authenticate`, {
+        withCredentials: true
+      });
+      if (response.status === 200) {
+        const userData = response.data;
+        setUser({
+          userName: userData.firstName,
+          _id: userData._id,
+          role: userData.role
         });
-        if (response.status === 200) {
-          const userData = response.data;
-          setUser({
-            userName: userData.firstName,
-            _id: userData._id,
-            role: userData.role
-          });
-          setIsLoggedIn(true);
-          console.log('userData:', userData);
-          console.log('user:', user);
-          const currentPath = window.location.pathname;
-          console.log('currentPath:', currentPath);
-       
-        }
-      } catch (error) {
-        console.log('error during authentication:', error);
-    
-        // if the user is not authenticated, reset the user state
-        setUser({ _id: null, userName: null, role: null });
-        navigate('/');
-        setIsLoggedIn(false);
+        setIsLoggedIn(true);
+        console.log('userData:', userData);
+        console.log('user:', user);
+        const currentPath = window.location.pathname;
+        console.log('currentPath:', currentPath);
       }
-    };
+    } catch (error) {
+      console.log('error during authentication:', error);
 
-    useEffect(() => { authenticate(); }, []);
+      // if the user is not authenticated, reset the user state
+      setUser({ _id: null, userName: null, role: null });
+      navigate('/');
+      setIsLoggedIn(false);
+    } finally {
+      //add a loading state to prevent the page from rendering before the user is authenticated
+      setUserLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    authenticate();
+  }, []);
 
-
-  
   const login = (userData: {
     firstName: string;
     _id: string;
@@ -106,7 +109,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, isLoggedIn, login, logout, authenticate }}
+      value={{ user, isLoggedIn, login, logout, authenticate, userLoading }}
     >
       {children}
     </UserContext.Provider>
