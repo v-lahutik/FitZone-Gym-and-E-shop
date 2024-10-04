@@ -11,6 +11,8 @@ import { UserProvider } from './context/UserContext.tsx';
 import CourseTemplateDisplay from './components/Admin/CourseTemplates/CourseTemplateDisplay.tsx';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
 import UserProfile from './components/Members/UserProfile.tsx';
+import AdminProducts from './components/Admin/AdminProducts/AdminProducts.tsx';
+import AdminProfile from './components/Admin/AdminProfile.tsx';
 
 function App() {
   return (
@@ -41,16 +43,14 @@ function App() {
             </AdminRoute>
           }
         >
-          <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="courses">
             <Route path="week" element={<CourseTable />} />
-            <Route
-              path="templates"
-              element={<CourseTemplateDisplay />}
-            />
+            <Route path="templates" element={<CourseTemplateDisplay />} />
           </Route>
           <Route path="members" element={<MembersTable />} />
-          {/* <Route path="/shop" element={<AdminShop />} /> */}
+          <Route path="shop" element={<AdminProducts />} />
+          <Route path="profile" element={<AdminProfile />} />
         </Route>
       </Routes>
     </UserProvider>

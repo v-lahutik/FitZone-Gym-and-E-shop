@@ -1,24 +1,51 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Logo from '/src/assets/images/Logo/fitzone_logo.png';
 import { CiMenuBurger } from 'react-icons/ci';
 import { CiSearch } from 'react-icons/ci';
 import { FaRegBell } from 'react-icons/fa6';
 import { IoIosArrowDown } from 'react-icons/io';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '/src/context/UserContext';
+import axios from 'axios';
+import { URL } from '../../utils/URL';
 
 const AdminHeader = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState({
+    firstName: '',
+    lastName: '',
+    membership: '',
+    role: '',
+    profilePic: ''
+  });
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   const userContext = useContext(UserContext);
-  const {logout}  = userContext;
+  const { logout } = userContext;
+
+  // Fetch user
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${URL}/users/profile`, {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        });
+        if (response.status === 200) {
+          setUser(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+    fetchUserData();
+  }, []);
 
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-sm ">
@@ -69,9 +96,9 @@ const AdminHeader = (props: {
                   className="relative flex h-[2.125rem] w-[2.125rem] items-center justify-center rounded-full border-[0.5px] border-stroke bg-grey hover:text-primary "
                   href="/"
                 >
-                  <span className="absolute -top-0.5 right-0 z-1 h-2 w-2 rounded-full bg-meta-1 inline">
+                  {/* <span className="absolute -top-0.5 right-0 z-1 h-2 w-2 rounded-full bg-meta-1 inline">
                     <span className="absolute -z-1 inline-flex h-full w-full animate-ping rounded-full bg-meta-1 opacity-75"></span>
-                  </span>
+                  </span> */}
 
                   <FaRegBell />
                 </a>
@@ -85,13 +112,13 @@ const AdminHeader = (props: {
             >
               <span className="hidden text-right lg:block">
                 <span className="block text-sm font-medium text-black dark:text-white">
-                  Taishi Shibamoto
+                  {user.firstName} {user.lastName}
                 </span>
-                <span className="block text-xs">Web Developer</span>
+                <span className="block text-xs">{user.membership}</span>
               </span>
               <span className="h-12 w-12 rounded-full">
                 <img
-                  src="/src/assets/images/Team/team_1_1.png"
+                  src={user.profilePic}
                   alt="User"
                   className="rounded-full"
                 />
@@ -110,21 +137,13 @@ const AdminHeader = (props: {
               } `}
             >
               <div className="py-1">
-                <li
-                  
-                  className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
-                >
-                  Your Profile
+                <li className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 ">
+                  <NavLink to="/admin/profile">Your Profile</NavLink>
                 </li>
-                <li
-                  
-                  className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
-                >
-                  Settings
-                </li>
+
                 <li
                   onClick={() => logout()}
-                  className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
+                  className="cursor-pointer block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
                 >
                   Sign out
                 </li>
