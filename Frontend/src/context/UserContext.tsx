@@ -16,10 +16,23 @@ interface User {
   _id: string | null;
   firstName: string | null;
   lastName: string | null;
+  email: string | null;
   membership: string | null;
   address: Address | null;
   role: string | null;
+  profilePic: string | null;
 }
+
+const userNull: User = {
+  _id: null,
+  firstName: null,
+  lastName: null,
+  email: null,
+  membership: null,
+  address: null,
+  role: null,
+  profilePic: null
+};
 
 interface UserContextType {
   user: User;
@@ -37,14 +50,7 @@ interface UserProviderProps {
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User>({
-    _id: null,
-    firstName: null,
-    lastName: null,
-    membership: null,
-    address: null,
-    role: null
-  });
+  const [user, setUser] = useState<User>(userNull);
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -66,7 +72,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           lastName: userData.lastName,
           membership: userData.membership,
           address: userData.address,
-          role: userData.role
+          role: userData.role,
+          email: userData.email,
+          profilePic: userData.profilePic
         });
         setIsLoggedIn(true);
       }
@@ -74,14 +82,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       console.log('error during authentication:', error);
 
       // if the user is not authenticated, reset the user state
-      setUser({
-        _id: null,
-        firstName: null,
-        lastName: null,
-        membership: null,
-        address: null,
-        role: null
-      });
+      setUser(userNull);
       navigate('/');
       setIsLoggedIn(false);
     } finally {
@@ -101,14 +102,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         (location.pathname.startsWith('/member') && user.role !== 'Member')
       ) {
         setIsLoggedIn(false);
-        setUser({
-          _id: null,
-          firstName: null,
-          lastName: null,
-          membership: null,
-          address: null,
-          role: null
-        });
+        setUser(userNull);
         navigate('/'); //redirect to home page if user is not an admin
         alert('Unauthorized access. You were logged out. Please log in again.');
       }
@@ -131,14 +125,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       });
 
       if (response.ok) {
-        setUser({
-          _id: null,
-          firstName: null,
-          lastName: null,
-          membership: null,
-          address: null,
-          role: null
-        });
+        setUser(userNull);
         setIsLoggedIn(false);
         navigate('/');
       }
