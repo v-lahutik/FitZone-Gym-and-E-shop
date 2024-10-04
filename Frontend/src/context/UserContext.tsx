@@ -1,5 +1,5 @@
 import { useState, createContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ReactNode } from 'react';
 import { URL } from '../utils/URL';
 import axios from 'axios';
@@ -20,7 +20,6 @@ interface UserContextType {
 export const UserContext = createContext<UserContextType | null>(null);
 
 interface UserProviderProps {
-  authenticate: () => void;
   children: ReactNode;
 }
 
@@ -31,6 +30,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     role: string | null;
   }>({ _id: null, userName: null, role: null });
   const navigate = useNavigate();
+  const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userLoading, setUserLoading] = useState(true);
 
@@ -50,10 +50,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           role: userData.role
         });
         setIsLoggedIn(true);
-        console.log('userData:', userData);
-        console.log('user:', user);
-        const currentPath = window.location.pathname;
-        console.log('currentPath:', currentPath);
       }
     } catch (error) {
       console.log('error during authentication:', error);
@@ -71,6 +67,20 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   useEffect(() => {
     authenticate();
   }, []);
+
+  useEffect(() => {
+    if (!userLoading) {
+      if (
+        (location.pathname.startsWith('/admin') && user.role !== 'Admin') ||
+        (location.pathname.startsWith('/member') && user.role !== 'Member')
+      ) {
+        setIsLoggedIn(false);
+        setUser({ _id: null, userName: null, role: null });
+        navigate('/'); //redirect to home page if user is not an admin
+        alert('Unauthorized access. You were logged out. Please log in again.');
+      }
+    }
+  }, [userLoading, user, location.pathname]);
 
   const login = (userData: {
     firstName: string;
@@ -109,7 +119,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, isLoggedIn, login, logout, authenticate, userLoading }}
+      value={{
+        user,
+        isLoggedIn,
+        login,
+        logout,
+        authenticate,
+        userLoading
+      }}
     >
       {children}
     </UserContext.Provider>
