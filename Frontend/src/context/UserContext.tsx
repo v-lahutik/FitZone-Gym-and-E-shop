@@ -1,18 +1,44 @@
 import { useState, createContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ReactNode } from 'react';
 import { URL } from '../utils/URL';
 import axios from 'axios';
 
+interface Address {
+  streetNumber: number;
+  streetName: string;
+  city: string;
+  country: string;
+  postCode: string;
+}
+
+interface User {
+  _id: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  membership: string | null;
+  address: Address | null;
+  role: string | null;
+  profilePic: string | null;
+}
+
+const userNull: User = {
+  _id: null,
+  firstName: null,
+  lastName: null,
+  email: null,
+  membership: null,
+  address: null,
+  role: null,
+  profilePic: null
+};
+
 interface UserContextType {
-  user: {
-    _id: string | null;
-    userName: string | null;
-    role: string | null;
-  };
+  user: User;
   isLoggedIn: boolean;
   userLoading: boolean;
-  login: (userData: { _id: string; firstName: string; role: string }) => void;
+  login: (userData: User) => void;
   logout: () => void;
   authenticate: () => void;
 }
@@ -20,17 +46,13 @@ interface UserContextType {
 export const UserContext = createContext<UserContextType | null>(null);
 
 interface UserProviderProps {
-  authenticate: () => void;
   children: ReactNode;
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<{
-    _id: string | null;
-    userName: string | null;
-    role: string | null;
-  }>({ _id: null, userName: null, role: null });
+  const [user, setUser] = useState<User>(userNull);
   const navigate = useNavigate();
+  const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userLoading, setUserLoading] = useState(true);
   //check for cookies to authenticate user
@@ -44,22 +66,23 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       if (response.status === 200) {
         const userData = response.data;
         setUser({
-          userName: userData.firstName,
           _id: userData._id,
-          role: userData.role
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          membership: userData.membership,
+          address: userData.address,
+          role: userData.role,
+          email: userData.email,
+          profilePic: userData.profilePic
         });
 
         setIsLoggedIn(true);
-        console.log('userData:', userData);
-        console.log('user:', user);
-        const currentPath = window.location.pathname;
-        console.log('currentPath:', currentPath);
       }
     } catch (error) {
       console.log('error during authentication:', error);
 
       // if the user is not authenticated, reset the user state
-      setUser({ _id: null, userName: null, role: null });
+      setUser(userNull);
       navigate('/');
       setIsLoggedIn(false);
     } finally {
@@ -72,20 +95,35 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     authenticate();
   }, []);
 
-  const login = (userData: {
-    firstName: string;
-    _id: string;
-    role: string;
-  }) => {
-    console.log('userData:', userData);
+  useEffect(() => {
+    if (!userLoading) {
+      if (
+        (location.pathname.startsWith('/admin') && user.role !== 'Admin') ||
+        (location.pathname.startsWith('/member') && user.role !== 'Member')
+      ) {
+        setIsLoggedIn(false);
+        setUser(userNull);
+        navigate('/'); //redirect to home page if user is not an admin
+        alert('Unauthorized access. You were logged out. Please log in again.');
+      }
+    }
+  }, [userLoading, user, location.pathname]);
+
+  const login = (userData: User) => {
+   
+
     const { firstName, _id, role } = userData;
     setUser({
       userName: firstName,
       _id: _id,
       role: role
     });
-    console.log(user);
-    if (userData.role === 'Admin') navigate('/admin/dashboard');
+ 
+    
+
+    setUser(userData);
+if (userData.role === 'Admin') navigate('/admin/dashboard');
+
     else navigate('/member');
     setIsLoggedIn(true);
   };
@@ -99,7 +137,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       });
 
       if (response.ok) {
-        setUser({ _id: null, userName: null, role: null });
+        setUser(userNull);
         setIsLoggedIn(false);
         navigate('/');
       }
@@ -110,7 +148,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, isLoggedIn, login, logout, authenticate, userLoading }}
+      value={{
+        user,
+        isLoggedIn,
+        login,
+        logout,
+        authenticate,
+        userLoading
+      }}
     >
       {children}
     </UserContext.Provider>

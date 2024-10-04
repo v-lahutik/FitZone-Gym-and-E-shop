@@ -88,7 +88,7 @@ export const login = async (
     if (!email || !password) {
       return res.status(400).json({ msg: "Please fill all fields" });
     }
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("-password -is_activated -createdAt -updatedAt -__v");
     if (!user) {
       return res.status(400).json({ msg: "Invalid credentials" });
     }
@@ -116,14 +116,12 @@ export const login = async (
       sameSite: "none",
       path: "/",
     });
+    
 
     res.status(200).json({
       msg: "User login successful",
-      user: {
-        _id: user._id,
-        firstName: user.firstName,
-        role: user.role,
-      },
+      user 
+      
     });
   } catch (error: any) {
     next(error);
@@ -309,7 +307,7 @@ export const authenticate = async (
       token,
       process.env.JWT_SECRET as string
     );
-    const user = await User.findById(token_payload.id);
+    const user = await User.findById(token_payload.id).select("-password -is_activated -createdAt -updatedAt -__v");
     if (!user) {
       return res
         .status(404)
