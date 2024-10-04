@@ -1,5 +1,8 @@
+
 import { Link, NavLink } from 'react-router-dom';
 import Logo from '/src/assets/images/Logo/fitzone_logo.png';
+import Logo from '/src/assets/images/Logo/fitzone_logo_light.png';
+
 import { CiMenuBurger } from 'react-icons/ci';
 import { CiSearch } from 'react-icons/ci';
 import { FaRegBell } from 'react-icons/fa6';
@@ -29,6 +32,7 @@ const AdminHeader = (props: {
   const userContext = useContext(UserContext);
   const { logout } = userContext;
 
+
   // Fetch user
   useEffect(() => {
     const fetchUserData = async () => {
@@ -46,6 +50,8 @@ const AdminHeader = (props: {
     };
     fetchUserData();
   }, []);
+
+
 
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-sm ">
@@ -68,7 +74,7 @@ const AdminHeader = (props: {
             <img
               src={Logo}
               alt="Logo"
-              className="max-w-[150px] h-auto w-full"
+              className="max-w-[150px] h-auto w-full mb-3"
             />
           </Link>
         </div>
@@ -138,8 +144,12 @@ const AdminHeader = (props: {
             >
               <div className="py-1">
                 <li className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 ">
+
                   <NavLink to="/admin/profile">Your Profile</NavLink>
+
+                
                 </li>
+
 
                 <li
                   onClick={() => logout()}
