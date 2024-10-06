@@ -103,7 +103,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       ) {
         setIsLoggedIn(false);
         setUser(userNull);
-        navigate('/'); //redirect to home page if user is not an admin
+        navigate('/'); //redirect to home page
         alert('Unauthorized access. You were logged out. Please log in again.');
       }
     }
