@@ -8,6 +8,7 @@ import AdminLayout from './Layouts/AdminLayout.tsx';
 import CourseTable from './components/Admin/CourseTable/CourseTable.tsx';
 import MembersTable from './components/Admin/MembersTable/MembersTable.tsx';
 import { UserProvider } from './context/UserContext.tsx';
+import { DateProvider } from './context/DateContext.tsx';
 import CourseTemplateDisplay from './components/Admin/CourseTemplates/CourseTemplateDisplay.tsx';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
 import UserProfile from './components/Members/UserProfile.tsx';
@@ -17,6 +18,7 @@ import AdminProfile from './components/Admin/AdminProfile.tsx';
 function App() {
   return (
     <UserProvider>
+      <DateProvider>
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
@@ -53,6 +55,7 @@ function App() {
           <Route path="profile" element={<AdminProfile />} />
         </Route>
       </Routes>
+      </DateProvider>
     </UserProvider>
   );
 }
