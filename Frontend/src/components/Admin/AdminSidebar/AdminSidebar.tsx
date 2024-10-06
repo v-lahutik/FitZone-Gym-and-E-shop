@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import { useEffect, useRef, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import Logo from '/src/assets/images/Logo/fitzone_logo.png';
 
@@ -14,6 +14,7 @@ import { FiUsers } from 'react-icons/fi';
 import { IoSchoolOutline } from 'react-icons/io5';
 
 interface SidebarProps {
+  // interface for SidebarProps
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
 }
@@ -22,55 +23,29 @@ export default function AdminSidebar({
   sidebarOpen,
   setSidebarOpen
 }: SidebarProps) {
-  const location = useLocation();
-  const { pathname } = location;
-
-  const trigger = useRef<any>(null);
-  const sidebar = useRef<any>(null);
-
-  const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
+  // SidebarProps is passed as an argument to AdminSidebar
+  //
+  const storedSidebarExpanded = localStorage.getItem('sidebar-expanded'); // get the value of 'sidebar-expanded' from localStorage
   const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
+    storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true' // if storedSidebarExpanded is null, set it to false, else set it to storedSidebarExpanded
   );
-  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
-  const [isCourseSubmenuOpen, setIsCourseSubmenuOpen] = useState(false);
+  const [isCourseSubmenuOpen, setIsCourseSubmenuOpen] = useState(false); // set isCourseSubmenuOpen to false
 
   const toggleCourseSubmenu = () => {
     setIsCourseSubmenuOpen(!isCourseSubmenuOpen);
   };
 
-  const toggleSubmenu = () => {
-    setIsSubmenuOpen(!isSubmenuOpen);
-  };
-
-  // close on click outside
   useEffect(() => {
-    const clickHandler = ({ target }: MouseEvent) => {
-      if (!sidebar.current || !trigger.current) return;
-      if (
-        !sidebarOpen ||
-        sidebar.current.contains(target) ||
-        trigger.current.contains(target)
-      )
-        return;
-      setSidebarOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
-
-  useEffect(() => {
-    localStorage.setItem('sidebar-expanded', sidebarExpanded.toString());
+    localStorage.setItem('sidebar-expanded', sidebarExpanded.toString()); // set 'sidebar-expanded' to the value of sidebarExpanded as a string in localStorage
     if (sidebarExpanded) {
-      document.querySelector('body')?.classList.add('sidebar-expanded');
+      document.querySelector('body')?.classList.add('sidebar-expanded'); // add 'sidebar-expanded' to the body classList
     } else {
-      document.querySelector('body')?.classList.remove('sidebar-expanded');
+      document.querySelector('body')?.classList.remove('sidebar-expanded'); // remove 'sidebar-expanded' from the body classList
     }
   }, [sidebarExpanded]);
 
   return (
     <aside
-      ref={sidebar}
       className={`absolute left-0 top-0 z-[9999] flex h-screen w-72 flex-col overflow-y-hidden bg-bodydark1 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
@@ -82,7 +57,6 @@ export default function AdminSidebar({
         </NavLink>
 
         <button
-          ref={trigger}
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-controls="sidebar"
           aria-expanded={sidebarOpen}
@@ -105,56 +79,35 @@ export default function AdminSidebar({
 
               <li>
                 <NavLink
-                  to="/admin/test"
+                  to="/admin/dashboard"
                   className={({ isActive }) =>
                     `group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-archivo text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
                       isActive ? 'bg-graydark text-white' : ''
                     }`
                   }
-                  onClick={toggleSubmenu}
                 >
                   <RxDashboard />
                   Dashboard
-                  <IoIosArrowDown
-                    className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                      isSubmenuOpen && 'rotate-180'
-                    }`}
-                  />
                 </NavLink>
-                {isSubmenuOpen && (
-                  <div
-                    className={`translate transform overflow-hidden ${
-                      !isSubmenuOpen && 'hidden'
-                    }`}
-                  >
-                    <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                      <li>
-                        <NavLink
-                          to="admin/test"
-                          className="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                        >
-                          Test
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </div>
-                )}
               </li>
 
               {/* <!-- Menu Item Dashboard --> */}
 
               {/* <!-- Menu Item Courses --> */}
-              <li
-                onClick={toggleCourseSubmenu}
-                className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
-              >
-                <IoSchoolOutline />
-                Courses
-                <IoIosArrowDown
-                  className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                    isCourseSubmenuOpen && 'rotate-180'
-                  }`}
-                />
+              <li>
+                <div
+                  onClick={toggleCourseSubmenu}
+                  className={`cursor-pointer group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
+                >
+                  <IoSchoolOutline />
+                  Courses
+                  <IoIosArrowDown
+                    className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
+                      isCourseSubmenuOpen && 'rotate-180'
+                    }`}
+                  />
+                </div>
+
                 {isCourseSubmenuOpen && (
                   <div
                     className={`translate transform overflow-hidden ${
@@ -165,7 +118,11 @@ export default function AdminSidebar({
                       <li>
                         <NavLink
                           to="/admin/courses/week"
-                          className="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                          className={({ isActive }) =>
+                            `group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                              isActive ? 'bg-graydark text-white' : ''
+                            }`
+                          }
                         >
                           Weekly Courses
                         </NavLink>
@@ -173,7 +130,11 @@ export default function AdminSidebar({
                       <li>
                         <NavLink
                           to="/admin/courses/templates"
-                          className="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                          className={({ isActive }) =>
+                            `group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                              isActive ? 'bg-graydark text-white' : ''
+                            }`
+                          }
                         >
                           Courses Templates
                         </NavLink>
@@ -187,8 +148,12 @@ export default function AdminSidebar({
               {/* <!-- Menu Item Shop --> */}
               <li>
                 <NavLink
-                  to="/admin/products"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
+                  to="/admin/shop"
+                  className={({ isActive }) =>
+                    `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark  ${
+                      isActive ? 'bg-graydark text-white' : ''
+                    }`
+                  }
                 >
                   <BsShop />
                   Products
@@ -199,7 +164,11 @@ export default function AdminSidebar({
               <li>
                 <NavLink
                   to="/admin/members"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 
+                  className={({
+                    isActive
+                  }) => `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
+                    isActive ? 'bg-graydark text-white' : ''
+                  }
                   `}
                 >
                   <FiUsers />

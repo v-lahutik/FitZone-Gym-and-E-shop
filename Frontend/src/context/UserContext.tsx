@@ -55,7 +55,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userLoading, setUserLoading] = useState(true);
-
   //check for cookies to authenticate user
 
   const authenticate = async () => {
@@ -76,6 +75,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           email: userData.email,
           profilePic: userData.profilePic
         });
+
         setIsLoggedIn(true);
       }
     } catch (error) {
@@ -110,9 +110,20 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, [userLoading, user, location.pathname]);
 
   const login = (userData: User) => {
-    console.log('userData:', userData);
+   
+
+    const { firstName, _id, role } = userData;
+    setUser({
+      userName: firstName,
+      _id: _id,
+      role: role
+    });
+ 
+    
+
     setUser(userData);
-    if (userData.role === 'Admin') navigate('/admin');
+if (userData.role === 'Admin') navigate('/admin/dashboard');
+
     else navigate('/member');
     setIsLoggedIn(true);
   };
@@ -121,6 +132,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     try {
       const response = await fetch(`${URL}/users/logout`, {
         method: 'POST',
+
         credentials: 'include'
       });
 
