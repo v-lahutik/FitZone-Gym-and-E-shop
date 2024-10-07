@@ -11,7 +11,7 @@ import { Course } from './CourseTable';
 interface CourseCardForAdminProps {
   course: Course;
   openForm: (course: Course) => void;
-  closeCard: (course: Course) => void;
+  closeCard: () => void;
   setCurrentCourse: React.Dispatch<React.SetStateAction<Course | null>>;
   setCourseChanged: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -31,7 +31,7 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
           src={Yoga}
           className="h-56 w-full rounded-md object-cover"
         />
-        
+
         <div className="mt-2">
           <div className="flex justify-around">
             <div>
@@ -75,7 +75,6 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
               <div className="mt-1.5 sm:mt-0">
                 <p className="text-gray-500">Participants</p>
                 <p className="font-medium">
-                 
                   {course.participants.length}/{course.maxParticipants}
                 </p>
               </div>
@@ -89,14 +88,18 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
               <FaEdit />
             </button>
             <button
-              onClick={() => {handleDeleteCourse(course); setCourseChanged(true); closeCard()}}
+              onClick={() => {
+                handleDeleteCourse(course);
+                setCourseChanged(true);
+                closeCard();
+              }}
               className="py-3 px-5 mx-3 rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
             >
               <RiDeleteBin6Fill />
             </button>
           </div>
         </div>
-        <button onClick={() => closeCard(course)} className="text-red-500">
+        <button onClick={() => closeCard()} className="text-red-500">
           X Close
         </button>
       </div>

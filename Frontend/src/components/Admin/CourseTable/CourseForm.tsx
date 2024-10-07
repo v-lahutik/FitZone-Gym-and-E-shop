@@ -157,7 +157,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ course, closeForm }) => {
               </div>
             </div>
             <div className="flex justify-between">
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <label>Date</label>
                 <input
                   name="date"
@@ -166,7 +166,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ course, closeForm }) => {
                   onChange={handleChange}
                   className="w-full border px-2 py-1"
                 />
-              </div>
+              </div> */}
               <div className="flex flex-col">
                 <label>Starting Time</label>
                 <select
