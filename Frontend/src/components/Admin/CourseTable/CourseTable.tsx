@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import { courseData } from '../../DummyData/courses';
 import { weekdays, timeSlots } from './TimeSlots.ts';
 import CourseCardDisplay from './CourseCardDisplay.tsx';
-import { useDate } from '../../DateContext';
+// import { useDate } from '../../DateContext';
 import axios from 'axios';
 import { URL } from '../../../utils/URL.ts';
 

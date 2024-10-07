@@ -134,7 +134,7 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
         <div>
           <input
             type="password"
-            name="password"
+            name="loginPassword"
             id="password"
             placeholder="Password"
             onChange={changeHandler}
