@@ -11,7 +11,7 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
-  const [user, setUser] = useState<User>({ email: '', password: '' });
+  const [userLogin, setUserLogin] = useState<userLogin>({ email: '', loginPassword: '' });
   const [errors, setErrors] = useState<null | { [key: string]: string }>(null);
   const [beErr, setBeError] = useState(null);
   const userContext = useContext(UserContext);
@@ -30,7 +30,7 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
     }
        // redirect to the appropriate page based on the user's role
        if (userContext?.user.role === 'Admin') {
-        navigate('/admin');
+        navigate('/admin/dashboard');
       } else if (
         userContext?.user.role === 'Member'
         
@@ -41,13 +41,13 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
 
 
 
-  interface User {
+  interface userLogin {
     email: string;
-    password: string;
+    loginPassword: string;
   }
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setUserLogin({ ...userLogin, [e.target.name]: e.target.value });
   };
 
   const loginSchema = Yup.object({
@@ -55,7 +55,7 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
       .required('Email address is required')
       .email('Email format is not valid'),
 
-    password: Yup.string()
+    loginPassword: Yup.string()
       .required('Password is required')
       .min(5, 'Password is too short')
     // .matches(/[a-z]/, 'Password should contains lower-case letter')
@@ -66,8 +66,8 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await loginSchema.validate(user, { abortEarly: false }); //validate user data
-      console.log('LOGIN INFORMATION:', user);
+      await loginSchema.validate(userLogin, { abortEarly: false }); //validate user data
+      console.log('LOGIN INFORMATION:', userLogin);
 
       setErrors(null); // clear errors
       setBeError(null); // clear errors
@@ -76,12 +76,12 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
       const res = await axios({
         url: `${URL}/users/login`,
         method: 'POST',
-        data: user,
+        data: userLogin,
         withCredentials: true
       });
 
-      const userData = res.data.user;
-      login(userData); // login user
+      // const userData = res.data.user;
+      login(res.data.userData); // login user
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -123,7 +123,7 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
             id="email"
             placeholder="Email"
             onChange={changeHandler}
-            value={user.email}
+            value={userLogin.email}
             className="w-full border py-2 pl-3 rounded mt-2 focus:outline-none focus:thBorderColor focus:ring-1 focus:thBorderColor bg-smokeColor2"
           />
           {errors?.email && (
@@ -138,7 +138,7 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
             id="password"
             placeholder="Password"
             onChange={changeHandler}
-            value={user.password}
+            value={userLogin.loginPassword}
             className="w-full border py-2 pl-3 rounded mt-2 focus:outline-none focus:thBorderColor focus:ring-1 focus:thBorderColor bg-smokeColor2"
           />
         </div>
