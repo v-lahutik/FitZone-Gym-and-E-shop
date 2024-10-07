@@ -3,6 +3,7 @@ import Order from "../models/order.model";
 import Product from "../models/product.model";
 import User from "../models/user.model";
 import { isValidObjectId } from "mongoose"
+import { v4 as uuidv4 } from 'uuid';
 
 // After clicking on the "Place Order" button - new order is created
 export const createOrder = async (req: Request & {payload?: any}, res: Response) => {
@@ -34,9 +35,14 @@ export const createOrder = async (req: Request & {payload?: any}, res: Response)
     }
     console.log("product price", totalPrice);
 
+
+    // Generate a unique order number using UUID
+     const orderNumber = uuidv4();
+
     // Create and save the order
     const newOrder = new Order({
       userId,
+      orderNumber,
       products,
       totalPrice,
       deliveryAddress
