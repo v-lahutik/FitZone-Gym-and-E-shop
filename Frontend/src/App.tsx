@@ -1,6 +1,5 @@
 // import AdminPage from './pages/AdminPage/AdminPage.tsx';
 import { Route, Routes } from 'react-router-dom';
-import Login from './components/Auth/Login.tsx';
 import LandingPage from './pages/LandingPage/LandingPage.tsx';
 import MemberRoute from './Layouts/MemberRoute.tsx';
 import MemberLayout from './Layouts/MemberLayout.tsx';
@@ -13,6 +12,9 @@ import CourseTemplateDisplay from './components/Admin/CourseTemplates/CourseTemp
 import Dashboard from './components/Dashboard/Dashboard.tsx';
 import UserProfile from './components/Members/UserProfile.tsx';
 import Orders from './components/Members/Orders.tsx';
+import AdminProducts from './components/Admin/AdminProducts/AdminProducts.tsx';
+import AdminProfile from './components/Admin/AdminProfile.tsx';
+
 
 function App() {
   return (
@@ -20,7 +22,6 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
 
         {/* Private Routes for Members */}
         <Route
@@ -46,16 +47,14 @@ function App() {
             </AdminRoute>
           }
         >
-          <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="courses">
             <Route path="week" element={<CourseTable />} />
-            <Route
-              path="templates"
-              element={<CourseTemplateDisplay />}
-            />
+            <Route path="templates" element={<CourseTemplateDisplay />} />
           </Route>
           <Route path="members" element={<MembersTable />} />
-          {/* <Route path="/shop" element={<AdminShop />} /> */}
+          <Route path="shop" element={<AdminProducts />} />
+          <Route path="profile" element={<AdminProfile />} />
         </Route>
       </Routes>
     </UserProvider>
