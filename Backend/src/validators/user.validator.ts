@@ -59,7 +59,7 @@ export const loginValidation: ValidationChain[] = [
     .withMessage("Email is required")
     .isEmail()
     .withMessage("Invalid email address"),
-  body("password")
+  body("loginPassword")
     .trim()
     .notEmpty()
     .withMessage("Password is required")

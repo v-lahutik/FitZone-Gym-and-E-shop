@@ -83,12 +83,12 @@ export const login = async (
 ) => {
   try {
     console.log(req.body);
-    const { email, password } = req.body;
+    const { email, loginPassword } = req.body;
 
-    if (!email || !password) {
+    if (!email || !loginPassword) {
       return res.status(400).json({ msg: "Please fill all fields" });
     }
-    const user = await User.findOne({ email }).select("-password -is_activated -createdAt -updatedAt -__v");
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ msg: "Invalid credentials" });
     }
@@ -97,7 +97,7 @@ export const login = async (
         .status(403)
         .json({ error: "Please verify your email before logging in." });
     }
-    const isMatch = await user.comparePass(password);
+    const isMatch = await user.comparePass(loginPassword);
     if (!isMatch) {
       return res.status(400).json({ msg: "Email or Password is incorrect" });
     }
@@ -116,11 +116,12 @@ export const login = async (
       sameSite: "none",
       path: "/",
     });
-    
 
+    // destructuring user object to remove password, is_activated, createdAt, updatedAt, __v, bookedCourses, cart
+    const {password, is_activated, createdAt, updatedAt, __v, bookedCourses, cart, ...userData} = user.toObject();
     res.status(200).json({
       msg: "User login successful",
-      user 
+      userData 
       
     });
   } catch (error: any) {

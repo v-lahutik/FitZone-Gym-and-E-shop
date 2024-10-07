@@ -2,18 +2,10 @@ import React, { useEffect, useState } from 'react';
 // import { courseData } from '../../DummyData/courses';
 import { weekdays, timeSlots } from './TimeSlots.ts';
 import CourseCardDisplay from './CourseCardDisplay.tsx';
+// import { useDate } from '../../DateContext';
 import axios from 'axios';
 import { URL } from '../../../utils/URL.ts';
 
-// interface Course {
-//   name: string;
-//   category: string[];
-//   weekday: string;
-//   time: { start: string; end: string };
-//   maxParticipants: number;
-//   description: string;
-//   instructor: string;
-// }
 
 export interface Course {
   courseName: string;
@@ -41,6 +33,9 @@ export interface Course {
 // const courses: Course[] = courseData;
 
 const CourseTable: React.FC = () => {
+
+  const { currentDate, currentWeek, setCurrentDate, setCurrentWeek } = useDate();
+
   //  calculate which rows the course spans based on time
   const getCoursePosition = (start: string, end: string) => {
     //get index of start and end time
@@ -55,6 +50,8 @@ const CourseTable: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([]); // set all courses from database
   const [isCardOpen, setIsCardOpen] = useState<boolean>(false); // check the Card opened or not
   const [currentCourse, setCurrentCourse] = useState<Course | null>(null); // Handle opening the Card (either for new course or existing course)
+ 
+
 
   const openCard = (course: Course | null) => {
     setCurrentCourse(course);
@@ -65,14 +62,27 @@ const CourseTable: React.FC = () => {
     setIsCardOpen(false);
   };
 
-  useEffect(() => {
-    // Fetch course template data
-    const fetchCourses = async () => {
+
+ 
+
+  const getEndOfWeek = (startOfWeek: Date) => {
+    const end = new Date(startOfWeek);
+    end.setDate(end.getDate() + 6);
+    return end;
+  };
+
+
+ 
+    const fetchCourses = async (startDate: Date, endDate: Date) => {
       try {
         const response = await axios({
           url: `${URL}/admin/courses`,
           method: 'GET',
-          withCredentials: true
+          params: {
+            startDate: startDate.toISOString(),
+            endDate: endDate.toISOString(),
+          },
+          withCredentials: true,
         });
         const data = response.data.allCourses;
         console.log(data);
@@ -89,8 +99,34 @@ const CourseTable: React.FC = () => {
       }
     };
 
-    fetchCourses();
-  }, []);
+    useEffect(() => {
+      const startOfWeek = getStartOfWeek(currentWeek);
+      const endOfWeek = getEndOfWeek(startOfWeek);
+      fetchCourses(startOfWeek, endOfWeek);
+    }, [currentWeek]);
+
+    // const handlePreviousWeek = () => {
+    //   setCurrentWeek((prev) => {
+    //     const newDate = new Date(prev);
+    //     newDate.setDate(newDate.getDate() - 7);
+    //     return newDate;
+    //   });
+    // };
+  
+    // const handleNextWeek = () => {
+    //   setCurrentWeek((prev) => {
+    //     const newDate = new Date(prev);
+    //     newDate.setDate(newDate.getDate() + 7);
+    //     return newDate;
+    //   });
+    // };
+  
+    // const getFormattedDate = (date: Date) => {
+    //   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    // };
+  
+    // const startOfWeek = getStartOfWeek(currentWeek);
+
   return (
     <>
       {isCardOpen && currentCourse && (
