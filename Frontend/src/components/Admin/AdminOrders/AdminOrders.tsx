@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { URL } from '../../utils/URL';
+import { URL } from '../../../utils/URL';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { CiSearch } from 'react-icons/ci';
 
@@ -48,7 +48,7 @@ export type Order = {
   products: Product[]; // Products array remains unchanged
 };
 
-const Orders: React.FC = () => {
+const AdminOrders: React.FC = () => {
   const [orders, setOrders] = useState<Orders[]>([]);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null); // To track the expanded order
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -56,7 +56,7 @@ const Orders: React.FC = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`${URL}/users/orders`, {
+        const response = await axios.get(`${URL}/admin/orders`, {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true
         });
@@ -126,6 +126,9 @@ const Orders: React.FC = () => {
                 <th className="min-w-[150px] py-4 px-4 text-sm font-bold  text-black dark:text-white">
                   Order number
                 </th>
+                <th className="min-w-[150px] py-4 px-4 text-sm font-bold  text-black dark:text-white">
+                  Customer id
+                </th>
                 <th className="min-w-[150px] py-4 px-4 text-sm font-bold text-black dark:text-white">
                   Delivery Address
                 </th>
@@ -145,8 +148,9 @@ const Orders: React.FC = () => {
             </thead>
             <tbody>
               {filteredOrders.map(
+               
                 (order, key) => (
-                  
+                    console.log(filteredOrders),
                   (
                     <React.Fragment key={key}>
                       <tr>
@@ -162,6 +166,9 @@ const Orders: React.FC = () => {
                           <p className="text-sm">
                             {formatDate(order.createdAt)}
                           </p>
+                        </td>
+                        <td className="min-w-[150px] border-b border-[#eee] py-5 px-4 dark:border-strokedark ">
+                          <p className="text-sm">{order.userId}</p>
                         </td>
 
                         <td className="max-w-[150px] border-b border-[#eee] py-5  dark:border-strokedark">
@@ -302,4 +309,4 @@ const Orders: React.FC = () => {
   );
 };
 
-export default Orders;
+export default AdminOrders;

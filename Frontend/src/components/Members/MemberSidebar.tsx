@@ -9,6 +9,8 @@ import { FaArrowLeft } from 'react-icons/fa6';
 import { BsShop } from 'react-icons/bs';
 import { RxAvatar } from "react-icons/rx";
 import { IoSchoolOutline } from 'react-icons/io5';
+import { HiOutlineShoppingBag } from "react-icons/hi";
+
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -165,7 +167,8 @@ export default function MemberSidebar({
                   to="/member/orders"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
                 >
-                  <BsShop />
+                  <HiOutlineShoppingBag />
+
                   Orders
                 </NavLink>
               </li>
