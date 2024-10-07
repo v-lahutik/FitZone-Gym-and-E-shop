@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, ReactNode } from 'react';
 
 // Define the shape of the context
 interface DateContextType {
@@ -7,7 +7,7 @@ interface DateContextType {
 }
 
 // Create the context with default values
-const DateContext = createContext<DateContextType | undefined>(undefined);
+export const DateContext = createContext<DateContextType>({} as DateContextType);
 
 // Utility functions to set the time of the date
 const setStartOfDay = (date: Date) => {
@@ -45,13 +45,4 @@ export const DateProvider: React.FC<{ children: ReactNode }> = ({
       {children}
     </DateContext.Provider>
   );
-};
-
-// Custom hook to use the DateContext
-export const useDate = () => {
-  const context = useContext(DateContext);
-  if (context === undefined) {
-    throw new Error('useDate must be used within a DateProvider');
-  }
-  return context;
 };
