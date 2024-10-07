@@ -23,10 +23,9 @@ connectToDB();
 
 // set courses for week
 // every sunday at 6 am, this func is going to run to set the courses
-// cron.schedule('0 6 * * 0', async()=>{
-  // await 
-  createWeeklyCourses()
-// })
+cron.schedule('0 6 * * 0', async()=>{
+  await createWeeklyCourses()
+})
 
 // middlewares
 app.use(express.json());
