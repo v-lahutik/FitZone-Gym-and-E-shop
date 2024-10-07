@@ -13,12 +13,14 @@ interface CourseCardForAdminProps {
   openForm: (course: Course) => void;
   closeCard: (course: Course) => void;
   setCurrentCourse: React.Dispatch<React.SetStateAction<Course | null>>;
+  setCourseChanged: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
   course,
   openForm,
-  closeCard
+  closeCard,
+  setCourseChanged
 }) => {
   console.log(course);
   return (
@@ -87,7 +89,7 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
               <FaEdit />
             </button>
             <button
-              onClick={() => handleDeleteCourse(course)}
+              onClick={() => {handleDeleteCourse(course); setCourseChanged(true); closeCard()}}
               className="py-3 px-5 mx-3 rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
             >
               <RiDeleteBin6Fill />

@@ -8,7 +8,7 @@ import { Course } from './CourseTable';
 
 interface CourseCardDisplayProps {
   course: Course;
-  closeCard: (course: Course) => void;
+  closeCard: () => void;
   setCourseChanged: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentCourse: React.Dispatch<React.SetStateAction<Course | null>>;
 }
@@ -39,6 +39,7 @@ const CourseCardDisplay: React.FC<CourseCardDisplayProps> = ({ course ,closeCard
             openForm={openForm}
             setCurrentCourse={setCurrentCourse}
             closeCard={closeCard}
+            setCourseChanged={setCourseChanged}
           />
         </div>
         {isFormOpen && (
