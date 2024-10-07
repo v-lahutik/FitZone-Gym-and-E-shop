@@ -1,33 +1,28 @@
 import React, { useState } from 'react';
 import { weekdays, timeSlots } from '../CourseTable/TimeSlots';
-import { handleSaveNewCourse, handleUpdateCourse } from './CourseRequest';
+import { handleUpdateCourse } from './CourseRequest';
 import { Course } from './CourseTable';
 
 interface CourseFormProps {
   course: Course | null;
   closeForm: () => void;
-  isEditing: boolean;
 }
 
-const CourseForm: React.FC<CourseFormProps> = ({
-  course,
-  closeForm,
-  isEditing
-}) => {
+const CourseForm: React.FC<CourseFormProps> = ({ course, closeForm }) => {
   const [localCourse, setLocalCourse] = useState<Course>(
     course || {
       _id: '',
       courseName: '',
       description: '',
       instructor: '',
-      date:'',
+      date: '',
       time: {
         start: '08:00',
         end: '08:00'
       },
       weekday: 'Monday',
       maxParticipants: 0,
-      participants:[],
+      participants: [],
       category: []
     }
   );
@@ -215,22 +210,14 @@ const CourseForm: React.FC<CourseFormProps> = ({
             </div>
 
             <div className="flex justify-end mt-4">
-              {!isEditing && (
+              {
                 <button
                   onClick={() => handleUpdateCourse(localCourse, closeForm)}
                   className="bg-green-500 text-white px-4 py-2 rounded"
                 >
                   Save changes
                 </button>
-              )}
-              {isEditing && (
-                <button
-                  onClick={() => handleSaveNewCourse(localCourse, closeForm)}
-                  className="bg-green-500 text-white px-4 py-2 rounded"
-                >
-                  Save new Course
-                </button>
-              )}
+              }
             </div>
           </div>
         </div>

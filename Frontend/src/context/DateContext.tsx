@@ -1,15 +1,26 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, ReactNode } from 'react';
 
 // Define the shape of the context
 interface DateContextType {
-  currentDate: Date;
-  currentWeekStart: Date;
-  setCurrentDate: (date: Date) => void;
-  setCurrentWeek: (date: Date) => void;
+  getStartOfWeek: (date: Date) => Date;
+  getEndOfWeek: (date: Date) => Date;
 }
 
 // Create the context with default values
-const DateContext = createContext<DateContextType | undefined>(undefined);
+export const DateContext = createContext<DateContextType>({} as DateContextType);
+
+// Utility functions to set the time of the date
+const setStartOfDay = (date: Date) => {
+  const newDate = new Date(date);
+  newDate.setHours(0, 0, 0, 0);
+  return newDate;
+};
+
+const setEndOfDay = (date: Date) => {
+  const newDate = new Date(date);
+  newDate.setHours(23, 59, 59, 999);
+  return newDate;
+};
 
 // Create a provider component
 export const DateProvider: React.FC<{ children: ReactNode }> = ({
@@ -17,31 +28,21 @@ export const DateProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const getStartOfWeek = (date: Date) => {
     const start = new Date(date);
-    const dayIndex = start.getDay(); //returns index of current day in week (Sun-Sat = 0-6)
-    const currentDay = start.getDate(); //returns current day of month
-    const monday = currentDay - dayIndex + (dayIndex === 0 ? -6 : 1); // adjust when day is sunday
-    return new Date(start.setDate(monday));
+    const dayIndex = start.getDay(); // returns index of current day in week (Sun-Sat = 0-6)
+    const currentDay = start.getDate(); // returns current day of month
+    const monday = currentDay - dayIndex + (dayIndex === 0 ? -6 : 1); // get to index 1 (Monday)
+    return setStartOfDay(new Date(start.setDate(monday)));
   };
 
-  const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [currentWeekStart, setCurrentWeek] = useState<Date>(
-    getStartOfWeek(new Date())
-  );
+  const getEndOfWeek = (date: Date) => {
+    const endOfWeek = new Date(date);
+    endOfWeek.setDate(endOfWeek.getDate() + 6);
+    return setEndOfDay(endOfWeek);
+  };
 
   return (
-    <DateContext.Provider
-      value={{ currentDate, currentWeekStart, setCurrentDate, setCurrentWeek }}
-    >
+    <DateContext.Provider value={{ getStartOfWeek, getEndOfWeek }}>
       {children}
     </DateContext.Provider>
   );
-};
-
-// Custom hook to use the DateContext
-export const useDate = () => {
-  const context = useContext(DateContext);
-  if (context === undefined) {
-    throw new Error('useDate must be used within a DateProvider');
-  }
-  return context;
 };

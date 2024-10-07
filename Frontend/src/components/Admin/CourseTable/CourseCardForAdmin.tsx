@@ -20,6 +20,7 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
   openForm,
   closeCard
 }) => {
+  console.log(course);
   return (
     <>
       <div className="w-[320px] m-auto text-white border border-gray-300 rounded-lg p-2 bg-blight shadow-xl">
@@ -72,6 +73,7 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
               <div className="mt-1.5 sm:mt-0">
                 <p className="text-gray-500">Participants</p>
                 <p className="font-medium">
+                 
                   {course.participants.length}/{course.maxParticipants}
                 </p>
               </div>

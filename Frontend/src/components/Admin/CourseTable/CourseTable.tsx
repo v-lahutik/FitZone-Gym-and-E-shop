@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-// import { courseData } from '../../DummyData/courses';
+import React, { useContext, useEffect, useState } from 'react';
 import { weekdays, timeSlots } from './TimeSlots.ts';
 import CourseCardDisplay from './CourseCardDisplay.tsx';
-// import { useDate } from '../../DateContext';
+import { DateContext } from '../../../context/DateContext';
 import axios from 'axios';
 import { URL } from '../../../utils/URL.ts';
-
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 export interface Course {
   courseName: string;
@@ -30,11 +29,51 @@ export interface Course {
   _id: string;
 }
 
-// const courses: Course[] = courseData;
-
 const CourseTable: React.FC = () => {
+  const dateContext = useContext(DateContext);
+  const { getStartOfWeek, getEndOfWeek } = dateContext || {};
+  const [currentWeekStart, setCurrentWeekStart] = useState<Date>(
+    getStartOfWeek(new Date())
+  );
+  const [courses, setCourses] = useState<Course[]>([]); // set weekly courses from database
+  const [isCardOpen, setIsCardOpen] = useState<boolean>(false); // check the Card opened or not
+  const [currentCourse, setCurrentCourse] = useState<Course | null>(null); // Handle opening the Card (either for new course or existing course)
+  const [courseChanged, setCourseChanged] = useState<boolean>(false); // Handle the change in course for re-fetch
 
-  const { currentDate, currentWeek, setCurrentDate, setCurrentWeek } = useDate();
+  const fetchCoursesForWeek = async (startDate: Date, endDate: Date) => {
+    try {
+      const response = await axios({
+        url: `${URL}/admin/courses`,
+        method: 'GET',
+        params: {
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString()
+        },
+        withCredentials: true
+      });
+      const data = response.data.allCoursesForWeek;
+      setCourses(data);
+      setCourseChanged(false);
+      console.log('Courses for week', data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          'Error fetching courseTemplates data',
+          error.response?.data
+        );
+      } else {
+        console.error('Unexpected error', error);
+      }
+    }
+  };
+
+  //calculate the current week and fetch courses for that week
+  useEffect(() => {
+    const startOfWeek = currentWeekStart;
+    const endOfWeek = getEndOfWeek(startOfWeek);
+    fetchCoursesForWeek(startOfWeek, endOfWeek);
+    
+  }, [currentWeekStart, courseChanged]);
 
   //  calculate which rows the course spans based on time
   const getCoursePosition = (start: string, end: string) => {
@@ -47,12 +86,6 @@ const CourseTable: React.FC = () => {
   //create a set to keep track of already spanned rows (so we don't render them again)
   const spannedCells = new Set<string>();
 
-  const [courses, setCourses] = useState<Course[]>([]); // set all courses from database
-  const [isCardOpen, setIsCardOpen] = useState<boolean>(false); // check the Card opened or not
-  const [currentCourse, setCurrentCourse] = useState<Course | null>(null); // Handle opening the Card (either for new course or existing course)
- 
-
-
   const openCard = (course: Course | null) => {
     setCurrentCourse(course);
     setIsCardOpen(true);
@@ -60,72 +93,20 @@ const CourseTable: React.FC = () => {
   const closeCard = () => {
     setCurrentCourse(null);
     setIsCardOpen(false);
+    
   };
 
-
- 
-
-  const getEndOfWeek = (startOfWeek: Date) => {
-    const end = new Date(startOfWeek);
-    end.setDate(end.getDate() + 6);
-    return end;
+  const handlePreviousWeek = () => {
+    const previousWeekStart = new Date(currentWeekStart); //get current monday
+    previousWeekStart.setDate(previousWeekStart.getDate() - 7); //set to previous monday
+    setCurrentWeekStart(previousWeekStart);
   };
 
-
- 
-    const fetchCourses = async (startDate: Date, endDate: Date) => {
-      try {
-        const response = await axios({
-          url: `${URL}/admin/courses`,
-          method: 'GET',
-          params: {
-            startDate: startDate.toISOString(),
-            endDate: endDate.toISOString(),
-          },
-          withCredentials: true,
-        });
-        const data = response.data.allCourses;
-        console.log(data);
-        setCourses(data);
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.error(
-            'Error fetching courseTemplates data',
-            error.response?.data
-          );
-        } else {
-          console.error('Unexpected error', error);
-        }
-      }
-    };
-
-    useEffect(() => {
-      const startOfWeek = getStartOfWeek(currentWeek);
-      const endOfWeek = getEndOfWeek(startOfWeek);
-      fetchCourses(startOfWeek, endOfWeek);
-    }, [currentWeek]);
-
-    // const handlePreviousWeek = () => {
-    //   setCurrentWeek((prev) => {
-    //     const newDate = new Date(prev);
-    //     newDate.setDate(newDate.getDate() - 7);
-    //     return newDate;
-    //   });
-    // };
-  
-    // const handleNextWeek = () => {
-    //   setCurrentWeek((prev) => {
-    //     const newDate = new Date(prev);
-    //     newDate.setDate(newDate.getDate() + 7);
-    //     return newDate;
-    //   });
-    // };
-  
-    // const getFormattedDate = (date: Date) => {
-    //   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    // };
-  
-    // const startOfWeek = getStartOfWeek(currentWeek);
+  const handleNextWeek = () => {
+    const nextWeekStart = new Date(currentWeekStart);
+    nextWeekStart.setDate(nextWeekStart.getDate() + 7);
+    setCurrentWeekStart(nextWeekStart);
+  };
 
   return (
     <>
@@ -133,9 +114,18 @@ const CourseTable: React.FC = () => {
         <CourseCardDisplay
           course={currentCourse}
           closeCard={closeCard}
+          setCourseChanged={setCourseChanged}
           setCurrentCourse={setCurrentCourse}
         />
       )}
+      <div className="flex justify-around items-center mb-4">
+        <FaArrowLeft onClick={handlePreviousWeek} className="cursor-pointer" />
+        <div>
+          {currentWeekStart.toDateString()} -{' '}
+          {getEndOfWeek(currentWeekStart).toDateString()}
+        </div>
+        <FaArrowRight onClick={handleNextWeek} className="cursor-pointer" />
+      </div>
       <div className="overflow-x-auto p-4">
         {/* <CourseCardDisplay /> */}
         <table className="min-w-full table-fixed border-collapse border border-gray-300">
@@ -175,6 +165,7 @@ const CourseTable: React.FC = () => {
                     {
                       /*find course for current slot and day*/
                     }
+
                     const courseForSlot = courses.find(
                       (course) =>
                         weekdays.indexOf(course.weekday) === dayIndex &&
@@ -213,8 +204,8 @@ const CourseTable: React.FC = () => {
                               </p>
                               {/* edit this part for display participants/max participants */}
                               <p className="text-xs hidden lg:block">
-                                Max Participants:{' '}
-                                {courseForSlot.maxParticipants}
+                                Participants:{' '}
+                                {`${courseForSlot.participants.length} / ${courseForSlot.maxParticipants}`}
                               </p>
                             </div>
                           </td>
@@ -222,13 +213,11 @@ const CourseTable: React.FC = () => {
                       );
                     }
 
-
                     return (
                       <td
                         key={`${day}-${slot}`}
                         className="p-2 text-center border bg-gray-100 border-gray-300"
                       ></td>
-
                     );
                   })}
                 </tr>

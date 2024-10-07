@@ -9,25 +9,24 @@ import { Course } from './CourseTable';
 interface CourseCardDisplayProps {
   course: Course;
   closeCard: (course: Course) => void;
+  setCourseChanged: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentCourse: React.Dispatch<React.SetStateAction<Course | null>>;
 }
 
-const CourseCardDisplay: React.FC<CourseCardDisplayProps> = ({ course ,closeCard, setCurrentCourse}) => {
+const CourseCardDisplay: React.FC<CourseCardDisplayProps> = ({ course ,closeCard, setCurrentCourse, setCourseChanged}) => {
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  // s
+   // s
 
   // Handle opening the form (either for new course or existing course)
   const openForm = (course: Course | null) => {
     setCurrentCourse(course);
     setIsFormOpen(true);
-    setIsEditing(course === null); // Edit mode if new course
-  };
+     };
 
   const closeForm = () => {
     setCurrentCourse(null);
     setIsFormOpen(false);
-    setIsEditing(false);
+     setCourseChanged(true);
   };
 
   return (
@@ -44,7 +43,6 @@ const CourseCardDisplay: React.FC<CourseCardDisplayProps> = ({ course ,closeCard
         </div>
         {isFormOpen && (
           <CourseForm
-            isEditing={isEditing}
             course={course}
             closeForm={closeForm}
           />
