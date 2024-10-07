@@ -3,19 +3,48 @@ import { NextFunction, Request, Response } from "express";
 import Course from "../models/course.model";
 
 
-export const getAllCourses = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    try {
-      const allCourses = await Course.find({});
-      res.status(200).json({ msg: "get all course data successfully", allCourses });
-    } catch (error: any) {
-      next(error);
-    }
-};
+// export const getAllCourses = async (
+//     req: Request,
+//     res: Response,
+//     next: NextFunction
+// ) => {
+//     try {
+//       const allCourses = await Course.find({});
+//       res.status(200).json({ msg: "get all course data successfully", allCourses });
+//     } catch (error: any) {
+//       next(error);
+//     }
+// };
 
+
+export const getAllCourses = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log('req.query', req.query);
+  try {
+    const { startDate, endDate } = req.query;
+
+    if (!startDate || !endDate) {
+      return res.status(400).json({ msg: "startDate and endDate query parameters are required" });
+    }
+
+    const start = new Date(startDate as string);
+    const end = new Date(endDate as string);
+
+    const allCoursesForWeek = await Course.find({
+      date: {
+        $gte: start,
+        $lte: end
+      }
+    });
+    console.log('allCoursesForWeek', allCoursesForWeek);
+    res.status(200).json({ msg: "get all course data successfully", allCoursesForWeek });
+  } catch (error: any) {
+    next(error);
+  }
+};
 
 export const deleteCourse = async (req:Request, res:Response, next:NextFunction) => {
     try {

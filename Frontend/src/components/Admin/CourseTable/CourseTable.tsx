@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-// import { courseData } from '../../DummyData/courses';
 import { weekdays, timeSlots } from './TimeSlots.ts';
 import CourseCardDisplay from './CourseCardDisplay.tsx';
-// import { useDate } from '../../DateContext';
+import { useDate } from '../../../context/DateContext';
 import axios from 'axios';
 import { URL } from '../../../utils/URL.ts';
 
@@ -30,11 +29,46 @@ export interface Course {
   _id: string;
 }
 
-// const courses: Course[] = courseData;
+
 
 const CourseTable: React.FC = () => {
 
-  const { currentDate, currentWeek, setCurrentDate, setCurrentWeek } = useDate();
+  const { getStartOfWeek, getEndOfWeek} = useDate();
+  const [courses, setCourses] = useState<Course[]>([]); // set all courses from database
+  const [isCardOpen, setIsCardOpen] = useState<boolean>(false); // check the Card opened or not
+  const [currentCourse, setCurrentCourse] = useState<Course | null>(null); // Handle opening the Card (either for new course or existing course)
+
+
+  const fetchCoursesForWeek = async (startDate: Date, endDate: Date) => {
+    try {
+      const response = await axios({
+        url: `${URL}/admin/courses`,
+        method: 'GET',
+        params: {
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+        },
+        withCredentials: true,
+      });
+      const data = response.data.allCoursesForWeek;
+      setCourses(data);
+      console.log('Courses for week', data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Error fetching courseTemplates data', error.response?.data);
+      } else {
+        console.error('Unexpected error', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const today = new Date();
+    const startOfWeek = getStartOfWeek(today);
+    const endOfWeek = getEndOfWeek(startOfWeek);
+    fetchCoursesForWeek(startOfWeek, endOfWeek);
+  }, []);
+
 
   //  calculate which rows the course spans based on time
   const getCoursePosition = (start: string, end: string) => {
@@ -47,12 +81,6 @@ const CourseTable: React.FC = () => {
   //create a set to keep track of already spanned rows (so we don't render them again)
   const spannedCells = new Set<string>();
 
-  const [courses, setCourses] = useState<Course[]>([]); // set all courses from database
-  const [isCardOpen, setIsCardOpen] = useState<boolean>(false); // check the Card opened or not
-  const [currentCourse, setCurrentCourse] = useState<Course | null>(null); // Handle opening the Card (either for new course or existing course)
- 
-
-
   const openCard = (course: Course | null) => {
     setCurrentCourse(course);
     setIsCardOpen(true);
@@ -62,48 +90,6 @@ const CourseTable: React.FC = () => {
     setIsCardOpen(false);
   };
 
-
- 
-
-  const getEndOfWeek = (startOfWeek: Date) => {
-    const end = new Date(startOfWeek);
-    end.setDate(end.getDate() + 6);
-    return end;
-  };
-
-
- 
-    const fetchCourses = async (startDate: Date, endDate: Date) => {
-      try {
-        const response = await axios({
-          url: `${URL}/admin/courses`,
-          method: 'GET',
-          params: {
-            startDate: startDate.toISOString(),
-            endDate: endDate.toISOString(),
-          },
-          withCredentials: true,
-        });
-        const data = response.data.allCourses;
-        console.log(data);
-        setCourses(data);
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.error(
-            'Error fetching courseTemplates data',
-            error.response?.data
-          );
-        } else {
-          console.error('Unexpected error', error);
-        }
-      }
-    };
-
-    useEffect(() => {
-      const startOfWeek = getStartOfWeek(currentWeek);
-      const endOfWeek = getEndOfWeek(startOfWeek);
-      fetchCourses(startOfWeek, endOfWeek);
-    }, [currentWeek]);
 
     // const handlePreviousWeek = () => {
     //   setCurrentWeek((prev) => {
@@ -175,6 +161,7 @@ const CourseTable: React.FC = () => {
                     {
                       /*find course for current slot and day*/
                     }
+                
                     const courseForSlot = courses.find(
                       (course) =>
                         weekdays.indexOf(course.weekday) === dayIndex &&
