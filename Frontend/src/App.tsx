@@ -15,6 +15,7 @@ import UserProfile from './components/Members/UserProfile.tsx';
 import Orders from './components/Members/Orders.tsx';
 import AdminProducts from './components/Admin/AdminProducts/AdminProducts.tsx';
 import AdminProfile from './components/Admin/AdminProfile.tsx';
+import MembersCourseTable from './components/Members/MembersCourseTable.tsx';
 
 
 function App() {
@@ -35,6 +36,10 @@ function App() {
           }
         >
           <Route index element={<UserProfile />} />
+          <Route path="courses">
+            <Route path="week" element={<MembersCourseTable />} />
+            {/* <Route path="templates" element={<CourseTemplateDisplay />} /> */}
+          </Route>
           <Route path="orders" element={<Orders />} />
 
         </Route>

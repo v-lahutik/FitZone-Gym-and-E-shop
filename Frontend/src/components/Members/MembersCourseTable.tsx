@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { weekdays, timeSlots } from './TimeSlots.ts';
-import CourseCardDisplay from './CourseCardDisplay';
-import { DateContext } from '../../../context/DateContext';
+import { weekdays, timeSlots } from '../Admin/CourseTable/TimeSlots.ts';
 import axios from 'axios';
-import { URL } from '../../../utils/URL.ts';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { DateContext } from '../../context/DateContext.tsx';
+import { URL } from '../../utils/URL.ts';
+import CourseCardForMember from './CourseCardForMember.tsx';
 
 export interface Course {
   courseName: string;
@@ -29,7 +29,7 @@ export interface Course {
   _id: string;
 }
 
-const CourseTable: React.FC = () => {
+const MembersCourseTable: React.FC = () => {
   const dateContext = useContext(DateContext);
   const { getStartOfWeek, getEndOfWeek } = dateContext || {};
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(
@@ -43,7 +43,7 @@ const CourseTable: React.FC = () => {
   const fetchCoursesForWeek = async (startDate: Date, endDate: Date) => {
     try {
       const response = await axios({
-        url: `${URL}/admin/courses`,
+        url: `${URL}/users/courses`,
         method: 'GET',
         params: {
           startDate: startDate.toISOString(),
@@ -111,7 +111,7 @@ const CourseTable: React.FC = () => {
   return (
     <>
       {isCardOpen && currentCourse && (
-        <CourseCardDisplay
+        <CourseCardForMember
           course={currentCourse}
           closeCard={closeCard}
           setCourseChanged={setCourseChanged}
@@ -230,4 +230,4 @@ const CourseTable: React.FC = () => {
   );
 };
 
-export default CourseTable;
+export default MembersCourseTable;

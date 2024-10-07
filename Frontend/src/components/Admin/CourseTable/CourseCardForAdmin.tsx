@@ -73,7 +73,6 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
               <div className="mt-1.5 sm:mt-0">
                 <p className="text-gray-500">Participants</p>
                 <p className="font-medium">
-                 
                   {course.participants.length}/{course.maxParticipants}
                 </p>
               </div>
