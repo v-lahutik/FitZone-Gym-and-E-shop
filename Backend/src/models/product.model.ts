@@ -1,5 +1,5 @@
 import { Schema, model, Document, Types, ObjectId } from "mongoose";
-import Category from './category.model'
+import Category, { CategoryDocument } from './category.model'
 
 export interface ProductInput {
   productName: string;
@@ -12,7 +12,7 @@ export interface ProductInput {
 
 
 export interface ProductDocument extends ProductInput, Document {
-  category: Schema.Types.ObjectId;
+  category: Schema.Types.ObjectId | CategoryDocument;
   createdAt: Date;
   updatedAt: Date;
 
