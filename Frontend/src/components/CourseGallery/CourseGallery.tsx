@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { FaRegArrowAltCircleLeft } from "react-icons/fa";
-import { FaRegArrowAltCircleRight } from "react-icons/fa";
-import Boxing from "../../assets/images/Courses/boxing.jpg";
-import Yoga from "../../assets/images/Courses/yoga.jpg";
-import BodyWeight from "../../assets/images/Courses/bodyweight.jpg";
+import React, { useState } from 'react';
+import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
+import { FaRegArrowAltCircleRight } from 'react-icons/fa';
+import Boxing from '../../assets/images/Courses/boxing.jpg';
+import Yoga from '../../assets/images/Courses/yoga.jpg';
+import BodyWeight from '../../assets/images/Courses/bodyweight.jpg';
+import { Link } from 'react-router-dom';
 
 function Carousel() {
   // State to manage the active slide
@@ -22,8 +23,8 @@ function Carousel() {
         <div
           className={`absolute inset-0 transition-all duration-300 ${
             activeSlide === 1
-              ? "opacity-100 z-5 visible"
-              : "opacity-0 z-0 invisible"
+              ? 'opacity-100 z-5 visible'
+              : 'opacity-0 z-0 invisible'
           }`}
         >
           {/* Slide Content */}
@@ -48,8 +49,8 @@ function Carousel() {
         <div
           className={`absolute inset-0 transition-all duration-300 ${
             activeSlide === 2
-              ? "opacity-100 z-5 visible"
-              : "opacity-0 z-0 invisible"
+              ? 'opacity-100 z-5 visible'
+              : 'opacity-0 z-0 invisible'
           }`}
         >
           {/* Slide Content */}
@@ -74,8 +75,8 @@ function Carousel() {
         <div
           className={`absolute inset-0 transition-all duration-300 ${
             activeSlide === 3
-              ? "opacity-100 z-5 visible"
-              : "opacity-0 z-0 invisible"
+              ? 'opacity-100 z-5 visible'
+              : 'opacity-0 z-0 invisible'
           }`}
         >
           {/* Slide Content */}
@@ -134,7 +135,15 @@ const CourseGallery: React.FC = () => {
           <h3 className="text-primary text-xl text-semibold uppercase font-kanit subtitle col-span-4">
             A selection of our courses
           </h3>
+
           <Carousel />
+          <div>
+            <Link to="/courses">
+              <button className="bg-primary hover:bg-primary-dark text-white font-bold uppercase py-6 px-12 mt-14 ">
+                View All Courses
+              </button>
+            </Link>
+          </div>
         </div>
       </section>
     </>
