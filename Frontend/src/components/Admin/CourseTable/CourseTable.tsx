@@ -72,7 +72,6 @@ const CourseTable: React.FC = () => {
     const startOfWeek = currentWeekStart;
     const endOfWeek = getEndOfWeek(startOfWeek);
     fetchCoursesForWeek(startOfWeek, endOfWeek);
-    
   }, [currentWeekStart, courseChanged]);
 
   //  calculate which rows the course spans based on time
@@ -93,7 +92,6 @@ const CourseTable: React.FC = () => {
   const closeCard = () => {
     setCurrentCourse(null);
     setIsCardOpen(false);
-    
   };
 
   const handlePreviousWeek = () => {
