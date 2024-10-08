@@ -15,8 +15,8 @@ const MemberHeader = (props: {
 
   const [isOpen, setIsOpen] = useState(false);
 
- const {user}= useContext(UserContext);
-
+ const userContext= useContext(UserContext);
+  const {user, logout} = userContext;
 
 console.log("user from nav", user);
   const toggleDropdown = () => {
@@ -114,24 +114,24 @@ console.log("user from nav", user);
               } `}
             >
               <div className="py-1">
-                <a
-                  href="#"
+                <li
+                  
                   className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
                 >
                   Your Profile
-                </a>
-                <a
-                  href="#"
+                </li>
+                <li
+                 
                   className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
                 >
                   Settings
-                </a>
-                <a
-                  href="#"
+                </li>
+                <li
+                  onClick={logout}
                   className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
                 >
                   Sign out
-                </a>
+                </li>
               </div>
             </div>
           </div>
