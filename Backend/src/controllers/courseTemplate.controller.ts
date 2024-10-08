@@ -38,8 +38,8 @@ export const createNewCourseTemplate = async (
   next: NextFunction
 ) => {
   try {
-    const {courseName,category,weekday,time,maxParticipants,description,instructor} = req.body;
-    const newCourseTemplate = await CourseTemplate.create({courseName,category,weekday,time,maxParticipants,description,instructor});
+    const {coursePic, courseName,category,weekday,time,maxParticipants,description,instructor} = req.body;
+    const newCourseTemplate = await CourseTemplate.create({coursePic, courseName,category,weekday,time,maxParticipants,description,instructor});
     res.status(200).json({ msg: "Course template added successfully", newCourseTemplate });
   } catch (error: any) {
     next(error);
@@ -49,8 +49,8 @@ export const createNewCourseTemplate = async (
 export const editCourseTemplate = async (req:Request, res:Response, next:NextFunction) => {
     try {
         const tid = req.params.tid  // tid is course template ID of mongoDB
-        const{courseName,category,weekday,time,maxParticipants,description,instructor} = req.body;
-        const editedCourse = await CourseTemplate.findByIdAndUpdate(tid, {courseName,category,weekday,time,maxParticipants,description,instructor}, { new: true });
+        const{coursePic, courseName,category,weekday,time,maxParticipants,description,instructor} = req.body;
+        const editedCourse = await CourseTemplate.findByIdAndUpdate(tid, {coursePic, courseName,category,weekday,time,maxParticipants,description,instructor}, { new: true });
         res.status(200).json({ msg: "Course template edited successfully", editedCourse });
     } catch (error) {
         next(error);
