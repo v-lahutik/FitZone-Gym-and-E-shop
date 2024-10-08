@@ -1,7 +1,7 @@
 
 import axios, { AxiosError } from 'axios';
-import { URL } from '../../../utils/URL';
-import { Course } from './CourseTable';
+import { URL } from '../../utils/URL';
+import { Course } from './MembersCourseTable';
 
 
 interface ServerResponse {
@@ -9,81 +9,52 @@ interface ServerResponse {
   status: number;
 }
 
-// saving a new course
-export const handleSaveNewCourse = async (
-  localCourse: Course,
-  closeForm: () => void
+// to book course !!
+export const bookNewCourse = async (
+  course: Course
 ) => {
   console.log(URL);
-  if (window.confirm('Are you sure you want to save this Course?')) {
+  if (window.confirm('Are you sure you want to book this course?')) {
     try {
-      const response = await axios.post<ServerResponse>(
-        `${URL}/admin/courses/add`,
-        localCourse,
+      const response = await axios.put<ServerResponse>(
+        `${URL}/users/booking/${course._id}`,
+        {}, //empty object needed it 
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true
         },
       );
       const { msg } = response.data;
-      alert(msg || 'Course created successfully!');
-      closeForm();
+      alert(msg || 'You booked the course successfully!');
     } catch (error) {
       errorAlert(error as AxiosError);
     }
   }
 };
 
-// update course 
-export const handleUpdateCourse = async (
-  localCourse: Course,
-  closeForm: () => void
-) => {
-  if (localCourse) {
-    if (
-      window.confirm('Are you sure you want to change this course detail?')
-    ) {
-      try {
-        const response = await axios.patch<ServerResponse>(
-          `${URL}/admin/courses/edit/${localCourse._id}`,
-          localCourse,
-          {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true, 
-          }
-        );
-        const { msg } = response.data;
-        alert(msg || 'Course detail updated successfully!');
-        closeForm();
-      } catch (error) {
-        errorAlert(error as AxiosError);
-      }
-    }
-  }
-};
-
-//  deleting a course
-export const handleDeleteCourse = async (course: Course) => {
+//  deleting a course template
+export const cancelBookedCourse = async (course: Course) => {
   if (course) {
     if (
-      window.confirm('Are you sure you want to delete this course?')
+      window.confirm('Are you sure you want to cancel this course?')
     ) {
       try {
-        const response = await axios.delete<ServerResponse>(
-          `${URL}/admin/courses/delete/${course._id}`,
+        const response = await axios.put<ServerResponse>(
+          `${URL}/users/cancelBooking/${course._id}`,
           {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
           }
         );
         const { msg } = response.data;
-        alert(msg || 'Course deleted successfully!');
+        alert(msg || 'You canceled the course successfully!');
       } catch (err) {
         errorAlert(err as AxiosError);
       }
     }
   }
 };
+
 
 const errorAlert = (err: AxiosError) => {
   if (axios.isAxiosError(err)) {

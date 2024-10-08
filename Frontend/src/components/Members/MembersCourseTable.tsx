@@ -38,7 +38,7 @@ const MembersCourseTable: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([]); // set weekly courses from database
   const [isCardOpen, setIsCardOpen] = useState<boolean>(false); // check the Card opened or not
   const [currentCourse, setCurrentCourse] = useState<Course | null>(null); // Handle opening the Card (either for new course or existing course)
-  const [courseChanged, setCourseChanged] = useState<boolean>(false); // Handle the change in course for re-fetch
+  const [courseBooked, setCourseBooked] = useState<boolean>(false); // Handle the change in course for re-fetch
 
   const fetchCoursesForWeek = async (startDate: Date, endDate: Date) => {
     try {
@@ -53,7 +53,7 @@ const MembersCourseTable: React.FC = () => {
       });
       const data = response.data.allCoursesForWeek;
       setCourses(data);
-      setCourseChanged(false);
+      setCourseBooked(false);
       console.log('Courses for week', data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -73,7 +73,7 @@ const MembersCourseTable: React.FC = () => {
     const endOfWeek = getEndOfWeek(startOfWeek);
     fetchCoursesForWeek(startOfWeek, endOfWeek);
     
-  }, [currentWeekStart, courseChanged]);
+  }, [currentWeekStart, courseBooked]);
 
   //  calculate which rows the course spans based on time
   const getCoursePosition = (start: string, end: string) => {
@@ -114,7 +114,7 @@ const MembersCourseTable: React.FC = () => {
         <CourseCardForMember
           course={currentCourse}
           closeCard={closeCard}
-          setCourseChanged={setCourseChanged}
+          setCourseBooked={setCourseBooked}
           setCurrentCourse={setCurrentCourse}
         />
       )}
