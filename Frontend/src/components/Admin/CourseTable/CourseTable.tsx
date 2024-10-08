@@ -7,6 +7,7 @@ import { URL } from '../../../utils/URL.ts';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 export interface Course {
+  coursePic: string;
   courseName: string;
   description: string;
   instructor: string;
