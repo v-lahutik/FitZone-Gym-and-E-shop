@@ -11,7 +11,10 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
-  const [userLogin, setUserLogin] = useState<userLogin>({ email: '', loginPassword: '' });
+  const [userLogin, setUserLogin] = useState<userLogin>({
+    email: '',
+    loginPassword: ''
+  });
   const [errors, setErrors] = useState<null | { [key: string]: string }>(null);
   const [beErr, setBeError] = useState(null);
   const userContext = useContext(UserContext);
@@ -22,24 +25,18 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-
     console.log('Login re-render');
     console.log('isLoggedIn:', userContext?.isLoggedIn);
     if (!userContext?.isLoggedIn) {
       authenticate();
     }
-       // redirect to the appropriate page based on the user's role
-       if (userContext?.user.role === 'Admin') {
-        navigate('/admin/dashboard');
-      } else if (
-        userContext?.user.role === 'Member'
-        
-      ) {
-        navigate('/member');
-      }
+    // redirect to the appropriate page based on the user's role
+    if (userContext?.user.role === 'Admin') {
+      navigate('/admin/dashboard');
+    } else if (userContext?.user.role === 'Member') {
+      navigate('/member');
+    }
   }, [userContext?.isLoggedIn]);
-
-
 
   interface userLogin {
     email: string;
@@ -78,6 +75,9 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
         method: 'POST',
         data: userLogin,
         withCredentials: true
+      }).catch((err) => {
+        console.log(err);
+        throw err;
       });
 
       // const userData = res.data.user;
