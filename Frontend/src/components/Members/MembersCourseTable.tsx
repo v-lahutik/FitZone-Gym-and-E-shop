@@ -3,6 +3,7 @@ import { weekdays, timeSlots } from '../Admin/CourseTable/TimeSlots.ts';
 import axios from 'axios';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { DateContext } from '../../context/DateContext.tsx';
+import { UserContext } from '../../context/UserContext.tsx';
 import { URL } from '../../utils/URL.ts';
 import CourseCardForMember from './CourseCardForMember.tsx';
 
@@ -24,7 +25,7 @@ export interface Course {
     | 'Saturday'
     | 'Sunday';
   maxParticipants: number;
-  participants: [];
+  participants: [string];
   category: ('Flexibility' | 'Strength' | 'Cardio')[]; //takes 1 or more values in an array
   _id: string;
 }
@@ -35,6 +36,8 @@ const MembersCourseTable: React.FC = () => {
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(
     getStartOfWeek(new Date())
   );
+  const userContext = useContext(UserContext);
+  const userId = userContext?.user?._id;
   const [courses, setCourses] = useState<Course[]>([]); // set weekly courses from database
   const [isCardOpen, setIsCardOpen] = useState<boolean>(false); // check the Card opened or not
   const [currentCourse, setCurrentCourse] = useState<Course | null>(null); // Handle opening the Card (either for new course or existing course)
@@ -189,7 +192,7 @@ const MembersCourseTable: React.FC = () => {
                         <>
                           <td
                             key={`${day}-${slot}`}
-                            className="p-2 text-center bg-blue-100 border border-gray-300"
+                            className={`p-2 text-center ${userId && courseForSlot.participants.includes(userId) ? 'bg-blue-300' : 'bg-blue-100'}  border border-gray-300`}
                             rowSpan={rowSpan}
                           >
                             <div

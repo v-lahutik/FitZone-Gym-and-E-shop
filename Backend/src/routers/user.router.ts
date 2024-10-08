@@ -2,6 +2,7 @@ import express from "express";
 import { authenticate, changePassword, forgotPassword, login, logout, profileData, resetPasswordHandler, verifyAccount, verifyResetLink } from "../controllers/user.controller";
 import { changePasswordValidation, loginValidation, resetPasswordValidation } from "../validators/user.validator";
 import { validateRequest } from "../middlewares/validationMiddleware";
+import { getAllCourses } from "../controllers/course.controller";
 import { bookingCourse, cancelBooking } from "../controllers/booking.controller";
 import { authenticateAndCheckRoles } from "../middlewares/authAndRoles";
 import { toAddToCart, toClearCart, toDeleteFromCart } from "../controllers/cart.controller";
@@ -26,6 +27,7 @@ userRouter.get('/resetPassword/:resetToken/:uid', verifyResetLink);
 userRouter.post('/resetPassword',resetPasswordValidation, validateRequest, resetPasswordHandler);
 
 //booking courses
+userRouter.get('/courses',authenticateAndCheckRoles([UserRole.admin, UserRole.member]), getAllCourses)
 userRouter.put('/booking/:cid',authenticateAndCheckRoles([UserRole.admin, UserRole.member]),bookingCourse)
 userRouter.put('/cancelBooking/:cid',authenticateAndCheckRoles([UserRole.admin, UserRole.member]),cancelBooking)
 
