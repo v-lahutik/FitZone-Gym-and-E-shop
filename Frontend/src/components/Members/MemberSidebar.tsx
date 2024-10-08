@@ -141,7 +141,7 @@ export default function MemberSidebar({
                     <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                       <li>
                         <NavLink
-                          to="/admin/courses/week"
+                          to="/member/courses/week"
                           className="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                         >
                           Weekly Courses
@@ -149,10 +149,10 @@ export default function MemberSidebar({
                       </li>
                       <li>
                         <NavLink
-                          to="/admin/courses/templates"
+                          to="/member/courses/booked"
                           className="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                         >
-                          Courses Templates
+                          Your Booked Courses 
                         </NavLink>
                       </li>
                     </ul>
