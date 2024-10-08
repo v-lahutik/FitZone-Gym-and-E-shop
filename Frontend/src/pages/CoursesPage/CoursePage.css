@@ -1,0 +1,25 @@
+.course-btn:hover {
+  color: var(--primary-light);
+}
+.course-btn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--primary);
+  -webkit-transition: all ease 0.4s;
+  transition: all ease 0.4s;
+}
+.course-btn:hover::before {
+  width: 70%;
+  background-color: var(--primary-light);
+}
+.truncate-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
