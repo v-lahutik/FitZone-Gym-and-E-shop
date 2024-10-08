@@ -116,7 +116,7 @@ export const getSingleOrder = async (req: Request, res: Response) => {
 // Controller to get all orders - for admins only
 export const getAllOrders = async (req: Request, res: Response) => {
   try {
-      const orders = await Order.find().populate("products.productId");
+      const orders = await Order.find().populate({path: "products.productId", populate: {path: "category", model: "Category"}})
 
       // Check if orders exist
       if (orders.length === 0) {
