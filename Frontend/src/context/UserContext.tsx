@@ -92,11 +92,20 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    authenticate();
+    if (
+      (location.pathname.startsWith('/admin') && user.role !== 'Admin') ||
+      (location.pathname.startsWith('/member') && user.role !== 'Member')
+    ) {
+      authenticate();
+    } else {
+      setUserLoading(false);
+    }
   }, []);
 
   useEffect(() => {
     if (!userLoading) {
+      // Redirect user if they try to access a page they are not authorized to
+
       if (
         (location.pathname.startsWith('/admin') && user.role !== 'Admin') ||
         (location.pathname.startsWith('/member') && user.role !== 'Member')

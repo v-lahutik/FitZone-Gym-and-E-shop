@@ -6,9 +6,10 @@ import { NavLink, useLocation } from 'react-router-dom';
 import Logo from '/src/assets/images/Logo/fitzone_logo.png';
 import { IoIosArrowDown } from 'react-icons/io';
 import { FaArrowLeft } from 'react-icons/fa6';
-import { BsShop } from 'react-icons/bs';
-import { RxAvatar } from "react-icons/rx";
+
+import { RxAvatar } from 'react-icons/rx';
 import { IoSchoolOutline } from 'react-icons/io5';
+import { HiOutlineShoppingBag } from 'react-icons/hi';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -68,7 +69,7 @@ export default function MemberSidebar({
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-[9999] flex h-screen w-72 flex-col overflow-y-hidden bg-bodydark1 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`absolute left-0 top-0 z-[9999] flex h-screen w-72 flex-col overflow-y-hidden bg-blackColor2 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
@@ -102,18 +103,17 @@ export default function MemberSidebar({
 
               <li>
                 <NavLink
-                  to="/member"
-                  className={({ isActive }) =>
-                    `group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-archivo text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
-                      isActive ? 'bg-graydark text-white' : ''
-                    }`
+                  to="/member/profile"
+                  className={({
+                    isActive
+                  }) => `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
+                    isActive ? 'bg-graydark text-white' : ''
                   }
+                  `}
                 >
                   <RxAvatar />
                   Profile
-                 
                 </NavLink>
-               
               </li>
 
               {/* <!-- Menu Item Dashboard --> */}
@@ -139,16 +139,26 @@ export default function MemberSidebar({
                     <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                       <li>
                         <NavLink
-                          to="/admin/courses/week"
-                          className="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                          to="/member/courses/week"
+                          className={({
+                            isActive
+                          }) => `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
+                            isActive ? 'bg-graydark text-white' : ''
+                          }
+                          `}
                         >
                           Weekly Courses
                         </NavLink>
                       </li>
                       <li>
                         <NavLink
-                          to="/admin/courses/templates"
-                          className="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                          to="/member/courses/templates"
+                          className={({
+                            isActive
+                          }) => `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
+                            isActive ? 'bg-graydark text-white' : ''
+                          }
+                          `}
                         >
                           Courses Templates
                         </NavLink>
@@ -163,14 +173,18 @@ export default function MemberSidebar({
               <li>
                 <NavLink
                   to="/member/orders"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
+                  className={({
+                    isActive
+                  }) => `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
+                    isActive ? 'bg-graydark text-white' : ''
+                  }
+                  `}
                 >
-                  <BsShop />
+                  <HiOutlineShoppingBag />
                   Orders
                 </NavLink>
               </li>
               {/* <!-- Menu Item Products --> */}
-        
             </ul>
           </div>
         </nav>
