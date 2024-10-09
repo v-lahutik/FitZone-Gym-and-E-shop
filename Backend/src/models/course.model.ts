@@ -9,6 +9,7 @@ export interface CourseInput {
   maxParticipants: number;
   description?: string;
   instructor?: string;
+  coursePic?: string;
 }
 
 export interface CourseDocument extends CourseInput, Document {
@@ -19,6 +20,7 @@ export interface CourseDocument extends CourseInput, Document {
 
 const courseSchema = new Schema<CourseDocument>(
   {
+    coursePic: String,
     courseName: { type: String, required: true },
     category: { type: [String], required: true },
     weekday: { type: String, required: true },
@@ -29,7 +31,7 @@ const courseSchema = new Schema<CourseDocument>(
     },
     maxParticipants: { type: Number, required: true },
     description: String,
-    instructor: String,
+    instructor: String,   
     participants: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
