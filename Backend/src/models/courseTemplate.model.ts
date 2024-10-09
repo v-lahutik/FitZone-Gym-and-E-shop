@@ -1,6 +1,7 @@
 import { Schema, model, Document } from "mongoose";
 
 export interface CourseTemplateInput {
+  coursePic: string;
   courseName: string;
   category: string[];
   weekday: string;
@@ -17,7 +18,7 @@ export interface CourseTemplateDocument extends CourseTemplateInput, Document {
 }
 
 const courseTemplateSchema = new Schema<CourseTemplateDocument>(
-  {
+  { coursePic: { type: String, required: true},
     courseName: { type: String, required: true },
     category: { type: [String], required: true },
     weekday: { type: String, required: true },

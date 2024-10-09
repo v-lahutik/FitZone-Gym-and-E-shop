@@ -39,6 +39,7 @@ const addressSchema = new Schema<DeliveryAddress>({
 
 export interface OrderDocument extends Document {
   userId: ObjectId;  
+  orderNumber: string;
   products: OrderedProduct[];  
   totalPrice: number;  
   deliveryDate: Date;
@@ -50,6 +51,7 @@ export interface OrderDocument extends Document {
 
 const orderSchema = new Schema<OrderDocument>({
   userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },  
+  orderNumber: { type: String, required: true, unique: true },
   products: [
     {
       productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },  

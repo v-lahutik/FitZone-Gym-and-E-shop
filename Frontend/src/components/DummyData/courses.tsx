@@ -5,7 +5,7 @@ export const courseData = [
       "name": "HIIT Bootcamp",
       "category": ["cardio", "strength"],
       "weekday": "Monday",
-      "time": { "start": "09:00", "end": "10:00" },
+      "time": { "start": "09:00", "end": "12:00" },
       "maxParticipants": 20,
       "description": "High-intensity interval training for endurance and strength.",
       "instructor": "John Doe"

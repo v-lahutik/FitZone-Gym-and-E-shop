@@ -43,7 +43,14 @@ export const toAddToCart = async (
       { new: true }
     )
       .select("-password -address -is_activated -createdAt -updatedAt -__v")
-      .populate("cart.productId", "-createdAt -updatedAt -__v");
+      .populate({
+        path: "cart.productId", 
+        select: "-createdAt -updatedAt -__v",
+        populate: {
+          path: "category", 
+          select: "categoryName" // Populating categoryName here
+        }
+      });
 
     // If the product is not in the cart, add it
     if (!updatedUser) {
@@ -57,7 +64,14 @@ export const toAddToCart = async (
         { new: true }
       )
         .select("-password -address -is_activated -createdAt -updatedAt -__v")
-        .populate("cart.productId", "-createdAt -updatedAt -__v");
+        .populate({
+          path: "cart.productId", 
+          select: "-createdAt -updatedAt -__v",
+          populate: {
+            path: "category", 
+            select: "categoryName"
+          }
+        });
 
       if (!newUser) {
         return res.status(404).json({ msg: "User not found" });

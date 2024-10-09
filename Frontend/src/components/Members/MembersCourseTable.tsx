@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { weekdays, timeSlots } from './TimeSlots.ts';
-import CourseCardDisplay from './CourseCardDisplay';
-import { DateContext } from '../../../context/DateContext';
+import { weekdays, timeSlots } from '../Admin/CourseTable/TimeSlots.ts';
 import axios from 'axios';
-import { URL } from '../../../utils/URL.ts';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { DateContext } from '../../context/DateContext.tsx';
+import { UserContext } from '../../context/UserContext.tsx';
+import { URL } from '../../utils/URL.ts';
+import CourseCardForMember from './CourseCardForMember.tsx';
 
 export interface Course {
-  coursePic: string;
   courseName: string;
   description: string;
   instructor: string;
@@ -25,26 +25,28 @@ export interface Course {
     | 'Saturday'
     | 'Sunday';
   maxParticipants: number;
-  participants: [];
+  participants: [string];
   category: ('Flexibility' | 'Strength' | 'Cardio')[]; //takes 1 or more values in an array
   _id: string;
 }
 
-const CourseTable: React.FC = () => {
+const MembersCourseTable: React.FC = () => {
   const dateContext = useContext(DateContext);
   const { getStartOfWeek, getEndOfWeek } = dateContext || {};
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(
     getStartOfWeek(new Date())
   );
+  const userContext = useContext(UserContext);
+  const userId = userContext?.user?._id;
   const [courses, setCourses] = useState<Course[]>([]); // set weekly courses from database
   const [isCardOpen, setIsCardOpen] = useState<boolean>(false); // check the Card opened or not
   const [currentCourse, setCurrentCourse] = useState<Course | null>(null); // Handle opening the Card (either for new course or existing course)
-  const [courseChanged, setCourseChanged] = useState<boolean>(false); // Handle the change in course for re-fetch
+  const [courseBooked, setCourseBooked] = useState<boolean>(false); // Handle the change in course for re-fetch
 
   const fetchCoursesForWeek = async (startDate: Date, endDate: Date) => {
     try {
       const response = await axios({
-        url: `${URL}/admin/courses`,
+        url: `${URL}/users/courses`,
         method: 'GET',
         params: {
           startDate: startDate.toISOString(),
@@ -54,7 +56,7 @@ const CourseTable: React.FC = () => {
       });
       const data = response.data.allCoursesForWeek;
       setCourses(data);
-      setCourseChanged(false);
+      setCourseBooked(false);
       console.log('Courses for week', data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -73,7 +75,8 @@ const CourseTable: React.FC = () => {
     const startOfWeek = currentWeekStart;
     const endOfWeek = getEndOfWeek(startOfWeek);
     fetchCoursesForWeek(startOfWeek, endOfWeek);
-  }, [currentWeekStart, courseChanged]);
+    
+  }, [currentWeekStart, courseBooked]);
 
   //  calculate which rows the course spans based on time
   const getCoursePosition = (start: string, end: string) => {
@@ -93,6 +96,7 @@ const CourseTable: React.FC = () => {
   const closeCard = () => {
     setCurrentCourse(null);
     setIsCardOpen(false);
+    
   };
 
   const handlePreviousWeek = () => {
@@ -110,10 +114,10 @@ const CourseTable: React.FC = () => {
   return (
     <>
       {isCardOpen && currentCourse && (
-        <CourseCardDisplay
+        <CourseCardForMember
           course={currentCourse}
           closeCard={closeCard}
-          setCourseChanged={setCourseChanged}
+          setCourseBooked={setCourseBooked}
           setCurrentCourse={setCurrentCourse}
         />
       )}
@@ -188,7 +192,7 @@ const CourseTable: React.FC = () => {
                         <>
                           <td
                             key={`${day}-${slot}`}
-                            className="p-2 text-center bg-blue-100 border border-gray-300"
+                            className={`p-2 text-center ${userId && courseForSlot.participants.includes(userId) ? 'bg-blue-300' : 'bg-blue-100'}  border border-gray-300`}
                             rowSpan={rowSpan}
                           >
                             <div
@@ -229,4 +233,4 @@ const CourseTable: React.FC = () => {
   );
 };
 
-export default CourseTable;
+export default MembersCourseTable;

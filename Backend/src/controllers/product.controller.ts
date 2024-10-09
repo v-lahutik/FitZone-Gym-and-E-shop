@@ -26,8 +26,8 @@ export const addNewProduct = async (req:Request,res:Response,next:NextFunction) 
 export const editProduct = async (req:Request,res:Response,next:NextFunction) => {
     try {
         const pid = req.params.pid // pid is product ID of mongoDB
-        const {productName,description,prise,stock,image,category} = req.body
-        const editedProduct = await Product.findByIdAndUpdate(pid, {productName,description,prise,stock,image,category}, { new: true });
+        const {productName,description,price,stock,image,category} = req.body
+        const editedProduct = await Product.findByIdAndUpdate(pid, {productName,description,price,stock,image,category}, { new: true });
         await editedProduct?.populate('category')
         res.status(200).json({ msg: "product edited successfully", editedProduct });
     } catch (error) {
@@ -54,7 +54,7 @@ export const deleteProduct = async (req:Request, res:Response, next:NextFunction
 // everyone can see all products in the online shop
 export const getAllProducts = async (req: Request,res: Response,next: NextFunction) => {
     try {
-      const allProducts = await Product.find({}).populate("category").exec();
+      const allProducts = await Product.find({}).populate("category", "categoryName").exec();
       res.status(200).json({ msg: "get all product successfully", allProducts });
     } catch (error: any) {
       next(error);

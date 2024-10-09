@@ -3,57 +3,63 @@ import Order from "../models/order.model";
 import Product from "../models/product.model";
 import User from "../models/user.model";
 import { isValidObjectId } from "mongoose"
+import { v4 as uuidv4 } from 'uuid';
+import {CategoryDocument} from "../models/category.model";
+import Category from "../models/category.model";
 
-// After clicking on the "Place Order" button - new order is created
-export const createOrder = async (req: Request & {payload?: any}, res: Response) => {
-  try {
-    const payload = req.payload;
-    const { deliveryAddress } = req.body;
-    console.log("payload",req.payload);
-    if (!payload) {
-      return res.status(401).json({ message: "No valid token found, please log in first." });
-    }
+ //After clicking on the "Place Order" button - new order is created
+ export const createOrder = async (req: Request & {payload?: any}, res: Response) => {
+   try {
+     const payload = req.payload;
+     const { deliveryAddress } = req.body;
+     console.log("payload",req.payload);
+     if (!payload) {
+       return res.status(401).json({ message: "No valid token found, please log in first." });
+     }
+     const userId = payload.id
 
-    const userId = payload.id
- 
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
- // Retrieve user cart items
-    const products = user.cart; 
-    console.log("products", products);
-    let totalPrice = 0;
+     const user = await User.findById(userId);
+     if (!user) {
+       return res.status(404).json({ message: "User not found" });
+     }
+  // Retrieve user cart items
+     const products = user.cart; 
 
-    for (const item of products) {
-      const product = await Product.findById(item.productId);
-      if (!product) {
-        return res.status(404).json({ message: "Product not found" });
+     //check if cart is empty
+      if (products.length === 0) {
+        return res.status(400).json({ message: "Your cart is empty" });
       }
-      totalPrice += product.price * item.quantity;
-    }
-    console.log("product price", totalPrice);
+      //calculate total price
+     let totalPrice = 0;
+     for (const item of products) {
+       const product = await Product.findById(item.productId);
+       if (!product) {
+         return res.status(404).json({ message: "Product not found" });
+       }
+       totalPrice += product.price * item.quantity;
+     }
+     console.log("product price", totalPrice);
+     // Generate a unique order number using UUID
+      const orderNumber = uuidv4();
 
-    // Create and save the order
-    const newOrder = new Order({
-      userId,
-      products,
-      totalPrice,
-      deliveryAddress
-     
-    });
+     // Create and save the order
+     const newOrder = new Order({
+       userId,
+       orderNumber,
+       products,
+       totalPrice,
+       deliveryAddress
+     });
+     await newOrder.save();
 
-    await newOrder.save();
-
-    // Clear the user's cart
-    user.cart = [];
-    await user.save();
-
-    return res.status(201).json(newOrder);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-};
+     // Clear the user's cart
+     user.cart = [];
+     await user.save();
+     return res.status(201).json(newOrder);
+   } catch (error) {
+     res.status(500).json({ error: "Server error" });
+   }
+ };
 
 // User can view all their orders
 export const getOrders = async (req: Request & { payload?: any }, res: Response) => {
@@ -64,7 +70,7 @@ export const getOrders = async (req: Request & { payload?: any }, res: Response)
           return res.status(400).json({ error: "User ID is required." });
       }
 
-      const orders = await Order.find({ userId }).populate("products.productId");
+      const orders = await Order.find({ userId }).populate({path: "products.productId", populate: {path: "category", model: "Category"}})
 
       // Check if orders exist
       if (orders.length === 0) {
@@ -110,7 +116,7 @@ export const getSingleOrder = async (req: Request, res: Response) => {
 // Controller to get all orders - for admins only
 export const getAllOrders = async (req: Request, res: Response) => {
   try {
-      const orders = await Order.find().populate("products.productId");
+      const orders = await Order.find().populate({path: "products.productId", populate: {path: "category", model: "Category"}})
 
       // Check if orders exist
       if (orders.length === 0) {

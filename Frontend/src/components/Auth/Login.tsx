@@ -1,26 +1,50 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { URL } from '../../utils/URL';
 import { UserContext } from '../../context/UserContext';
+import { IoMdCloseCircleOutline } from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
-  const [user, setUser] = useState<User>({ email: '', password: '' });
+interface LoginProps {
+  setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
+  const [userLogin, setUserLogin] = useState<userLogin>({
+    email: '',
+    loginPassword: ''
+  });
   const [errors, setErrors] = useState<null | { [key: string]: string }>(null);
   const [beErr, setBeError] = useState(null);
-  // const [status, setStatus] = useState(false);  // I am not sure if this need ?
   const userContext = useContext(UserContext);
+  const authenticate =
+    userContext?.authenticate ||
+    (() => alert('authenticate function not found'));
+  const login = userContext?.login || (() => alert('login function not found'));
+  const navigate = useNavigate();
 
-  const login = userContext?.login || (()=> alert('login function not found'));
+  useEffect(() => {
+    console.log('Login re-render');
+    console.log('isLoggedIn:', userContext?.isLoggedIn);
+    if (!userContext?.isLoggedIn) {
+      authenticate();
+    }
+    // redirect to the appropriate page based on the user's role
+    if (userContext?.user.role === 'Admin') {
+      navigate('/admin/dashboard');
+    } else if (userContext?.user.role === 'Member') {
+      navigate('/member');
+    }
+  }, [userContext?.isLoggedIn]);
 
-
-  interface User {
+  interface userLogin {
     email: string;
-    password: string;
+    loginPassword: string;
   }
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setUserLogin({ ...userLogin, [e.target.name]: e.target.value });
   };
 
   const loginSchema = Yup.object({
@@ -28,7 +52,7 @@ export default function Login() {
       .required('Email address is required')
       .email('Email format is not valid'),
 
-    password: Yup.string()
+    loginPassword: Yup.string()
       .required('Password is required')
       .min(5, 'Password is too short')
     // .matches(/[a-z]/, 'Password should contains lower-case letter')
@@ -39,8 +63,8 @@ export default function Login() {
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await loginSchema.validate(user, { abortEarly: false }); //validate user data
-      console.log('LOGIN INFORMATION:', user);
+      await loginSchema.validate(userLogin, { abortEarly: false }); //validate user data
+      console.log('LOGIN INFORMATION:', userLogin);
 
       setErrors(null); // clear errors
       setBeError(null); // clear errors
@@ -49,13 +73,15 @@ export default function Login() {
       const res = await axios({
         url: `${URL}/users/login`,
         method: 'POST',
-        data: user,
+        data: userLogin,
         withCredentials: true
+      }).catch((err) => {
+        console.log(err);
+        throw err;
       });
-  
-      const userData = res.data.user;
-      login(userData); // login user
 
+      // const userData = res.data.user;
+      login(res.data.userData); // login user
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -76,73 +102,72 @@ export default function Login() {
     }
   };
   return (
-    <div className="flex items-center justify-center h-[100vh]">
-      <div className="absolute inset-0">
-        <img
-          src="/src/assets/images/BG/testi_bg_1_1.png"
-          alt="image"
-          className="h-full w-full object-cover"
-        />
+    <div className="z-30 w-full absolute max-w-md py-6 px-12  h-min bg-white rounded shadow-xl ">
+      <div
+        onClick={() => setLoginOpen(false)}
+        className="absolute cursor-pointer top-4 right-4 text-2xl "
+      >
+        <IoMdCloseCircleOutline />
       </div>
-      <div className=" w-full relative max-w-xl py-6 px-12  h-min bg-white rounded shadow-xl ">
-        <h2 className="text-5xl font-semibold text-gray-800 text-center font-kanit mb-3">
-          Login
-        </h2>
-        <p className="text-gray-800 text-center mt-2 mb-6">
-          Welcome back! Please login to your account.
-        </p>
-        <form action="" onSubmit={submitForm}>
-          <div className="mb-6">
-            <input
-              type="text"
-              name="email"
-              id="email"
-              placeholder="Email"
-              onChange={changeHandler}
-              value={user.email}
-              className="w-full border py-2 pl-3 rounded mt-2 focus:outline-none focus:thBorderColor focus:ring-1 focus:thBorderColor bg-smokeColor2"
-            />
-            {errors?.email && (
-              <div className="text-red-500 text-sm">{errors.email}</div>
-            )}
-          </div>
-
-          <div>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
-              onChange={changeHandler}
-              value={user.password}
-              className="w-full border py-2 pl-3 rounded mt-2 focus:outline-none focus:thBorderColor focus:ring-1 focus:thBorderColor bg-smokeColor2"
-            />
-          </div>
-          {errors?.password && (
-            <div className="text-red-500 text-sm">{errors.password}</div>
+      <h2 className="text-5xl font-semibold text-gray-800 text-center font-kanit mb-3">
+        Login
+      </h2>
+      <p className="text-gray-800 text-center mt-2 mb-6">
+        Welcome back! Please login to your account.
+      </p>
+      <form action="" onSubmit={submitForm}>
+        <div className="mb-6">
+          <input
+            type="text"
+            name="email"
+            id="email"
+            placeholder="Email"
+            onChange={changeHandler}
+            value={userLogin.email}
+            className="w-full border py-2 pl-3 rounded mt-2 focus:outline-none focus:thBorderColor focus:ring-1 focus:thBorderColor bg-smokeColor2"
+          />
+          {errors?.email && (
+            <div className="text-red-500 text-sm">{errors.email}</div>
           )}
-          <div>
-            <a
-              href="#"
-              className="text-sm font-thin text-gray-800 mt-2 inline-block hover:text-primary"
-            >
-              Forget Password
-            </a>
-          </div>
-          <button className="cursor-pointer py-2 px-4 block mt-8 mb-6 bg-primary text-white font-bold w-full text-center rounded">
-            Login
-          </button>
-        </form>
-        {beErr ? (
-          <p className="text-primary text-xl text-center mt-2 mb-6">
-            {beErr}
-            <br />
-            Please try again !!
-          </p>
-        ) : (
-          <p></p>
+        </div>
+
+        <div>
+          <input
+            type="password"
+            name="loginPassword"
+            id="password"
+            placeholder="Password"
+            onChange={changeHandler}
+            value={userLogin.loginPassword}
+            className="w-full border py-2 pl-3 rounded mt-2 focus:outline-none focus:thBorderColor focus:ring-1 focus:thBorderColor bg-smokeColor2"
+          />
+        </div>
+        {errors?.password && (
+          <div className="text-red-500 text-sm">{errors.password}</div>
         )}
-      </div>
+        <div>
+          <a
+            href="#"
+            className="text-sm font-thin text-gray-800 mt-2 inline-block hover:text-primary"
+          >
+            Forget Password
+          </a>
+        </div>
+        <button className="cursor-pointer py-2 px-4 block mt-8 mb-6 bg-primary text-white font-bold w-full text-center rounded">
+          Login
+        </button>
+      </form>
+      {beErr ? (
+        <p className="text-primary text-xl text-center mt-2 mb-6">
+          {beErr}
+          <br />
+          Please try again !!
+        </p>
+      ) : (
+        <p></p>
+      )}
     </div>
   );
-}
+};
+
+export default Login;
