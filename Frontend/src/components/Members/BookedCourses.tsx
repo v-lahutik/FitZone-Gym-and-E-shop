@@ -91,9 +91,6 @@ const BookedCourses: React.FC = () => {
                   Course Name
                 </th>
                 <th className="min-w-[150px] py-4 px-4 text-sm font-bold  text-black dark:text-white">
-                  Course ID
-                </th>
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold  text-black dark:text-white">
                   Date
                 </th>
                 <th className="min-w-[150px] py-4 px-4 text-sm font-bold  text-black dark:text-white">
@@ -117,14 +114,9 @@ const BookedCourses: React.FC = () => {
                         {course.courseName}
                       </p>
                     </td>
-                    <td className="min-w-[150px] border-b border-[#eee] py-5 px-4  dark:border-strokedark ">
-                      <p className="text-sm text-black dark:text-white">
-                        {course._id ? course._id : 'N/A'}
-                      </p>
-                    </td>
                     <td className="min-w-[150px] border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                       <p className="text-sm  text-black dark:text-white">
-                        {course.date}
+                        {course.date.slice(0,10)}
                       </p>
                     </td>
                     <td className="min-w-[150px] border-b border-[#eee] py-5 px-4 dark:border-strokedark">
