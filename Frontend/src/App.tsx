@@ -17,20 +17,20 @@ import AdminProducts from './components/Admin/AdminProducts/AdminProducts.tsx';
 import AdminProfile from './components/Admin/AdminProfile.tsx';
 import AdminOrders from './components/Admin/AdminOrders/AdminOrders.tsx';
 import MembersCourseTable from './components/Members/MembersCourseTable.tsx';
+import BookedCourses from './components/Members/BookedCourses.tsx';
 
 import CoursesPage from './pages/CoursesPage/CoursesPage.tsx';
 import SingleCoursePage from './pages/CoursesPage/SingleCoursePage.tsx';
 
 function App() {
   return (
-    <UserProvider>
+  <UserProvider>
       <DateProvider>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/courses/:id" element={<SingleCoursePage />} />
-
           {/* Private Routes for Members */}
           <Route
             path="/member"
@@ -40,18 +40,14 @@ function App() {
               </MemberRoute>
             }
           >
-            <Route index element={<UserProfile />} />
-
+            <Route path="profile" element={<UserProfile />} />
             <Route path="courses">
               <Route path="week" element={<MembersCourseTable />} />
-              {/* <Route path="templates" element={<CourseTemplateDisplay />} /> */}
+              <Route path="booked" element={<BookedCourses />} />
             </Route>
-
             <Route path="orders" element={<Orders />} />
           </Route>
-
           {/* Admin Routes */}
-
           <Route
             path="/admin"
             element={
@@ -67,7 +63,6 @@ function App() {
             </Route>
             <Route path="members" element={<MembersTable />} />
             <Route path="shop" element={<AdminProducts />} />
-
             <Route path="orders" element={<AdminOrders />} />
             <Route path="profile" element={<AdminProfile />} />
           </Route>

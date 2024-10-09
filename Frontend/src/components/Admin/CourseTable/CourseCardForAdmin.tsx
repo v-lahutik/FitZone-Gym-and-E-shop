@@ -28,7 +28,7 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
       <div className="w-[320px] m-auto text-white border border-gray-300 rounded-lg p-2 bg-blight shadow-xl">
         <img
           alt=""
-          src={Yoga}
+          src={course.coursePic || Yoga}
           className="h-56 w-full rounded-md object-cover"
         />
 
