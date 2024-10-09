@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { URL } from '../../utils/URL';
+import { URL } from '../../../utils/URL';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { Course } from './MembersCourseTable';
 import { cancelBookedCourse } from './BookingRequest';
 
-
 const BookedCourses: React.FC = () => {
   const [bookedCourses, setBookedCourses] = useState<Course[]>([]); // get all course
-  const [extendDetail, setExtendDetail] = useState<string|null>(null); // to see details that is hidden
+  const [extendDetail, setExtendDetail] = useState<string | null>(null); // to see details that is hidden
   const [courseCancel, setCourseCancel] = useState<boolean>(false); // to trigger useEffect again when the course canceled
 
   useEffect(() => {
@@ -22,11 +21,14 @@ const BookedCourses: React.FC = () => {
           console.log('Data fetched:', response); // Development purpose
           const allCourses = response.data.allCourses;
           const userID = response.data.payload.id;
-          const present = new Date()
-          const myBookedCourses = allCourses.filter((course:Course) =>{
-            return course.participants.includes(userID) && present.getTime() < new Date(course.date).getTime();
+          const present = new Date();
+          const myBookedCourses = allCourses.filter((course: Course) => {
+            return (
+              course.participants.includes(userID) &&
+              present.getTime() < new Date(course.date).getTime()
+            );
           });
-          console.log(present)
+          console.log(present);
           setBookedCourses(myBookedCourses);
           setCourseCancel(false);
         }
@@ -44,14 +46,16 @@ const BookedCourses: React.FC = () => {
   console.log(bookedCourses); // development purpose
 
   // Toggle order row expansion
-  const toggleCourseDetail = (idNumber:string) => {
+  const toggleCourseDetail = (idNumber: string) => {
     setExtendDetail(extendDetail === idNumber ? null : idNumber);
   };
 
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className=" max-w-full overflow-x-auto">
-        <p className='p-3 font-bold text-2xl text-gray-600'>Your Booked Courses</p>
+        <p className="p-3 font-bold text-2xl text-gray-600">
+          Your Booked Courses
+        </p>
         {bookedCourses.length === 0 ? (
           <p className="text-center py-4">No Booked Course</p>
         ) : (
@@ -87,7 +91,7 @@ const BookedCourses: React.FC = () => {
                     </td>
                     <td className="min-w-[120px] border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                       <p className="text-sm  text-black dark:text-white">
-                        {course.date.slice(0,10)}
+                        {course.date.slice(0, 10)}
                       </p>
                     </td>
                     <td className="min-w-[120px] border-b border-[#eee] py-5 px-4 dark:border-strokedark">

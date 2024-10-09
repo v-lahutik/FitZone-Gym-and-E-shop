@@ -1,14 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { weekdays, timeSlots } from '../Admin/CourseTable/TimeSlots.ts';
+import {
+  weekdays,
+  timeSlots
+} from '../../Admin/Courses/CourseTable/TimeSlots.ts';
 import axios from 'axios';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { DateContext } from '../../context/DateContext.tsx';
-import { UserContext } from '../../context/UserContext.tsx';
-import { URL } from '../../utils/URL.ts';
+import { DateContext } from '../../../context/DateContext.tsx';
+import { UserContext } from '../../../context/UserContext.tsx';
+import { URL } from '../../../utils/URL.ts';
 import CourseCardForMember from './CourseCardForMember.tsx';
 
 export interface Course {
-  coursePic:string;
+  coursePic: string;
   courseName: string;
   description: string;
   instructor: string;
@@ -43,16 +46,16 @@ const MembersCourseTable: React.FC = () => {
   const [isCardOpen, setIsCardOpen] = useState<boolean>(false); // check the Card opened or not
   const [currentCourse, setCurrentCourse] = useState<Course | null>(null); // Handle opening the Card (either for new course or existing course)
   const [courseBooked, setCourseBooked] = useState<boolean>(false); // Handle the change in course for re-fetch
-  const [isPast,setIsPast] = useState<boolean>(false) // to check the date of course is already pasted or not
+  const [isPast, setIsPast] = useState<boolean>(false); // to check the date of course is already pasted or not
 
-  const checkDate = (date:string) => {
-    const present = new Date()
+  const checkDate = (date: string) => {
+    const present = new Date();
     if (present.getTime() < new Date(date).getTime()) {
-      setIsPast(true)
+      setIsPast(true);
     } else {
-      setIsPast(false)
+      setIsPast(false);
     }
-  }
+  };
 
   const fetchCoursesForWeek = async (startDate: Date, endDate: Date) => {
     try {
@@ -86,7 +89,6 @@ const MembersCourseTable: React.FC = () => {
     const startOfWeek = currentWeekStart;
     const endOfWeek = getEndOfWeek(startOfWeek);
     fetchCoursesForWeek(startOfWeek, endOfWeek);
-    
   }, [currentWeekStart, courseBooked]);
 
   //  calculate which rows the course spans based on time
@@ -107,7 +109,6 @@ const MembersCourseTable: React.FC = () => {
   const closeCard = () => {
     setCurrentCourse(null);
     setIsCardOpen(false);
-    
   };
 
   const handlePreviousWeek = () => {
@@ -204,11 +205,19 @@ const MembersCourseTable: React.FC = () => {
                         <>
                           <td
                             key={`${day}-${slot}`}
-                            className={`p-2 text-center ${userId && courseForSlot.participants.includes(userId) ? 'bg-blue-300' : 'bg-blue-100'}  border border-gray-300`}
+                            className={`p-2 text-center ${
+                              userId &&
+                              courseForSlot.participants.includes(userId)
+                                ? 'bg-blue-300'
+                                : 'bg-blue-100'
+                            }  border border-gray-300`}
                             rowSpan={rowSpan}
                           >
                             <div
-                              onClick={() => {openCard(courseForSlot);checkDate(courseForSlot.date);}}
+                              onClick={() => {
+                                openCard(courseForSlot);
+                                checkDate(courseForSlot.date);
+                              }}
                               className="bg-white shadow rounded-lg p-2 hover:cursor-pointer hover:bg-red-100 duration-300 ease-in-out"
                             >
                               <h3 className="text-sm font-semibold text-primary">

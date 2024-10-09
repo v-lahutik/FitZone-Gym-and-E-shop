@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { weekdays, timeSlots } from './TimeSlots.ts';
-import CourseCardDisplay from './CourseCardDisplay';
-import { DateContext } from '../../../context/DateContext';
+import CourseCardDisplay from './CourseCardDisplay.tsx';
+import { DateContext } from '../../../../context/DateContext.tsx';
 import axios from 'axios';
-import { URL } from '../../../utils/URL.ts';
+import { URL } from '../../../../utils/URL.ts';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 export interface Course {

@@ -1,8 +1,6 @@
-
 import axios, { AxiosError } from 'axios';
-import { URL } from '../../utils/URL';
+import { URL } from '../../../utils/URL';
 import { Course } from './MembersCourseTable';
-
 
 interface ServerResponse {
   msg: string;
@@ -10,19 +8,17 @@ interface ServerResponse {
 }
 
 // to book course !!
-export const bookNewCourse = async (
-  course: Course
-) => {
+export const bookNewCourse = async (course: Course) => {
   console.log(URL);
   if (window.confirm('Are you sure you want to book this course?')) {
     try {
       const response = await axios.put<ServerResponse>(
         `${URL}/users/booking/${course._id}`,
-        {}, //empty object needed it 
+        {}, //empty object needed it
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true
-        },
+        }
       );
       const { msg } = response.data;
       alert(msg || 'You booked the course successfully!');
@@ -35,16 +31,14 @@ export const bookNewCourse = async (
 //  deleting a course template
 export const cancelBookedCourse = async (course: Course) => {
   if (course) {
-    if (
-      window.confirm('Are you sure you want to cancel this course?')
-    ) {
+    if (window.confirm('Are you sure you want to cancel this course?')) {
       try {
         const response = await axios.put<ServerResponse>(
           `${URL}/users/cancelBooking/${course._id}`,
-          {}, //empty object needed it 
+          {}, //empty object needed it
           {
             headers: { 'Content-Type': 'application/json' },
-            withCredentials: true,
+            withCredentials: true
           }
         );
         const { msg } = response.data;
@@ -55,7 +49,6 @@ export const cancelBookedCourse = async (course: Course) => {
     }
   }
 };
-
 
 const errorAlert = (err: AxiosError) => {
   if (axios.isAxiosError(err)) {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import CourseTemplateForm from './CourseTemplateForm';
 import TemplateCard from './TemplateCard';
 import axios from 'axios';
-import { URL } from '../../../utils/URL';
+import { URL } from '../../../../utils/URL';
 
 export interface CourseTemplate {
   courseName: string;
@@ -85,7 +85,6 @@ const CourseTemplateDisplay: React.FC = () => {
               key={template._id}
               template={template}
               openForm={openForm}
-            
               setCurrentCourse={setCurrentCourse}
             />
           ))}

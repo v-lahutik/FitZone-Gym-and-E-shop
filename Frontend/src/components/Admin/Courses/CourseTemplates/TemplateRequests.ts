@@ -1,6 +1,6 @@
 import { CourseTemplate } from './CourseTemplateDisplay';
 import axios, { AxiosError } from 'axios';
-import { URL } from '../../../utils/URL';
+import { URL } from '../../../../utils/URL';
 
 interface ServerResponse {
   msg: string;
@@ -21,7 +21,7 @@ export const handleSaveNewTemplate = async (
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true
-        },
+        }
       );
       const { msg } = response.data;
       alert(msg || 'Course created successfully!');
@@ -47,7 +47,7 @@ export const handleUpdateTemplate = async (
           localCourse,
           {
             headers: { 'Content-Type': 'application/json' },
-            withCredentials: true, 
+            withCredentials: true
           }
         );
         const { msg } = response.data;
@@ -71,7 +71,7 @@ export const handleDeleteTemplate = async (template: CourseTemplate) => {
           `${URL}/admin/courseTemplates/delete/${template._id}`,
           {
             headers: { 'Content-Type': 'application/json' },
-            withCredentials: true,
+            withCredentials: true
           }
         );
         const { msg } = response.data;

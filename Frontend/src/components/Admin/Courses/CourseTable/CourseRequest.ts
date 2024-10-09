@@ -1,8 +1,6 @@
-
 import axios, { AxiosError } from 'axios';
-import { URL } from '../../../utils/URL';
+import { URL } from '../../../../utils/URL';
 import { Course } from './CourseTable';
-
 
 interface ServerResponse {
   msg: string;
@@ -23,7 +21,7 @@ export const handleSaveNewCourse = async (
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true
-        },
+        }
       );
       const { msg } = response.data;
       alert(msg || 'Course created successfully!');
@@ -34,22 +32,20 @@ export const handleSaveNewCourse = async (
   }
 };
 
-// update course 
+// update course
 export const handleUpdateCourse = async (
   localCourse: Course,
   closeForm: () => void
 ) => {
   if (localCourse) {
-    if (
-      window.confirm('Are you sure you want to change this course detail?')
-    ) {
+    if (window.confirm('Are you sure you want to change this course detail?')) {
       try {
         const response = await axios.patch<ServerResponse>(
           `${URL}/admin/courses/edit/${localCourse._id}`,
           localCourse,
           {
             headers: { 'Content-Type': 'application/json' },
-            withCredentials: true, 
+            withCredentials: true
           }
         );
         const { msg } = response.data;
@@ -65,15 +61,13 @@ export const handleUpdateCourse = async (
 //  deleting a course
 export const handleDeleteCourse = async (course: Course) => {
   if (course) {
-    if (
-      window.confirm('Are you sure you want to delete this course?')
-    ) {
+    if (window.confirm('Are you sure you want to delete this course?')) {
       try {
         const response = await axios.delete<ServerResponse>(
           `${URL}/admin/courses/delete/${course._id}`,
           {
             headers: { 'Content-Type': 'application/json' },
-            withCredentials: true,
+            withCredentials: true
           }
         );
         const { msg } = response.data;
