@@ -125,14 +125,14 @@ const MembersTable: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-semibold mb-4 text-white">Members Table</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-bodydark1">Members Table</h2>
 
       {/* Filter Inputs */}
       <div className="mb-4 flex gap-4">
         <input
           type="text"
           placeholder="Filter by name"
-          className="border border-gray-300 rounded px-2 py-1"
+          className="border border-gray-300 rounded px-3 py-2 bg-white text-gray-700 shadow-sm hover:border-gray-400"
           value={filterName}
           onChange={(e) => setFilterName(e.target.value)}
         />
@@ -140,7 +140,7 @@ const MembersTable: React.FC = () => {
         <select
           value={filterMembership}
           onChange={(e) => setFilterMembership(e.target.value)}
-          className="border border-gray-300 rounded px-2 py-1"
+          className="border border-gray-300 rounded px-3 py-2 bg-white text-gray-700 shadow-sm hover:border-gray-400"
         >
           <option value="">Filter by membership</option>
           <option value="Basic">Basic</option>
@@ -152,7 +152,7 @@ const MembersTable: React.FC = () => {
         <select
           value={filterIsActivated}
           onChange={(e) => setFilterIsActivated(e.target.value)}
-          className="border border-gray-300 rounded px-2 py-1"
+          className="border border-gray-300 rounded px-3 py-2 bg-white text-gray-700 shadow-sm hover:border-gray-400"
         >
           <option value="">Filter by status</option>
           <option value="active">Active</option>
@@ -169,27 +169,27 @@ const MembersTable: React.FC = () => {
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+          <thead>
+            <tr className="bg-primary text-left dark:bg-meta-4">
+              <th className="px-6 py-3 text-left text-xs font-bold text-whiteColor uppercase">
                 Last Name
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              <th className="px-6 py-3 text-left text-xs font-bold text-whiteColor uppercase">
                 First Name
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              <th className="px-6 py-3 text-left text-xs font-bold text-whiteColor uppercase">
                 Email
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              <th className="px-6 py-3 text-left text-xs font-bold text-whiteColor uppercase">
                 Address
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              <th className="px-6 py-3 text-left text-xs font-bold text-whiteColor uppercase">
                 Membership
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              <th className="px-6 py-3 text-left text-xs font-bold text-whiteColor uppercase">
                 Role
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              <th className="px-6 py-3 text-left text-xs font-bold text-whiteColor uppercase">
                 Status
               </th>
             </tr>
@@ -199,7 +199,7 @@ const MembersTable: React.FC = () => {
               <tr
                 key={member._id}
                 onClick={() => openForm(member)}
-                className="border-t border-gray-300 cursor-pointer"
+                className="border-t border-[#eee] cursor-pointer"
               >
                 <td className="px-6 py-4 text-sm text-gray-900">
                   {member.lastName}
@@ -236,19 +236,19 @@ const MembersTable: React.FC = () => {
         <button
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`px-4 py-2 border rounded text-gray-300 ${
+          className={`px-4 py-2 border border-blackColor3 rounded text-blackColor3 ${
             currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''
           }`}
         >
           Previous
         </button>
-        <span className="px-4 py-2 text-gray-300">
+        <span className="px-4 py-2 text-blackColor3">
           Page {currentPage} of {totalPages}
         </span>
         <button
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === totalPages || totalPages === 0}
-          className={`px-4 py-2 border rounded text-gray-300 ${
+          className={`px-4 py-2 border border-blackColor3 rounded text-blackColor3 ${
             currentPage === totalPages || totalPages === 0
               ? 'cursor-not-allowed opacity-50'
               : ''

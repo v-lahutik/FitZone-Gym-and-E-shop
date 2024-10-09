@@ -35,7 +35,7 @@ function App() {
             </MemberRoute>
           }
         >
-          <Route index element={<UserProfile />} />
+          <Route path='profile' element={<UserProfile />} />
           <Route path="orders" element={<Orders />} />
 
         </Route>
