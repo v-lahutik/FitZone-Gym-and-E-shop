@@ -43,6 +43,16 @@ const MembersCourseTable: React.FC = () => {
   const [isCardOpen, setIsCardOpen] = useState<boolean>(false); // check the Card opened or not
   const [currentCourse, setCurrentCourse] = useState<Course | null>(null); // Handle opening the Card (either for new course or existing course)
   const [courseBooked, setCourseBooked] = useState<boolean>(false); // Handle the change in course for re-fetch
+  const [isPast,setIsPast] = useState<boolean>(false) // to check the date of course is already pasted or not
+
+  const checkDate = (date:string) => {
+    const present = new Date()
+    if (present.getTime() < new Date(date).getTime()) {
+      setIsPast(true)
+    } else {
+      setIsPast(false)
+    }
+  }
 
   const fetchCoursesForWeek = async (startDate: Date, endDate: Date) => {
     try {
@@ -120,6 +130,7 @@ const MembersCourseTable: React.FC = () => {
           closeCard={closeCard}
           setCourseBooked={setCourseBooked}
           setCurrentCourse={setCurrentCourse}
+          isPast={isPast}
         />
       )}
       <div className="flex justify-around items-center mb-4">
@@ -197,7 +208,7 @@ const MembersCourseTable: React.FC = () => {
                             rowSpan={rowSpan}
                           >
                             <div
-                              onClick={() => openCard(courseForSlot)}
+                              onClick={() => {openCard(courseForSlot);checkDate(courseForSlot.date);}}
                               className="bg-white shadow rounded-lg p-2 hover:cursor-pointer hover:bg-red-100 duration-300 ease-in-out"
                             >
                               <h3 className="text-sm font-semibold text-primary">

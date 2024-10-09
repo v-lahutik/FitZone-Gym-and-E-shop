@@ -11,12 +11,14 @@ interface CourseCardForMemberProps {
   closeCard: () => void;
   setCurrentCourse: React.Dispatch<React.SetStateAction<Course | null>>;
   setCourseBooked: React.Dispatch<React.SetStateAction<boolean>>;
+  isPast: boolean;
 }
 
 const CourseCardForMember: React.FC<CourseCardForMemberProps> = ({
   course,
   closeCard,
-  setCourseBooked
+  setCourseBooked,
+  isPast
 }) => {
   return (
     <>
@@ -84,16 +86,25 @@ const CourseCardForMember: React.FC<CourseCardForMemberProps> = ({
               <p className="text-center text-gray-600">{course.description}</p>
             </div>
             <div className="my-4 flex justify-around">
-              <button
-                onClick={() => {
-                  bookNewCourse(course);
-                  setCourseBooked(true);
-                  closeCard();
-                }}
-                className="rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 p-3 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
-              >
-                Book now
-              </button>
+              {isPast ? (
+                <button
+                  onClick={() => {
+                    bookNewCourse(course);
+                    setCourseBooked(true);
+                    closeCard();
+                  }}
+                  className="rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 p-3 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+                >
+                  Book now
+                </button>
+              ) : (
+                <button
+                  disabled={true}
+                  className="rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 p-3 opacity-50"
+                >
+                  can not book
+                </button>
+              )}
             </div>
           </div>
         </div>

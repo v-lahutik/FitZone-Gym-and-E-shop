@@ -19,12 +19,14 @@ const BookedCourses: React.FC = () => {
           withCredentials: true
         });
         if (response.status === 200) {
-          console.log('Data fetched:', response);
+          console.log('Data fetched:', response); // Development purpose
           const allCourses = response.data.allCourses;
           const userID = response.data.payload.id;
-          const myBookedCourses = allCourses.filter((course:Course) =>
-            course.participants.includes(userID)
-          );
+          const present = new Date()
+          const myBookedCourses = allCourses.filter((course:Course) =>{
+            return course.participants.includes(userID) && present.getTime() < new Date(course.date).getTime();
+          });
+          console.log(present)
           setBookedCourses(myBookedCourses);
           setCourseCancel(false);
         }
@@ -49,6 +51,7 @@ const BookedCourses: React.FC = () => {
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className=" max-w-full overflow-x-auto">
+        <p className='p-3 font-bold text-2xl text-gray-600'>Your Booked Courses</p>
         {bookedCourses.length === 0 ? (
           <p className="text-center py-4">No Booked Course</p>
         ) : (
