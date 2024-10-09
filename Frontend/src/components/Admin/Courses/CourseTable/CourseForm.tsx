@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { weekdays, timeSlots } from '../CourseTable/TimeSlots';
+import { weekdays, timeSlots } from './TimeSlots';
 import { handleUpdateCourse } from './CourseRequest';
 import { Course } from './CourseTable';
 
