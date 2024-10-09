@@ -4,7 +4,6 @@ import { URL } from '../../../utils/URL';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { CiSearch } from 'react-icons/ci';
 
-
 export type ProductId = {
   quantity: number;
   productId: any;
@@ -14,11 +13,11 @@ export type ProductId = {
   price: number;
   category: {
     categoryName: string;
-  }
+  };
 };
 export type Product = {
   quantity: number;
-  productId: ProductId; 
+  productId: ProductId;
 };
 
 export type Orders = {
@@ -29,12 +28,12 @@ export type Orders = {
   deliveryAddress: string;
   deliveryDate: string;
   status: string;
-  products: Product[]; 
+  products: Product[];
 };
 
 export type Category = {
-  _id: string;        
-  categoryName: string; 
+  _id: string;
+  categoryName: string;
 };
 export type Order = {
   orderNumber: string;
@@ -42,7 +41,7 @@ export type Order = {
   orderDate: string;
   totalPrice: number;
   paymentStatus: string;
-  deliveryAddress: DeliveryAddress; 
+  deliveryAddress: DeliveryAddress;
   deliveryDate: string;
   status: string;
   products: Product[]; // Products array remains unchanged
@@ -50,8 +49,11 @@ export type Order = {
 
 const AdminOrders: React.FC = () => {
   const [orders, setOrders] = useState<Orders[]>([]);
+  const [filteredOrders, setFilteredOrders] = useState<Orders[]>([]);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null); // To track the expanded order
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [filterStatus, setFilterStatus] = useState<string>(''); // For status filter
+  const [filterPaymentStatus, setFilterPaymentStatus] = useState<string>(''); // For payment status filter
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -62,6 +64,7 @@ const AdminOrders: React.FC = () => {
         });
         if (response.status === 200) {
           setOrders(response.data);
+          setFilteredOrders(response.data);
         }
       } catch (error) {
         console.error('Error fetching orders:', error);
@@ -70,9 +73,60 @@ const AdminOrders: React.FC = () => {
     fetchOrders();
   }, []);
 
-  // Toggle order row expansion
+  useEffect(() => {
+    let filtered = orders;
+
+    // Filter by search term (order number or product name)
+    if (searchTerm) {
+      filtered = filtered.filter((order) => {
+        const matchesOrderNumber = order.orderNumber
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+        const matchesCustomerId = order.userId
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+        const matchesProductName = order.products.some((product) =>
+          product.productId.productName
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())
+        );
+        return matchesOrderNumber || matchesProductName || matchesCustomerId;
+      });
+    }
+
+    // Filter by order status
+    if (filterStatus) {
+      filtered = filtered.filter((order) => order.status === filterStatus);
+    }
+
+    // Filter by payment status
+    if (filterPaymentStatus) {
+      filtered = filtered.filter(
+        (order) => order.paymentStatus === filterPaymentStatus
+      );
+    }
+
+    setFilteredOrders(filtered);
+  }, [searchTerm, filterStatus, filterPaymentStatus, orders]);
+
   const toggleOrderExpansion = (orderNumber: string) => {
     setExpandedOrder(expandedOrder === orderNumber ? null : orderNumber);
+  };
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleStatusFilterChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setFilterStatus(event.target.value);
+  };
+
+  const handlePaymentStatusFilterChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setFilterPaymentStatus(event.target.value);
   };
 
   const formatDate = (dateString: string) => {
@@ -80,80 +134,94 @@ const AdminOrders: React.FC = () => {
     return date.toISOString().slice(0, 10); // Format to YYYY-MM-DD
   };
 
-  // Handle search input change
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const term = event.target.value.toLowerCase();
-    setSearchTerm(term);
-  };
-
-  //filter orders based order number or product name
-  const filteredOrders = orders.filter((order) => {
-    const matchesOrderNumber = order.orderNumber
-      .toLowerCase()
-      .includes(searchTerm);
-    const matchesProductName = order.products.some((product) =>
-      product.productId.productName.toLowerCase().includes(searchTerm)
-    );
-
-    return matchesOrderNumber || matchesProductName; // Return true if either matches
-  });
-
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="p-4">
+      <h2 className="text-2xl font-semibold mb-4 text-bodydark1">
+        Customers’ Orders
+      </h2>
+
       <div className=" max-w-full overflow-x-auto">
         {/* Search input */}
-        <div className="relative mb-6 ">
-          <span className="absolute left-0 top-1/2 -translate-y-1/2 text-black">
-            <CiSearch />
-          </span>
+        <div className="mb-4 flex gap-4">
           <input
             type="text"
-            placeholder="Search by order number or product name..."
+            placeholder="Search..."
+            className="border border-gray-300 rounded px-3 py-2 bg-white text-gray-700 shadow-sm hover:border-gray-400"
             value={searchTerm}
             onChange={handleSearch}
-            className="w-full bg-transparent pl-9 pr-4 text-black focus:outline-none dark:text-white xl:w-125"
           />
+
+          {/* Status Filter */}
+
+          <select
+            value={filterStatus}
+            onChange={handleStatusFilterChange}
+            className="border border-gray-300 rounded px-3 py-2 bg-white text-gray-700 shadow-sm hover:border-gray-400"
+          >
+            <option value="">Filter by status</option>
+            <option value="Pending">Pending</option>
+            <option value="Shipped">Shipped</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+
+          {/* Payment Status Filter */}
+          <select
+            value={filterPaymentStatus}
+            onChange={handlePaymentStatusFilterChange}
+            className="border border-gray-300 rounded px-3 py-2 bg-white text-gray-700 shadow-sm hover:border-gray-400"
+          >
+            <option value="">Filter by payment status</option>
+            <option value="Paid">Paid</option>
+            <option value="Unpaid">Unpaid</option>
+            <option value="Refunded">Refunded</option>
+          </select>
         </div>
+
+        {/* Table */}
         {filteredOrders.length === 0 ? (
           <p className="text-center py-4">No orders found</p>
         ) : (
-          <table className="w-full table-auto">
+          <table className="min-w-full bg-white border border-gray-300">
             <thead>
-              <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold text-black dark:text-white xl:pl-11">
+              <tr className="bg-primary text-left dark:bg-meta-4">
+                <th className="min-w-[150px] py-4 px-4 text-xs font-bold text-whiteColor uppercase xl:pl-11">
                   Status
                 </th>
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold  text-black dark:text-white">
+                <th className="min-w-[150px] py-4 px-4 text-xs font-bold text-whiteColor uppercase">
                   Order number
                 </th>
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold  text-black dark:text-white">
+                <th className="min-w-[150px] py-4 px-4 text-xs font-bold text-whiteColor uppercase">
+                  Customer
+                </th>
+                <th className="min-w-[150px] py-4 px-4 text-xs font-bold text-whiteColor uppercase">
                   Customer id
                 </th>
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold text-black dark:text-white">
-                  Delivery Address
-                </th>
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold text-black dark:text-white">
-                  Estimated Delivery Date
-                </th>
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold text-black dark:text-white">
+
+                <th className="min-w-[150px] py-4 px-4 text-xs font-bold text-whiteColor uppercase">
                   Total amount
                 </th>
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold text-black dark:text-white">
+                <th className="min-w-[150px] py-4 px-4 text-xs font-bold text-whiteColor uppercase">
                   Payment Status
                 </th>
-                <th className="min-w-[80px] py-4 px-4 text-sm font-bold text-black dark:text-white xl:pl-11">
+                <th className="min-w-[80px] py-4 px-4 text-xs font-bold text-whiteColor uppercase xl:pl-11">
                   Products Info
                 </th>
               </tr>
             </thead>
             <tbody>
               {filteredOrders.map(
-               
                 (order, key) => (
-                    console.log(filteredOrders),
+                  console.log(' orders', orders),
                   (
                     <React.Fragment key={key}>
-                      <tr>
+                      <tr
+                        className={`${
+                          expandedOrder === order.orderNumber
+                            ? 'bg-gray-200 dark:bg-gray-700' // Highlighted background when expanded
+                            : ''
+                        }`}
+                      >
                         <td className="min-w-[150px] border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
                           <p className="text-sm">{order.status}</p>
                         </td>
@@ -168,19 +236,14 @@ const AdminOrders: React.FC = () => {
                           </p>
                         </td>
                         <td className="min-w-[150px] border-b border-[#eee] py-5 px-4 dark:border-strokedark ">
-                          <p className="text-sm">{order.userId}</p>
+                          <p className="text-sm">
+                            {order.userId.firstName} {order.userId.lastName}
+                          </p>
+                        </td>
+                        <td className="min-w-[150px] border-b border-[#eee] py-5 px-4 dark:border-strokedark ">
+                          <p className="text-sm">{order.userId._id}</p>
                         </td>
 
-                        <td className="max-w-[150px] border-b border-[#eee] py-5  dark:border-strokedark">
-                          <p className="py-3 px-4 text-sm text-black dark:text-white">
-                            {`${order.deliveryAddress.streetNumber} ${order.deliveryAddress.streetName}, ${order.deliveryAddress.city}, ${order.deliveryAddress.postCode}, ${order.deliveryAddress.country}`}
-                          </p>
-                        </td>
-                        <td className="min-w-[150px] border-b border-[#eee] py-5 dark:border-strokedark">
-                          <p className="py-3 px-4 text-sm text-black dark:text-white">
-                            {formatDate(order.deliveryDate)}
-                          </p>
-                        </td>
                         <td className="min-w-[150px] border-b border-[#eee] py-5 px-4 text-sm dark:border-strokedark">
                           <p className="text-black dark:text-white">
                             € {order.totalPrice}
@@ -235,7 +298,10 @@ const AdminOrders: React.FC = () => {
                                       Category
                                     </th>
                                     <th className="min-w-[150px] py-3 px-4 text-sm font-medium text-black dark:text-white">
-                                      Description
+                                      Delivery Address
+                                    </th>
+                                    <th className="min-w-[150px] py-3 px-4 text-sm font-medium text-black dark:text-white">
+                                      Estimated Delivery Date
                                     </th>
                                     <th className="min-w-[150px] py-3 px-4 text-sm font-medium text-black dark:text-white">
                                       Product Price
@@ -269,10 +335,18 @@ const AdminOrders: React.FC = () => {
                                         {product.productId?.category
                                           ?.categoryName || 'N/A'}
                                       </td>
-                                      <td className="py-3 px-4 text-sm text-black dark:text-white">
-                                        {product.productId?.description ||
-                                          'N/A'}
+
+                                      <td className="max-w-[150px] border-b border-[#eee] py-5  dark:border-strokedark">
+                                        <p className="py-3 px-4 text-sm text-black dark:text-white">
+                                          {`${order.deliveryAddress.streetNumber} ${order.deliveryAddress.streetName}, ${order.deliveryAddress.city}, ${order.deliveryAddress.postCode}, ${order.deliveryAddress.country}`}
+                                        </p>
                                       </td>
+                                      <td className="min-w-[150px] border-b border-[#eee] py-5 dark:border-strokedark">
+                                        <p className="py-3 px-4 text-sm text-black dark:text-white">
+                                          {formatDate(order.deliveryDate)}
+                                        </p>
+                                      </td>
+
                                       <td className="py-3 px-4 text-sm text-black dark:text-white">
                                         €{' '}
                                         {(
