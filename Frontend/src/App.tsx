@@ -16,51 +16,57 @@ import Orders from './components/Members/Orders.tsx';
 import AdminProducts from './components/Admin/AdminProducts/AdminProducts.tsx';
 import AdminProfile from './components/Admin/AdminProfile.tsx';
 import AdminOrders from './components/Admin/AdminOrders/AdminOrders.tsx';
+import MembersCourseTable from './components/Members/MembersCourseTable.tsx';
+import BookedCourses from './components/Members/BookedCourses.tsx';
 
+import CoursesPage from './pages/CoursesPage/CoursesPage.tsx';
+import SingleCoursePage from './pages/CoursesPage/SingleCoursePage.tsx';
 
 function App() {
   return (
-    <UserProvider>
+   <UserProvider>
       <DateProvider>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<LandingPage />} />
-
-        {/* Private Routes for Members */}
-        <Route
-          path="/member"
-          element={
-            <MemberRoute>
-              <MemberLayout />
-            </MemberRoute>
-          }
-        >
-          <Route path='profile' element={<UserProfile />} />
-          <Route path="orders" element={<Orders />} />
-
-        </Route>
-
-        {/* Admin Routes */}
-
-        <Route
-          path="/admin"
-          element={
-            <AdminRoute>
-              <AdminLayout />
-            </AdminRoute>
-          }
-        >
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="courses">
-            <Route path="week" element={<CourseTable />} />
-            <Route path="templates" element={<CourseTemplateDisplay />} />
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/courses/:id" element={<SingleCoursePage />} />
+          {/* Private Routes for Members */}
+          <Route
+            path="/member"
+            element={
+              <MemberRoute>
+                <MemberLayout />
+              </MemberRoute>
+            }
+          >
+            <Route path='profile' element={<UserProfile />} />
+            <Route path="courses">
+              <Route path="week" element={<MembersCourseTable />} />
+              {/* <Route path="templates" element={<CourseTemplateDisplay />} /> */}
+            </Route>
+            <Route path="orders" element={<Orders />} />
           </Route>
-          <Route path="members" element={<MembersTable />} />
-          <Route path="shop" element={<AdminProducts />} />
-          <Route path="orders" element={<AdminOrders />} />
-          <Route path="profile" element={<AdminProfile />} />
-        </Route>
-      </Routes>
+          {/* Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <AdminLayout />
+              </AdminRoute>
+            }
+          >
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="courses">
+              <Route path="week" element={<CourseTable />} />
+              <Route path="templates" element={<CourseTemplateDisplay />} />
+            </Route>
+            <Route path="members" element={<MembersTable />} />
+            <Route path="shop" element={<AdminProducts />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="profile" element={<AdminProfile />} />
+          </Route>
+        </Routes>
       </DateProvider>
     </UserProvider>
   );

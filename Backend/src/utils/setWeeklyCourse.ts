@@ -20,6 +20,7 @@ export const createWeeklyCourses = async () => {
   const weeklyCourses = allCourses.map((course) => {
     console.log("running weeklyCourses update");
     const {
+      coursePic,
       courseName,
       category,
       weekday,
