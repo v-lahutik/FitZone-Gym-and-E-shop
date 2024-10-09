@@ -3,55 +3,19 @@ import axios from 'axios';
 import { URL } from '../../../utils/URL';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { CiSearch } from 'react-icons/ci';
-
-export type ProductId = {
-  quantity: number;
-  productId: string;
-  image: string;
-  productName: string;
-  description: string;
-  price: number;
-  category: {
-    categoryName: string;
-  };
-};
-export type Product = {
-  quantity: number;
-  productId: ProductId;
-};
+import {Address} from '../../../custom.Types/userTypes.ts';
+import {Product} from '../../../custom.Types/orderTypes.ts';
 
 export type Orders = {
   orderNumber: string;
   orderDate: string;
   totalPrice: number;
   paymentStatus: string;
-  deliveryAddress: string;
+  deliveryAddress: Address;
   deliveryDate: string;
   status: string;
   products: Product[];
-};
-
-export type Category = {
-  _id: string;
-  categoryName: string;
-};
-export type DeliveryAddress = {
-  streetNumber: string;
-  streetName: string;
-  city: string;
-  postCode: string;
-  country: string;
-};
-export type Order = {
-  orderNumber: string;
-  category: Category;
-  orderDate: string;
-  totalPrice: number;
-  paymentStatus: string;
-  deliveryAddress: DeliveryAddress;
-  deliveryDate: string;
-  status: string;
-  products: Product[]; // Products array remains unchanged
+  createdAt: string;
 };
 
 const Orders: React.FC = () => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { URL } from '../../utils/URL';
+import { URL } from '../../../utils/URL';
 
 interface AddressInput {
   streetNumber: number;
