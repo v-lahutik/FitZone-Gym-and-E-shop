@@ -16,6 +16,9 @@ const MemberHeader = (props: {
   const [isOpen, setIsOpen] = useState(false);
 
  const userContext= useContext(UserContext);
+ if (!userContext) {
+  throw new Error('UserContext must be used within a UserProvider');
+}
   const {user, logout} = userContext;
 
 console.log("user from nav", user);
