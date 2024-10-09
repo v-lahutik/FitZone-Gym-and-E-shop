@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
-import Boxing from '../../assets/images/Courses/boxing.jpg';
-import Yoga from '../../assets/images/Courses/yoga.jpg';
-import BodyWeight from '../../assets/images/Courses/bodyweight.jpg';
+import Boxing from '/src/assets/images/Courses/boxing.jpg';
+import Yoga from '/src/assets/images/Courses/yoga.jpg';
+import BodyWeight from '/src/assets/images/Courses/bodyweight.jpg';
 import { Link } from 'react-router-dom';
 
 function Carousel() {
@@ -139,7 +139,7 @@ const CourseGallery: React.FC = () => {
           <Carousel />
           <div>
             <Link to="/courses">
-              <button className="bg-primary hover:bg-primary-dark text-white font-bold uppercase py-6 px-12 mt-14 ">
+              <button className="bg-primary hover:bg-primary-dark text-white font-bold uppercase py-6 px-12 ">
                 View All Courses
               </button>
             </Link>

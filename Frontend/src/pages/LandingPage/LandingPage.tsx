@@ -1,9 +1,9 @@
 import Header from '../../components/Header/Header';
-import Hero from '../../components/Hero/Hero';
-import WhyChooseUs from '../../components/WhyUs/WhyUsSection';
-import Membership from '../../components/Membership/Membership';
-import CourseGallery from '../../components/CourseGallery/CourseGallery';
-import Contact from '../../components/ContactSection/Contact';
+import Hero from '../../components/LandingComponents/Hero/Hero';
+import WhyChooseUs from '../../components/LandingComponents/WhyUs/WhyUsSection';
+import Membership from '../../components/LandingComponents/Membership/Membership';
+import CourseGallery from '../../components/LandingComponents/CourseGallery/CourseGallery';
+import Contact from '../../components/LandingComponents/ContactSection/Contact';
 import Footer from '../../components/Footer/Footer';
 import Login from '../../components/Auth/Login';
 import { useEffect, useState } from 'react';

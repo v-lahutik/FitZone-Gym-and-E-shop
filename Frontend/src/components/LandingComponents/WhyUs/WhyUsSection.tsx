@@ -1,9 +1,9 @@
-import HeartDumbbell from "../../assets/images/Icons/HeartDumbbellWhite.png";
-import Yoga from "../../assets/images/Icons/YogaWhite.png";
-import Trainer from "../../assets/images/Icons/TrainerWhite.png";
-import Sauna from "../../assets/images/Icons/SaunaWhite.png";
-import React from "react";
-import "./WhyUs.css";
+import HeartDumbbell from '/src/assets/images/Icons/HeartDumbbellWhite.png';
+import Yoga from '/src/assets/images/Icons/YogaWhite.png';
+import Trainer from '/src/assets/images/Icons/TrainerWhite.png';
+import Sauna from '/src/assets/images/Icons/SaunaWhite.png';
+import React from 'react';
+import './WhyUs.css';
 
 const WhyChooseUs: React.FC = () => {
   return (

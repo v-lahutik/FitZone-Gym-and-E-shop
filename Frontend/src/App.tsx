@@ -1,9 +1,9 @@
 // import AdminPage from './pages/AdminPage/AdminPage.tsx';
 import { Route, Routes } from 'react-router-dom';
 import LandingPage from './pages/LandingPage/LandingPage.tsx';
-import MemberRoute from './Layouts/MemberRoute.tsx';
+import MemberRoute from './utils/MemberRoute.tsx';
 import MemberLayout from './Layouts/MemberLayout.tsx';
-import AdminRoute from './Layouts/AdminRoute.tsx';
+import AdminRoute from './utils/AdminRoute.tsx';
 import AdminLayout from './Layouts/AdminLayout.tsx';
 import CourseTable from './components/Admin/CourseTable/CourseTable.tsx';
 import MembersTable from './components/Admin/MembersTable/MembersTable.tsx';
@@ -24,7 +24,7 @@ import SingleCoursePage from './pages/CoursesPage/SingleCoursePage.tsx';
 
 function App() {
   return (
-<UserProvider>
+    <UserProvider>
       <DateProvider>
         <Routes>
           {/* Public Routes */}
