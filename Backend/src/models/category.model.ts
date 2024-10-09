@@ -1,6 +1,6 @@
 import { Schema, model, Document } from "mongoose";
 
-
+//You extend Document in Mongoose to include MongoDB document methods and properties like _id and .save() for type safety and better functionality.
 export interface CategoryDocument extends Document {
     categoryName: string
 }
