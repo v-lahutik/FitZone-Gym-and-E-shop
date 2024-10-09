@@ -41,6 +41,7 @@ export const cancelBookedCourse = async (course: Course) => {
       try {
         const response = await axios.put<ServerResponse>(
           `${URL}/users/cancelBooking/${course._id}`,
+          {}, //empty object needed it 
           {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
