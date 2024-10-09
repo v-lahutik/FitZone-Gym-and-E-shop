@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './PricingTable.css';
-import { allFeatures, PricingPlan } from '../../custom.Types/PricingPlan';
+import { allFeatures, PricingPlan } from '../../../custom.Types/PricingPlan';
 import { FaRegCircleCheck } from 'react-icons/fa6';
 
 export default function PricingTable() {
