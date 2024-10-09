@@ -24,7 +24,7 @@ import SingleCoursePage from './pages/CoursesPage/SingleCoursePage.tsx';
 
 function App() {
   return (
-   <UserProvider>
+<UserProvider>
       <DateProvider>
         <Routes>
           {/* Public Routes */}
@@ -40,10 +40,10 @@ function App() {
               </MemberRoute>
             }
           >
-            <Route path='profile' element={<UserProfile />} />
+            <Route path="profile" element={<UserProfile />} />
             <Route path="courses">
               <Route path="week" element={<MembersCourseTable />} />
-              {/* <Route path="templates" element={<CourseTemplateDisplay />} /> */}
+              <Route path="booked" element={<BookedCourses />} />
             </Route>
             <Route path="orders" element={<Orders />} />
           </Route>

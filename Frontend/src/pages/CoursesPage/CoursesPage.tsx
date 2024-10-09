@@ -103,7 +103,7 @@ export default function CoursesPage() {
           </div>
         </div>
       </section>
-      <section id="courses-section" className="bg-white py-10 pb-12">
+      <section id="courses-section" className="bg-white py-10 pb-20">
         <div className="mb-5 container h-auto pt-20 max-w-[1280px] mx-auto">
           <div className=" px-4 ">
             {courses.length > 0 ? (
@@ -111,10 +111,10 @@ export default function CoursesPage() {
                 {courses.map((course: CourseTemplate) => (
                   <div
                     key={course._id}
-                    className="w-full h-[500px] flex flex-col bg-white rounded-lg shadow-lg"
+                    className="w-full h-[600px] flex flex-col bg-white rounded-lg shadow-lg"
                   >
                     <img
-                      src={Yoga}
+                      src={course.coursePic}
                       alt={course.courseName}
                       className="w-full h-2/3 object-cover rounded-t-lg"
                     />
