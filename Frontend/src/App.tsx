@@ -24,7 +24,7 @@ import SingleCoursePage from './pages/CoursesPage/SingleCoursePage.tsx';
 
 function App() {
   return (
-  <UserProvider>
+<UserProvider>
       <DateProvider>
         <Routes>
           {/* Public Routes */}

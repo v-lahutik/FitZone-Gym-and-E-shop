@@ -36,6 +36,13 @@ export type Category = {
   _id: string;        
   categoryName: string; 
 };
+export type DeliveryAddress = {
+  streetNumber: string;
+  streetName: string;
+  city: string;
+  postCode: string;
+  country: string;
+};
 export type Order = {
   orderNumber: string;
   category: Category;
@@ -99,46 +106,50 @@ const Orders: React.FC = () => {
   });
 
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="p-4">
+       <h2 className="text-2xl font-semibold mb-4 text-bodydark1">
+         Orders
+      </h2>
       <div className=" max-w-full overflow-x-auto">
         {/* Search input */}
-        <div className="relative mb-6 ">
-          <span className="absolute left-0 top-1/2 -translate-y-1/2 text-black">
-            <CiSearch />
-          </span>
-          <input
-            type="text"
-            placeholder="Search by order number or product name..."
-            value={searchTerm}
-            onChange={handleSearch}
-            className="w-full bg-transparent pl-9 pr-4 text-black focus:outline-none dark:text-white xl:w-125"
-          />
-        </div>
+        <div className="relative mb-6">
+  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black mr-2">
+    <CiSearch />
+  </span>
+  <input
+    type="text"
+    placeholder="Search by order number or product name..."
+    value={searchTerm}
+    onChange={handleSearch}
+    className="w-full max-w-[500px] border border-gray-300 rounded px-10 py-2 bg-white text-gray-700 shadow-sm hover:border-gray-400"
+  />
+</div>
+
         {filteredOrders.length === 0 ? (
           <p className="text-center py-4">No orders found</p>
         ) : (
-          <table className="w-full table-auto">
+          <table className="min-w-full bg-white border border-gray-300">
             <thead>
-              <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold text-black dark:text-white xl:pl-11">
+              <tr className="bg-primary text-left dark:bg-meta-4">
+                <th className="min-w-[150px] py-4 px-4 text-xs font-bold text-whiteColor uppercase dark:text-white xl:pl-11">
                   Status
                 </th>
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold  text-black dark:text-white">
+                <th className="min-w-[150px] py-4 px-4 text-xs font-bold text-whiteColor uppercase dark:text-white">
                   Order number
                 </th>
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold text-black dark:text-white">
+                <th className="min-w-[150px] py-4 px-4 text-xs font-bold text-whiteColor uppercase dark:text-white">
                   Delivery Address
                 </th>
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold text-black dark:text-white">
+                <th className="min-w-[150px] py-4 px-4 text-xs font-bold text-whiteColor uppercase dark:text-white">
                   Estimated Delivery Date
                 </th>
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold text-black dark:text-white">
+                <th className="min-w-[150px] py-4 px-4 text-xs font-bold text-whiteColor uppercase dark:text-white">
                   Total amount
                 </th>
-                <th className="min-w-[150px] py-4 px-4 text-sm font-bold text-black dark:text-white">
+                <th className="min-w-[150px] py-4 px-4 text-xs font-bold text-whiteColor uppercase dark:text-white">
                   Payment Status
                 </th>
-                <th className="min-w-[80px] py-4 px-4 text-sm font-bold text-black dark:text-white xl:pl-11">
+                <th className="min-w-[80px] py-4 px-4 text-xs font-bold text-whiteColor uppercase dark:text-white xl:pl-11">
                   Products Info
                 </th>
               </tr>
@@ -149,7 +160,13 @@ const Orders: React.FC = () => {
                   
                   (
                     <React.Fragment key={key}>
-                      <tr>
+                      <tr
+                        className={`${
+                          expandedOrder === order.orderNumber
+                            ? 'bg-gray-200 dark:bg-gray-700' // Highlighted background when expanded
+                            : ''
+                        }`}
+                      >
                         <td className="min-w-[150px] border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
                           <p className="text-sm">{order.status}</p>
                         </td>
