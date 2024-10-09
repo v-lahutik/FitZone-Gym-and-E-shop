@@ -1,18 +1,21 @@
 import { NextFunction, Request, Response } from "express";
 import Course from "../models/course.model";
 
-// export const getAllCourses = async (
-//     req: Request,
-//     res: Response,
-//     next: NextFunction
-// ) => {
-//     try {
-//       const allCourses = await Course.find({});
-//       res.status(200).json({ msg: "get all course data successfully", allCourses });
-//     } catch (error: any) {
-//       next(error);
-//     }
-// };
+
+
+export const getAllCoursesForMember = async (
+    req: Request & { payload?: any },
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+      const payload = req.payload
+      const allCourses = await Course.find({});
+      res.status(200).json({ msg: "get all course data successfully", allCourses, payload:payload });
+    } catch (error: any) {
+      next(error);
+    }
+};
 
 export const getAllCourses = async (
   req: Request,

@@ -8,6 +8,7 @@ import { URL } from '../../utils/URL.ts';
 import CourseCardForMember from './CourseCardForMember.tsx';
 
 export interface Course {
+  coursePic:string;
   courseName: string;
   description: string;
   instructor: string;

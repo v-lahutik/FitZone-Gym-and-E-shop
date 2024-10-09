@@ -17,6 +17,7 @@ import AdminProducts from './components/Admin/AdminProducts/AdminProducts.tsx';
 import AdminProfile from './components/Admin/AdminProfile.tsx';
 import AdminOrders from './components/Admin/AdminOrders/AdminOrders.tsx';
 import MembersCourseTable from './components/Members/MembersCourseTable.tsx';
+import BookedCourses from './components/Members/BookedCourses.tsx';
 
 import CoursesPage from './pages/CoursesPage/CoursesPage.tsx';
 import SingleCoursePage from './pages/CoursesPage/SingleCoursePage.tsx';
@@ -72,17 +73,25 @@ function App() {
             <Route path="profile" element={<AdminProfile />} />
           </Route>
 
+
+        {/* Private Routes for Members */}
+        <Route
+          path="/member"
+          element={
+            <MemberRoute>
+              <MemberLayout />
+            </MemberRoute>
+          }
+        >
+          <Route index element={<UserProfile />} />
+          <Route path="courses">
+            <Route path="week" element={<MembersCourseTable />} />
+            <Route path="booked" element={<BookedCourses />} />
+         </Route>
           {/* Private Routes for Members */}
-          <Route
-            path="/member"
-            element={
-              <MemberRoute>
-                <MemberLayout />
-              </MemberRoute>
-            }
-          >
-            <Route index element={<UserProfile />} />
+    
             <Route path="orders" element={<Orders />} />
+
           </Route>
 
           {/* Admin Routes */}
