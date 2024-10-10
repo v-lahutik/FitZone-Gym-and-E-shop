@@ -9,7 +9,8 @@ export const bookedPopUp = (): Promise<boolean> => {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, cancel it!'
+    confirmButtonText: 'Yes, book it!',
+    reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
       return true;
@@ -27,7 +28,9 @@ export const cancelPopUp = (): Promise<boolean> => {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, cancel it!'
+    confirmButtonText: 'Yes Cancel it!',
+    cancelButtonText: 'No Thanks',
+    reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
       return true;
@@ -46,7 +49,8 @@ export const saveCoursePopUp = (): Promise<boolean> => {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, save it!'
+    confirmButtonText: 'Yes, Save it!',
+    reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
       return true;
@@ -64,7 +68,8 @@ export const updateCoursePopUp = (): Promise<boolean> => {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, update it!'
+    confirmButtonText: 'Yes, Update it!',
+    reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
       return true;
@@ -82,7 +87,8 @@ export const deleteCoursePopUp = (): Promise<boolean> => {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!'
+    confirmButtonText: 'Yes, Delete it!',
+    reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
       return true;
@@ -101,7 +107,8 @@ export const saveTemplatePopUp = (): Promise<boolean> => {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, save it!'
+    confirmButtonText: 'Yes, save it!',
+    reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
       return true;
@@ -119,7 +126,8 @@ export const updateTemplatePopUp = (): Promise<boolean> => {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, update it!'
+    confirmButtonText: 'Yes, Update it!',
+    reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
       return true;
@@ -137,7 +145,8 @@ export const deleteTemplatePopUp = (): Promise<boolean> => {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!'
+    confirmButtonText: 'Yes, Delete it!',
+    reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
       return true;
@@ -156,7 +165,8 @@ export const registerUserPopUp = (): Promise<boolean> => {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, Register!'
+    confirmButtonText: 'Yes, Register!',
+    reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
       return true;
@@ -174,7 +184,8 @@ export const updateUserPopUp = (): Promise<boolean> => {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, Update !'
+    confirmButtonText: 'Yes, Update !',
+    reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
       return true;
@@ -192,7 +203,8 @@ export const deleteUserPopUp = (): Promise<boolean> => {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!'
+    confirmButtonText: 'Yes, Delete it!',
+    reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
       return true;
