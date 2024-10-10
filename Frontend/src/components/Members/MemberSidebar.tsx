@@ -152,7 +152,7 @@ export default function MemberSidebar({
                       </li>
                       <li>
                         <NavLink
-                          to="/member/courses/templates"
+                          to="/member/courses/booked"
                           className={({
                             isActive
                           }) => `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
@@ -160,7 +160,7 @@ export default function MemberSidebar({
                           }
                           `}
                         >
-                          Courses Templates
+                          Your Booked Courses
                         </NavLink>
                       </li>
                     </ul>
