@@ -308,19 +308,16 @@ export const authenticate = async (
       token,
       process.env.JWT_SECRET as string
     );
-    const user = await User.findById(token_payload.id).select("-password -is_activated -createdAt -updatedAt -__v");
+    const user = await User.findById(token_payload.id).select("-password -is_activated -createdAt -updatedAt -__v -bookedCourses -cart")
     if (!user) {
       return res
         .status(404)
         .json({ message: "User not found or already deleted." });
     }
 
-    res.status(200).json({
-      _id: user._id,
-      firstName: user.firstName,
-      role: user.role,
-    });
+    res.status(200).json(user);
   } catch (error) {
     next(error);
   }
 };
+

@@ -6,7 +6,7 @@ import {Address} from '../../../custom.Types/userTypes.ts';
 
 export type ProductId = {
   quantity: number;
-  productId: any;
+  productId: string;
   image: string;
   productName: string;
   description: string;
@@ -25,7 +25,7 @@ export type Orders = {
   orderDate: string;
   totalPrice: number;
   paymentStatus: string;
-  deliveryAddress: string;
+  deliveryAddress: Address;
   deliveryDate: string;
   status: string;
   products: Product[];
@@ -33,30 +33,11 @@ export type Orders = {
   userId: UserId;
 };
 
-export type Category = {
-  _id: string;
-  categoryName: string;
-};
 export type UserId={
   firstName: string;
   lastName: string;
   _id: string;
 }
-export type Order = {
-  orderNumber: string;
-  category: Category;
-  orderDate: string;
-  totalPrice: number;
-  paymentStatus: string;
-  deliveryAddress: Address;
-  deliveryDate: string;
-  status: string;
-  products: Product[]; // Products array remains unchanged
-  createdAt: string;
-  userId: UserId;
-  
-
-};
 
 const AdminOrders: React.FC = () => {
   const [orders, setOrders] = useState<Orders[]>([]);

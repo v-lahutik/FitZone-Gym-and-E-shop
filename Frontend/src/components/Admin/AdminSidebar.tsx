@@ -13,6 +13,7 @@ import { BsShop } from 'react-icons/bs';
 import { FiUsers } from 'react-icons/fi';
 import { IoSchoolOutline } from 'react-icons/io5';
 import { HiOutlineShoppingBag } from "react-icons/hi";
+import { RxAvatar } from 'react-icons/rx';
 
 
 interface SidebarProps {
@@ -189,6 +190,20 @@ export default function AdminSidebar({
                 >
                   <FiUsers />
                   Members
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/admin/profile"
+                  className={({
+                    isActive
+                  }) => `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
+                    isActive ? 'bg-graydark text-white' : ''
+                  }
+                  `}
+                >
+                  <RxAvatar />
+                  Profile
                 </NavLink>
               </li>
               {/* <!-- Menu Item Users --> */}
