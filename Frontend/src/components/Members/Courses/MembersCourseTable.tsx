@@ -50,7 +50,7 @@ const MembersCourseTable: React.FC = () => {
 
   const checkDate = (date: string) => {
     const present = new Date();
-    if (present.getTime() < new Date(date).getTime()) {
+    if (present.getTime() > new Date(date).getTime()) {
       setIsPast(true);
     } else {
       setIsPast(false);

@@ -5,6 +5,7 @@ import { URL } from '../../utils/URL';
 import { UserContext } from '../../context/UserContext';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 interface LoginProps {
   setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,8 +21,20 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
   const userContext = useContext(UserContext);
   const authenticate =
     userContext?.authenticate ||
-    (() => alert('authenticate function not found'));
-  const login = userContext?.login || (() => alert('login function not found'));
+    (() =>
+      Swal.fire({
+        title: 'Error!',
+        text: 'authenticate function not found',
+        icon: 'error'
+      }));
+  const login =
+    userContext?.login ||
+    (() =>
+      Swal.fire({
+        title: 'Error!',
+        text: 'login function not found',
+        icon: 'error'
+      }));
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -86,10 +86,10 @@ const CourseCardForMember: React.FC<CourseCardForMemberProps> = ({
               <p className="text-center text-gray-600">{course.description}</p>
             </div>
             <div className="my-4 flex justify-around">
-              {isPast ? (
+              {!isPast ? (
                 <button
-                  onClick={() => {
-                    bookNewCourse(course);
+                  onClick={async() => {
+                    await bookNewCourse(course);
                     setCourseBooked(true);
                     closeCard();
                   }}
