@@ -321,9 +321,9 @@ export const authenticate = async (
         .json({ message: "User not found or already deleted." });
     }
 
-    
     res.status(200).json(user);
   } catch (error) {
     next(error);
   }
 };
+
