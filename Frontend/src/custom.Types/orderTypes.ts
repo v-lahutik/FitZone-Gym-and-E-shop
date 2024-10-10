@@ -2,7 +2,7 @@ import { Address } from "./userTypes";
 
 export type ProductId = {
     quantity: number;
-    productId: any;
+    productId: string;
     image: string;
     productName: string;
     description: string;
@@ -23,7 +23,19 @@ export type Category = {
   };
 
 
-export type Orders = {
+// export type Orders = {
+//     orderNumber: string;
+//     orderDate: string;
+//     totalPrice: number;
+//     paymentStatus: string;
+//     deliveryAddress: Address;
+//     deliveryDate: string;
+//     status: string;
+//     products: Product[];
+//     createdAt: string;
+//   };
+
+  export type Orders = {
     orderNumber: string;
     orderDate: string;
     totalPrice: number;
@@ -33,5 +45,12 @@ export type Orders = {
     status: string;
     products: Product[];
     createdAt: string;
+    userId: UserId;
   };
+export type UserId={
+    firstName: string;
+    lastName: string;
+    _id: string;
+  }
+  
   

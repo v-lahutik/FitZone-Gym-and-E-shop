@@ -4,14 +4,8 @@ import { ReactNode } from 'react';
 import { URL } from '../utils/URL';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { Address } from '../custom.Types/userTypes';
 
-interface Address {
-  streetNumber: number;
-  streetName: string;
-  city: string;
-  country: string;
-  postCode: string;
-}
 
 interface User {
   _id: string | null;
@@ -66,16 +60,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       });
       if (response.status === 200) {
         const userData = response.data;
-        setUser({
-          _id: userData._id,
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          membership: userData.membership,
-          address: userData.address,
-          role: userData.role,
-          email: userData.email,
-          profilePic: userData.profilePic
-        });
+        setUser(userData);
 
         setIsLoggedIn(true);
       }
@@ -89,6 +74,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     } finally {
       //add a loading state to prevent the page from rendering before the user is authenticated
       setUserLoading(false);
+     
     }
   };
 
@@ -135,7 +121,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     try {
       const response = await fetch(`${URL}/users/logout`, {
         method: 'POST',
-
         credentials: 'include'
       });
 

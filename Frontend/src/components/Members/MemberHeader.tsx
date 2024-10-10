@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Logo from '/src/assets/images/Logo/fitzone_logo.png';
 import { CiMenuBurger } from 'react-icons/ci';
 //import { CiSearch } from 'react-icons/ci';
@@ -12,21 +12,19 @@ const MemberHeader = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
-
   const [isOpen, setIsOpen] = useState(false);
 
- const userContext= useContext(UserContext);
- if (!userContext) {
-  throw new Error('UserContext must be used within a UserProvider');
-}
-  const {user, logout} = userContext;
+  const userContext = useContext(UserContext);
+  if (!userContext) {
+    throw new Error('UserContext must be used within a UserProvider');
+  }
+  const { user, logout } = userContext;
 
-console.log("user from nav", user);
+  console.log('user from header', user);
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-sm ">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-sm md:px-6 2xl:px-11">
@@ -53,21 +51,7 @@ console.log("user from nav", user);
           </Link>
         </div>
 
-        <div className="hidden sm:block">
-          {/* <form action="" method="POST">
-            <div className="relative">
-              <button className="absolute left-0 top-1/2 -translate-y-1/2">
-                <CiSearch />
-              </button>
-
-              <input
-                type="text"
-                placeholder="Type to search..."
-                className="w-full bg-transparent pl-9 pr-4 text-black focus:outline-none dark:text-white xl:w-125"
-              />
-            </div>
-          </form> */}
-        </div>
+        <div className="hidden sm:block"></div>
         <div className="flex items-center gap-3 2xsm:gap-7">
           <ul className="flex items-center gap-2 2xsm:gap-4">
             <div className="relative">
@@ -92,15 +76,23 @@ console.log("user from nav", user);
             >
               <span className="hidden text-right lg:block">
                 <span className="block text-sm font-medium text-black dark:text-white">
-                  {user.userName}
+                  {user.firstName} {user.lastName}
                 </span>
-                <span className="block text-xs">{user.role}</span>
+                <span className="block text-xs"> {user.membership}</span>
               </span>
               <span className="h-12 w-12 rounded-full">
                 <img
-                  src="/src/assets/images/Team/team_1_1.png"
-                  alt="User"
+                  src={
+                    user.profilePic ||
+                    'https://i.pinimg.com/736x/c5/ab/41/c5ab41e3f9766798af79b40d535f45e0.jpg'
+                  }
+                  alt="Profile picture"
                   className="rounded-full"
+                  // Fallback image if the profile picture is not available or invalid
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      'https://i.pinimg.com/736x/c5/ab/41/c5ab41e3f9766798af79b40d535f45e0.jpg';
+                  }}
                 />
               </span>
               <IoIosArrowDown
@@ -117,20 +109,12 @@ console.log("user from nav", user);
               } `}
             >
               <div className="py-1">
+                
+                <NavLink className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
+                to="/member/profile">Your Profile</NavLink>
+               
                 <li
-                  
-                  className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
-                >
-                  Your Profile
-                </li>
-                <li
-                 
-                  className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
-                >
-                  Settings
-                </li>
-                <li
-                  onClick={logout}
+                   onClick={() => logout()}
                   className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
                 >
                   Sign out

@@ -1,62 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { URL } from '../../../utils/URL';
+import { URL } from '../../../utils/URL.ts';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
-import {Address} from '../../../custom.Types/userTypes.ts';
-
-export type ProductId = {
-  quantity: number;
-  productId: any;
-  image: string;
-  productName: string;
-  description: string;
-  price: number;
-  category: {
-    categoryName: string;
-  };
-};
-export type Product = {
-  quantity: number;
-  productId: ProductId;
-};
-
-export type Orders = {
-  orderNumber: string;
-  orderDate: string;
-  totalPrice: number;
-  paymentStatus: string;
-  deliveryAddress: string;
-  deliveryDate: string;
-  status: string;
-  products: Product[];
-  createdAt: string;
-  userId: UserId;
-};
-
-export type Category = {
-  _id: string;
-  categoryName: string;
-};
-export type UserId={
-  firstName: string;
-  lastName: string;
-  _id: string;
-}
-export type Order = {
-  orderNumber: string;
-  category: Category;
-  orderDate: string;
-  totalPrice: number;
-  paymentStatus: string;
-  deliveryAddress: Address;
-  deliveryDate: string;
-  status: string;
-  products: Product[]; // Products array remains unchanged
-  createdAt: string;
-  userId: UserId;
-  
-
-};
+import { Orders} from '../../../custom.Types/orderTypes.ts';
 
 const AdminOrders: React.FC = () => {
   const [orders, setOrders] = useState<Orders[]>([]);
