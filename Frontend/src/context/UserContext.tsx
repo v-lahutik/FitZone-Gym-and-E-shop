@@ -73,6 +73,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     } finally {
       //add a loading state to prevent the page from rendering before the user is authenticated
       setUserLoading(false);
+     
     }
   };
 
@@ -115,7 +116,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     try {
       const response = await fetch(`${URL}/users/logout`, {
         method: 'POST',
-
         credentials: 'include'
       });
 

@@ -19,7 +19,6 @@ export type Product = {
   quantity: number;
   productId: ProductId;
 };
-
 export type Orders = {
   orderNumber: string;
   orderDate: string;

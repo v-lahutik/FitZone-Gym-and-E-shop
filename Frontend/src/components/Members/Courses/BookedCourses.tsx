@@ -51,39 +51,40 @@ const BookedCourses: React.FC = () => {
   };
 
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="p-4">
       <div className=" max-w-full overflow-x-auto">
-        <p className="p-3 font-bold text-2xl text-gray-600">
-          Your Booked Courses
-        </p>
+      <h2 className="text-2xl font-semibold mb-4 text-bodydark1">Your Booked Courses</h2>
         {bookedCourses.length === 0 ? (
           <p className="text-center py-4">No Booked Course</p>
         ) : (
-          <table className="w-full table-auto">
+          <table className="min-w-full bg-white border border-gray-300">
             <thead>
-              <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="min-w-[120px] py-4 px-4 text-sm font-bold text-black dark:text-white xl:pl-11">
+              <tr className="bg-primary text-left dark:bg-meta-4">
+                <th className="min-w-[120px] py-4 px-4 text-xs font-bold text-whiteColor uppercase dark:text-white xl:pl-11">
                   Course Name
                 </th>
-                <th className="min-w-[120px] py-4 px-4 text-sm font-bold  text-black dark:text-white">
+                <th className="min-w-[120px] py-4 px-4 text-xs font-bold text-whiteColor uppercase dark:text-white">
                   Date
                 </th>
-                <th className="min-w-[120px] py-4 px-4 text-sm font-bold  text-black dark:text-white">
+                <th className="min-w-[120px] py-4 px-4 text-xs font-bold text-whiteColor uppercase dark:text-white">
                   Time
                 </th>
-                <th className="min-w-[120px] py-4 px-4 text-sm font-bold  text-black dark:text-white">
+                <th className="min-w-[120px] py-4 px-4 text-xs font-bold text-whiteColor uppercase dark:text-white">
                   Instructor
                 </th>
-                <th className="min-w-[50px] py-4 px-4 text-sm font-bold  text-black dark:text-white">
+                <th className="min-w-[50px] py-4 px-4 text-xs font-bold text-whiteColor uppercase dark:text-white">
                   details
                 </th>
-                <th className="min-w-[50px] py-4 px-4 text-sm font-bold  text-black dark:text-white"></th>
+                <th className="min-w-[50px] py-4 px-4 text-xs font-bold text-whiteColor uppercase dark:text-white"></th>
               </tr>
             </thead>
             <tbody>
               {bookedCourses.map((course, key) => (
                 <React.Fragment key={key}>
-                  <tr>
+                  <tr className={`${ extendDetail === course._id
+                        ? 'bg-gray-200 dark:bg-gray-700' // Highlighted background when expanded
+                        : ''
+                    }`}>
                     <td className="min-w-[120px] border-b border-[#eee] py-5 px-4 dark:border-strokedark xl:pl-11">
                       <p className="text-sm  text-black dark:text-white">
                         {course.courseName}
@@ -115,7 +116,7 @@ const BookedCourses: React.FC = () => {
                         </button>
                       </div>
                     </td>
-                    <td>
+                    <td className="min-w-[50px] border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                       <div className="my-1 flex justify-around">
                         <button
                           onClick={() => {

@@ -36,8 +36,8 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         const newUser = new User({ firstName, lastName, email, address, membership, role });
         
         //create verification token and send verification email
-       //  const verificationToken: string = await createToken(newUser);
-        // await sendVerificationEmail(newUser, verificationToken);
+        const verificationToken: string = await createToken(newUser);
+        await sendVerificationEmail(newUser, verificationToken);
 
         await newUser.save();
         res.status(201).json({

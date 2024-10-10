@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import Header from '../../components/Header/Header';
 import { Link, useLocation } from 'react-router-dom';
 import Login from '../../components/Auth/Login';
-import Yoga from '../../assets/images/Courses/yoga.jpg';
 import { FaArrowRight } from 'react-icons/fa6';
 import './CoursePage.css';
 

@@ -160,7 +160,7 @@ export default function MemberSidebar({
                           }
                           `}
                         >
-                          Courses Templates
+                          Your Booked Courses
                         </NavLink>
                       </li>
                     </ul>
