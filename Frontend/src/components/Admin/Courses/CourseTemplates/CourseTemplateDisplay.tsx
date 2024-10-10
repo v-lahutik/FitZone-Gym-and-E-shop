@@ -25,7 +25,7 @@ const CourseTemplateDisplay: React.FC = () => {
     setIsFormOpen(false);
     setCurrentCourse(null);
     setIsEditing(false);
-    setTemplateChanged(true)
+    setTemplateChanged(true);
   };
 
   useEffect(() => {
