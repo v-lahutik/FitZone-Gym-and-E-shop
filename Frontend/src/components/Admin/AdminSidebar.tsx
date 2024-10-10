@@ -1,20 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-
 import Logo from '/src/assets/images/Logo/fitzone_logo.png';
-
 import { RxDashboard } from 'react-icons/rx';
 import { IoIosArrowDown } from 'react-icons/io';
-
 import { FaArrowLeft } from 'react-icons/fa6';
 import { BsShop } from 'react-icons/bs';
 import { FiUsers } from 'react-icons/fi';
 import { IoSchoolOutline } from 'react-icons/io5';
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { RxAvatar } from 'react-icons/rx';
-
 
 interface SidebarProps {
   // interface for SidebarProps
@@ -27,7 +21,7 @@ export default function AdminSidebar({
   setSidebarOpen
 }: SidebarProps) {
   // SidebarProps is passed as an argument to AdminSidebar
-  //
+  
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded'); // get the value of 'sidebar-expanded' from localStorage
   const [sidebarExpanded, setSidebarExpanded] = useState(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true' // if storedSidebarExpanded is null, set it to false, else set it to storedSidebarExpanded

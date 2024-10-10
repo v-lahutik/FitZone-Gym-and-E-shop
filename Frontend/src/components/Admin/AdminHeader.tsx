@@ -1,8 +1,7 @@
 import { Link, NavLink } from 'react-router-dom';
 import LogoLight from '/src/assets/images/Logo/fitzone_logo_light.png';
-
 import { CiMenuBurger } from 'react-icons/ci';
-import { CiSearch } from 'react-icons/ci';
+//import { CiSearch } from 'react-icons/ci';
 import { FaRegBell } from 'react-icons/fa6';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useState, useContext } from 'react';
