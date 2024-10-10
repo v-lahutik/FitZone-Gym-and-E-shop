@@ -314,7 +314,7 @@ export const authenticate = async (
       token,
       process.env.JWT_SECRET as string
     );
-    const user = await User.findById(token_payload.id).select("-password -is_activated -createdAt -updatedAt -__v -bookedCourses - cart");
+    const user = await User.findById(token_payload.id).select("-password -is_activated -createdAt -updatedAt -__v -bookedCourses -cart");
     if (!user) {
       return res
         .status(404)

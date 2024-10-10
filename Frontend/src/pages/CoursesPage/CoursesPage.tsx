@@ -7,7 +7,7 @@ import './CoursePage.css';
 
 import axios from 'axios';
 import { URL } from '../../utils/URL';
-import { CourseTemplate } from '../../custom.Types/courseTemplates';
+import { CourseTemplate } from '../../custom.Types/courseTemplatesType';
 import Footer from '../../components/Footer/Footer';
 
 export default function CoursesPage() {

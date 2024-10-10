@@ -1,4 +1,4 @@
-import { CourseTemplate } from './CourseTemplateDisplay';
+import { CourseTemplate } from '../../../../custom.Types/courseTemplatesType';
 import axios, { AxiosError } from 'axios';
 import { URL } from '../../../../utils/URL';
 

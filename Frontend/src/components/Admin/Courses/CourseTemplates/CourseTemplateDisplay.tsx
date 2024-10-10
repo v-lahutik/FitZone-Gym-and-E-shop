@@ -1,29 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import CourseTemplateForm from './CourseTemplateForm';
 import TemplateCard from './TemplateCard';
 import axios from 'axios';
 import { URL } from '../../../../utils/URL';
-
-export interface CourseTemplate {
-  courseName: string;
-  description: string;
-  instructor: string;
-  time: {
-    start: string;
-    end: string;
-  };
-  weekday:
-    | 'Monday'
-    | 'Tuesday'
-    | 'Wednesday'
-    | 'Thursday'
-    | 'Friday'
-    | 'Saturday'
-    | 'Sunday';
-  maxParticipants: number;
-  category: ('Flexibility' | 'Strength' | 'Cardio')[]; //takes 1 or more values in an array
-  _id: string;
-}
+import { CourseTemplate } from '../../../../custom.Types/courseTemplatesType';
 
 const CourseTemplateDisplay: React.FC = () => {
   const [templates, setTemplates] = useState<CourseTemplate[]>([]);
@@ -32,6 +12,7 @@ const CourseTemplateDisplay: React.FC = () => {
   const [currentCourse, setCurrentCourse] = useState<CourseTemplate | null>(
     null
   );
+  const [templateChanged, setTemplateChanged] = useState<boolean>(false);
 
   // Handle opening the form (either for new course or existing course)
   const openForm = (course: CourseTemplate | null) => {
@@ -44,6 +25,7 @@ const CourseTemplateDisplay: React.FC = () => {
     setIsFormOpen(false);
     setCurrentCourse(null);
     setIsEditing(false);
+    setTemplateChanged(true)
   };
 
   useEffect(() => {
@@ -67,11 +49,12 @@ const CourseTemplateDisplay: React.FC = () => {
         } else {
           console.error('Unexpected error', error);
         }
+      } finally {
+        setTemplateChanged(false);
       }
     };
-
     fetchCourseTemplates();
-  }, []);
+  }, [templateChanged]);
 
   return (
     <>
@@ -83,6 +66,7 @@ const CourseTemplateDisplay: React.FC = () => {
           {templates.map((template) => (
             <TemplateCard
               key={template._id}
+              setTemplateChanged={setTemplateChanged}
               template={template}
               openForm={openForm}
               setCurrentCourse={setCurrentCourse}
