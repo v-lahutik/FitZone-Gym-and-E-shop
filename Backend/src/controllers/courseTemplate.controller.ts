@@ -1,6 +1,7 @@
 
 import { NextFunction, Request, Response } from "express";
 import CourseTemplate from "../models/courseTemplate.model";
+import { uploadImage } from "../utils/cloudinaryUploader";
 
 
 
@@ -38,7 +39,10 @@ export const createNewCourseTemplate = async (
   next: NextFunction
 ) => {
   try {
-    const {coursePic, courseName,category,weekday,time,maxParticipants,description,instructor} = req.body;
+
+    const {courseName,category,weekday,time,maxParticipants,description,instructor} = req.body;
+    
+    const coursePic = await uploadImage(req.body.coursePic);
     const newCourseTemplate = await CourseTemplate.create({coursePic, courseName,category,weekday,time,maxParticipants,description,instructor});
     res.status(200).json({ msg: "Course template added successfully", newCourseTemplate });
   } catch (error: any) {
