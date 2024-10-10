@@ -15,7 +15,7 @@ import UserProfile from './components/Members/Profile/UserProfile.tsx';
 import Orders from './components/Members/Orders/Orders.tsx';
 import AdminProducts from './components/Admin/Products/AdminProducts.tsx';
 import AdminProfile from './components/Admin/Profile/AdminProfile.tsx';
-import AdminOrders from './components/Admin/Orders/AdminOrders.tsx';
+import AdminOrders from './components/Admin/AdminOrders/AdminOrders.tsx';
 import MembersCourseTable from './components/Members/Courses/MembersCourseTable.tsx';
 import BookedCourses from './components/Members/Courses/BookedCourses.tsx';
 

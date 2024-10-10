@@ -2,25 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import MemberForm from './MemberForm';
 import { URL } from '../../../utils/URL';
-
-interface Address {
-  streetNumber: number;
-  streetName: string;
-  city: string;
-  country: string;
-  postCode: string;
-}
-
-export interface Member {
-  firstName: string;
-  lastName: string;
-  email: string;
-  address: Address;
-  membership: 'Basic' | 'Standard' | 'Premium' | 'Staff';
-  role: 'Member' | 'Admin';
-  is_activated: boolean;
-  _id: string;
-}
+import { Member } from '../../../custom.Types/userTypes';
 
 const MembersTable: React.FC = () => {
   const [members, setMembers] = useState<Member[]>([]); //store all members

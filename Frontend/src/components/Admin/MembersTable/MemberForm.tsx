@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { handleDeleteUser, handleUpdateUser, handleRegisterUser } from './RequestFunctions';
-import { Member } from './MembersTable'; // Import the Member interface
+import { Member } from '../../../custom.Types/userTypes'; // Import the Member interface
 
 interface MemberFormProps {
   member: Member | null;
@@ -49,8 +49,6 @@ const MemberForm: React.FC<MemberFormProps> = ({
     const { name, checked } = e.target;
     setLocalMember({ ...localMember, [name]: checked });
   };
-
-  
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">

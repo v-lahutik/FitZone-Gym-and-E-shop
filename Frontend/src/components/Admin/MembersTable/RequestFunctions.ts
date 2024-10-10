@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { Member } from './MembersTable'; // Import the Member interface
+import { Member } from '../../../custom.Types/userTypes'; // Import the Member interface
 import { URL } from '../../../utils/URL';
 
 interface ServerResponse {
