@@ -1,6 +1,12 @@
 import axios, { AxiosError } from 'axios';
 import { Member } from './MembersTable'; // Import the Member interface
 import { URL } from '../../../utils/URL';
+import {
+  deleteUserPopUp,
+  registerUserPopUp,
+  updateUserPopUp
+} from '../../../utils/helperFunction';
+import Swal from 'sweetalert2';
 
 interface ServerResponse {
   msg: string;
@@ -13,7 +19,8 @@ export const handleUpdateUser = async (
   closeForm: () => void
 ) => {
   if (localMember) {
-    if (window.confirm('Are you sure you want to change this member?')) {
+    const isConfirmed = await updateUserPopUp();
+    if (isConfirmed) {
       try {
         const response = await axios.put<ServerResponse>(
           `${URL}/admin/members/update/${localMember._id}`,
@@ -21,10 +28,14 @@ export const handleUpdateUser = async (
           {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true
-          },
+          }
         );
         const { msg } = response.data;
-        alert(msg || 'Member information updated successfully!');
+        Swal.fire({
+          title: 'Updated!',
+          text: msg,
+          icon: 'success'
+        });
         closeForm();
       } catch (error) {
         errorAlert(error as AxiosError);
@@ -39,8 +50,8 @@ export const handleRegisterUser = async (
   closeForm: () => void
 ) => {
   if (localMember) {
-    console.log(localMember);
-    if (window.confirm('Are you sure you want to register this member?')) {
+    const isConfirmed = await registerUserPopUp();
+    if (isConfirmed) {
       try {
         const response = await axios.post<ServerResponse>(
           `${URL}/admin/members/register`,
@@ -48,10 +59,14 @@ export const handleRegisterUser = async (
           {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true
-          },
+          }
         );
         const { msg } = response.data;
-        alert(msg || 'Member registered successfully!');
+        Swal.fire({
+          title: 'Registered!',
+          text: msg,
+          icon: 'success'
+        });
         closeForm();
       } catch (error) {
         errorAlert(error as AxiosError);
@@ -66,17 +81,22 @@ export const handleDeleteUser = async (
   closeForm: () => void
 ) => {
   if (localMember) {
-    if (window.confirm('Are you sure you want to delete this member?')) {
+    const isConfirmed = await deleteUserPopUp();
+    if (isConfirmed) {
       try {
         const response = await axios.delete<ServerResponse>(
           `${URL}/admin/members/delete/${localMember._id}`,
           {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true
-          },
+          }
         );
         const { msg } = response.data;
-        alert(msg || 'Member information updated successfully!');
+        Swal.fire({
+          title: 'Deleted!',
+          text: msg,
+          icon: 'success'
+        });
         closeForm();
       } catch (error) {
         errorAlert(error as AxiosError);
@@ -91,22 +111,36 @@ const errorAlert = (err: AxiosError) => {
 
     if (axiosError.response) {
       // The request was made and the server responded with an error status
-      const { status, data } = axiosError.response;
-      alert(
-        `Error: ${data?.msg || 'Something went wrong'}. Status code: ${status}`
-      );
+      const { data } = axiosError.response;
+      Swal.fire({
+        title: 'Error!',
+        text: `${data?.msg || 'Something went wrong'}`,
+        icon: 'error'
+      });
     } else if (axiosError.request) {
       // The request was made but no response was received
       console.error('No response received:', axiosError.request);
-      alert('No response from the server. Please check your connection.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'No response from the server. Please check your connection.',
+        icon: 'error'
+      });
     } else {
       // Something else happened in setting up the request
       console.error('Error:', axiosError.message);
-      alert('An unexpected error occurred.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'An unexpected error occurred.',
+        icon: 'error'
+      });
     }
   } else {
     // Handle non-Axios errors
     console.error('Unexpected error:', err);
-    alert('An unexpected error occurred.');
+    Swal.fire({
+      title: 'Error!',
+      text: 'An unexpected error occurred.',
+      icon: 'error'
+    });
   }
 };

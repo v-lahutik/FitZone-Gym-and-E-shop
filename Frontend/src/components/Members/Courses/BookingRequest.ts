@@ -1,6 +1,8 @@
 import axios, { AxiosError } from 'axios';
 import { URL } from '../../../utils/URL';
 import { Course } from './MembersCourseTable';
+import { bookedPopUp, cancelPopUp } from '../../../utils/helperFunction';
+import Swal from 'sweetalert2';
 
 interface ServerResponse {
   msg: string;
@@ -9,8 +11,8 @@ interface ServerResponse {
 
 // to book course !!
 export const bookNewCourse = async (course: Course) => {
-  console.log(URL);
-  if (window.confirm('Are you sure you want to book this course?')) {
+  const isConfirmed = await bookedPopUp()
+  if (isConfirmed) {
     try {
       const response = await axios.put<ServerResponse>(
         `${URL}/users/booking/${course._id}`,
@@ -21,7 +23,11 @@ export const bookNewCourse = async (course: Course) => {
         }
       );
       const { msg } = response.data;
-      alert(msg || 'You booked the course successfully!');
+      Swal.fire({
+        title: 'Booked!',
+        text: msg,
+        icon: 'success'
+    })
     } catch (error) {
       errorAlert(error as AxiosError);
     }
@@ -31,7 +37,8 @@ export const bookNewCourse = async (course: Course) => {
 //  deleting a course template
 export const cancelBookedCourse = async (course: Course) => {
   if (course) {
-    if (window.confirm('Are you sure you want to cancel this course?')) {
+    const isConfirmed = await cancelPopUp()
+    if (isConfirmed) {
       try {
         const response = await axios.put<ServerResponse>(
           `${URL}/users/cancelBooking/${course._id}`,
@@ -42,7 +49,11 @@ export const cancelBookedCourse = async (course: Course) => {
           }
         );
         const { msg } = response.data;
-        alert(msg || 'You canceled the course successfully!');
+        Swal.fire({
+          title: 'Canceled!',
+          text: msg,
+          icon: 'success'
+      });
       } catch (err) {
         errorAlert(err as AxiosError);
       }
@@ -56,22 +67,36 @@ const errorAlert = (err: AxiosError) => {
 
     if (axiosError.response) {
       // The request was made and the server responded with an error status
-      const { status, data } = axiosError.response;
-      alert(
-        `Error: ${data?.msg || 'Something went wrong'}. Status code: ${status}`
-      );
+      const { data } = axiosError.response;
+      Swal.fire({
+        title: 'Error!',
+        text: `${data?.msg || 'Something went wrong'}`,
+        icon: 'error'
+    })
     } else if (axiosError.request) {
       // The request was made but no response was received
       console.error('No response received:', axiosError.request);
-      alert('No response from the server. Please check your connection.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'No response from the server. Please check your connection.',
+        icon: 'error'
+    })
     } else {
       // Something else happened in setting up the request
       console.error('Error:', axiosError.message);
-      alert('An unexpected error occurred.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'An unexpected error occurred.',
+        icon: 'error'
+    })
     }
   } else {
     // Handle non-Axios errors
     console.error('Unexpected error:', err);
-    alert('An unexpected error occurred.');
+    Swal.fire({
+      title: 'Error!',
+      text: 'An unexpected error occurred.',
+      icon: 'error'
+  })
   }
 };

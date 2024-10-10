@@ -119,8 +119,8 @@ const BookedCourses: React.FC = () => {
                     <td className="min-w-[50px] border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                       <div className="my-1 flex justify-around">
                         <button
-                          onClick={() => {
-                            cancelBookedCourse(course);
+                          onClick={async() => {
+                            await cancelBookedCourse(course);
                             setCourseCancel(true);
                           }}
                           className="rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 p-2 hover:text-white focus:outline-none focus:ring active:text-opacity-75"

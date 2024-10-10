@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './PricingTable.css';
 import { allFeatures, PricingPlan } from '../../../custom.Types/PricingPlan';
 import { FaRegCircleCheck } from 'react-icons/fa6';
+import Swal from 'sweetalert2';
 
 export default function PricingTable() {
   const plans: PricingPlan[] = PricingPlan;
@@ -28,7 +29,11 @@ export default function PricingTable() {
 
   const handleBuyNow = (plan: PricingPlan) => {
     setSelectedPlan(plan);
-    alert(`You selected the ${plan.name}`);
+    Swal.fire({
+      title: 'Select!',
+      text: `You selected the ${plan.name}`,
+      icon: 'info'
+    })
   };
 
   return (
