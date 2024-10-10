@@ -2,7 +2,7 @@ import { Address } from "./userTypes";
 
 export type ProductId = {
     quantity: number;
-    productId: any;
+    productId: string;
     image: string;
     productName: string;
     description: string;
