@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import MemberSidebar from '../components/Members/MemberSidebar';
 import MemberHeader from '../components/Members/MemberHeader';
 

@@ -23,9 +23,7 @@ export default function AdminSidebar({
   // SidebarProps is passed as an argument to AdminSidebar
   
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded'); // get the value of 'sidebar-expanded' from localStorage
-  const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true' // if storedSidebarExpanded is null, set it to false, else set it to storedSidebarExpanded
-  );
+  const [sidebarExpanded, setSidebarExpanded] = useState(false)
   const [isCourseSubmenuOpen, setIsCourseSubmenuOpen] = useState(false); // set isCourseSubmenuOpen to false
 
   const toggleCourseSubmenu = () => {
@@ -33,11 +31,13 @@ export default function AdminSidebar({
   };
 
   useEffect(() => {
-    localStorage.setItem('sidebar-expanded', sidebarExpanded.toString()); // set 'sidebar-expanded' to the value of sidebarExpanded as a string in localStorage
+    if (storedSidebarExpanded === 'true') {
+      setSidebarExpanded(JSON.parse(storedSidebarExpanded));
+    }
     if (sidebarExpanded) {
-      document.querySelector('body')?.classList.add('sidebar-expanded'); // add 'sidebar-expanded' to the body classList
+      document.querySelector('body')?.classList.add('sidebar-expanded');
     } else {
-      document.querySelector('body')?.classList.remove('sidebar-expanded'); // remove 'sidebar-expanded' from the body classList
+      document.querySelector('body')?.classList.remove('sidebar-expanded');
     }
   }, [sidebarExpanded]);
 
