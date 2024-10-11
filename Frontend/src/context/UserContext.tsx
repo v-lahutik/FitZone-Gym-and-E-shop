@@ -3,19 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ReactNode } from 'react';
 import { URL } from '../utils/URL';
 import axios from 'axios';
-import { Address } from '../custom.Types/userTypes';
-
-
-interface User {
-  _id: string | null;
-  firstName: string | null;
-  lastName: string | null;
-  email: string | null;
-  membership: string | null;
-  address: Address | null;
-  role: string | null;
-  profilePic: string | null;
-}
+import { User } from '../custom.Types/userTypes';
 
 const userNull: User = {
   _id: null,

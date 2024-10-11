@@ -12,7 +12,7 @@ import { DateProvider } from './context/DateContext.tsx';
 import CourseTemplateDisplay from './components/Admin/Courses/CourseTemplates/CourseTemplateDisplay.tsx';
 import Dashboard from './components/Admin/Dashboard/Dashboard.tsx';
 import UserProfile from './components/Members/Profile/UserProfile.tsx';
-import Orders from './components/Members/Orders/Orders.tsx';
+import Orders from './components/Members/MemberOrders/MemberOrders.tsx';
 import AdminProducts from './components/Admin/Products/AdminProducts.tsx';
 import AdminProfile from './components/Admin/Profile/AdminProfile.tsx';
 import AdminOrders from './components/Admin/AdminOrders/AdminOrders.tsx';
