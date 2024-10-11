@@ -45,6 +45,7 @@ app.use("/public", publicRouter);
 app.use("/users", userRouter);
 app.use("/products", productRouter);
 app.use("/admin", authenticateAndCheckRoles([UserRole.admin]), adminRouter);
+//send the index.html file for any other route
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'))
 })
