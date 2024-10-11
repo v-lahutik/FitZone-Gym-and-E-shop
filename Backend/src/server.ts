@@ -11,9 +11,10 @@ import adminRouter from "./routers/admin.router";
 import { authenticateAndCheckRoles } from "./middlewares/authAndRoles";
 import { createWeeklyCourses } from "./utils/setWeeklyCourse";
 import cron from "node-cron";
-import { uploadImage, uploadMultipleImages } from "./utils/cloudinaryUploader";
 import { UserRole } from "./models/user.model";
 import publicRouter from "./routers/public.router";
+import { fileURLToPath } from "url";
+import path from "path";
 
 dotenv.config();
 const app: Application = express();
@@ -27,6 +28,11 @@ cron.schedule("0 6 * * 0", async () => {
   await createWeeklyCourses();
 });
 
+// serve static files for refreshing the page
+const fileName = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(fileName)
+app.use(express.static(path.join(__dirname, 'frontend/build')))
+
 // middlewares
 app.use(express.json());
 app.use(cors({ origin: "https://fit-zone-tedp.onrender.com", credentials: true }));
@@ -39,6 +45,9 @@ app.use("/public", publicRouter);
 app.use("/users", userRouter);
 app.use("/products", productRouter);
 app.use("/admin", authenticateAndCheckRoles([UserRole.admin]), adminRouter);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'))
+})
 
 // error handlers
 app.use((req: Request, res: Response, next: NextFunction) => {
