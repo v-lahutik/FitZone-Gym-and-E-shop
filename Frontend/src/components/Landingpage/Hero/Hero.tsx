@@ -1,5 +1,4 @@
 import './Hero.css';
-import HeroImage from '../../../assets/images/Hero/hero-bg.jpg';
 
 const Hero: React.FC = () => {
   return (
@@ -7,9 +6,7 @@ const Hero: React.FC = () => {
       <section
         id="hero-section"
         className="hero bg-cover bg-center flex items-center lg:items-end"
-        style={{
-          backgroundImage: `url${HeroImage}`,
-        }}
+      
       >
         <div className="container mx-auto max-w-[1280px] px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 justify-end">

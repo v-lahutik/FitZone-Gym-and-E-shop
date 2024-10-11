@@ -1,3 +1,8 @@
+
+#breadcrumb-section {
+  background-image: url('../../assets/images/Hero/background_hero.png');
+}
+
 .course-btn:hover {
   color: var(--primary-light);
 }
