@@ -7,7 +7,7 @@ const Hero: React.FC = () => {
         id="hero-section"
         className="hero bg-cover bg-center flex items-center lg:items-end"
         style={{
-          backgroundImage: "url('/src/assets/images/Hero/background_hero.png')"
+          backgroundImage: "url('/dist/assets/Hero/background_hero.png')"
         }}
       >
         <div className="container mx-auto max-w-[1280px] px-4">
