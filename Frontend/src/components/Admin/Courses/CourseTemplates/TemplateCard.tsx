@@ -1,14 +1,19 @@
 import React from 'react';
-import { CourseTemplate } from './CourseTemplateDisplay';
+import { CourseTemplate } from '../../../../custom.Types/courseTemplatesType';
 import { handleDeleteTemplate } from './TemplateRequests';
 
 interface TemplateCardProps {
   template: CourseTemplate;
   openForm: (course: CourseTemplate) => void;
+  setTemplateChanged: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentCourse: React.Dispatch<React.SetStateAction<CourseTemplate | null>>;
 }
 
-const TemplateCard: React.FC<TemplateCardProps> = ({ template, openForm }) => {
+const TemplateCard: React.FC<TemplateCardProps> = ({
+  template,
+  openForm,
+  setTemplateChanged
+}) => {
   return (
     <div className="bg-white min-w-[200px] max-w-[280px] col-span-6 sm:col-span-4 md:col-span-3 xl:col-span-2 rounded-lg shadow-lg p-3">
       <h3 className="text-lg font-bold">{template.courseName}</h3>
@@ -27,7 +32,9 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ template, openForm }) => {
           Edit
         </button>
         <button
-          onClick={() => handleDeleteTemplate(template)}
+          onClick={() => {
+            handleDeleteTemplate(template, setTemplateChanged);
+          }}
           className="bg-red-500 text-white px-2 py-1 rounded ml-2"
         >
           Delete

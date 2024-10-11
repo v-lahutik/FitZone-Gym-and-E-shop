@@ -1,6 +1,12 @@
 import axios, { AxiosError } from 'axios';
 import { URL } from '../../../../utils/URL';
 import { Course } from './CourseTable';
+import {
+  deleteCoursePopUp,
+  saveCoursePopUp,
+  updateCoursePopUp
+} from '../../../../utils/helperFunction';
+import Swal from 'sweetalert2';
 
 interface ServerResponse {
   msg: string;
@@ -12,8 +18,8 @@ export const handleSaveNewCourse = async (
   localCourse: Course,
   closeForm: () => void
 ) => {
-  console.log(URL);
-  if (window.confirm('Are you sure you want to save this Course?')) {
+  const isConfirmed = await saveCoursePopUp();
+  if (isConfirmed) {
     try {
       const response = await axios.post<ServerResponse>(
         `${URL}/admin/courses/add`,
@@ -24,7 +30,11 @@ export const handleSaveNewCourse = async (
         }
       );
       const { msg } = response.data;
-      alert(msg || 'Course created successfully!');
+      Swal.fire({
+        title: 'Saved!',
+        text: msg,
+        icon: 'success'
+      });
       closeForm();
     } catch (error) {
       errorAlert(error as AxiosError);
@@ -38,7 +48,8 @@ export const handleUpdateCourse = async (
   closeForm: () => void
 ) => {
   if (localCourse) {
-    if (window.confirm('Are you sure you want to change this course detail?')) {
+    const isConfirmed = await updateCoursePopUp();
+    if (isConfirmed) {
       try {
         const response = await axios.patch<ServerResponse>(
           `${URL}/admin/courses/edit/${localCourse._id}`,
@@ -49,7 +60,11 @@ export const handleUpdateCourse = async (
           }
         );
         const { msg } = response.data;
-        alert(msg || 'Course detail updated successfully!');
+        Swal.fire({
+          title: 'Updated!',
+          text: msg,
+          icon: 'success'
+        });
         closeForm();
       } catch (error) {
         errorAlert(error as AxiosError);
@@ -61,7 +76,8 @@ export const handleUpdateCourse = async (
 //  deleting a course
 export const handleDeleteCourse = async (course: Course) => {
   if (course) {
-    if (window.confirm('Are you sure you want to delete this course?')) {
+    const isConfirmed = await deleteCoursePopUp();
+    if (isConfirmed) {
       try {
         const response = await axios.delete<ServerResponse>(
           `${URL}/admin/courses/delete/${course._id}`,
@@ -71,7 +87,11 @@ export const handleDeleteCourse = async (course: Course) => {
           }
         );
         const { msg } = response.data;
-        alert(msg || 'Course deleted successfully!');
+        Swal.fire({
+          title: 'Deleted!',
+          text: msg,
+          icon: 'success'
+        });
       } catch (err) {
         errorAlert(err as AxiosError);
       }
@@ -85,22 +105,36 @@ const errorAlert = (err: AxiosError) => {
 
     if (axiosError.response) {
       // The request was made and the server responded with an error status
-      const { status, data } = axiosError.response;
-      alert(
-        `Error: ${data?.msg || 'Something went wrong'}. Status code: ${status}`
-      );
+      const { data } = axiosError.response;
+      Swal.fire({
+        title: 'Error!',
+        text: `${data?.msg || 'Something went wrong'}`,
+        icon: 'error'
+      });
     } else if (axiosError.request) {
       // The request was made but no response was received
       console.error('No response received:', axiosError.request);
-      alert('No response from the server. Please check your connection.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'No response from the server. Please check your connection.',
+        icon: 'error'
+      });
     } else {
       // Something else happened in setting up the request
       console.error('Error:', axiosError.message);
-      alert('An unexpected error occurred.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'An unexpected error occurred.',
+        icon: 'error'
+      });
     }
   } else {
     // Handle non-Axios errors
     console.error('Unexpected error:', err);
-    alert('An unexpected error occurred.');
+    Swal.fire({
+      title: 'Error!',
+      text: 'An unexpected error occurred.',
+      icon: 'error'
+    });
   }
 };

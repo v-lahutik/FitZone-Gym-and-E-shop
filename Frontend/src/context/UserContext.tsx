@@ -4,6 +4,8 @@ import { ReactNode } from 'react';
 import { URL } from '../utils/URL';
 import axios from 'axios';
 import { User } from '../custom.Types/userTypes';
+import Swal from 'sweetalert2';
+
 
 const userNull: User = {
   _id: null,
@@ -87,7 +89,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         setIsLoggedIn(false);
         setUser(userNull);
         navigate('/'); //redirect to home page if user is not an admin
-        alert('Unauthorized access. You were logged out. Please log in again.');
+        Swal.fire({
+          title: 'Error!',
+          text: 'Unauthorized access. You were logged out. Please log in again.',
+          icon: 'error'
+        });
       }
     }
   }, [userLoading, user, location.pathname]);

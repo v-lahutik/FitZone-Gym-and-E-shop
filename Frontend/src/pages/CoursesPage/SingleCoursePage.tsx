@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { URL } from '../../utils/URL';
 import { useParams } from 'react-router-dom';
-import { CourseTemplate } from '../../custom.Types/courseTemplates';
+import { CourseTemplate } from '../../custom.Types/courseTemplatesType';
 import { FaArrowRight } from 'react-icons/fa6';
 import './CoursePage.css';
 

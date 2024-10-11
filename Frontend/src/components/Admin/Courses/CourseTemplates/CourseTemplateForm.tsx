@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CourseTemplate } from './CourseTemplateDisplay';
+import { CourseTemplate } from '../../../../custom.Types/courseTemplatesType';
 import { weekdays, timeSlots } from '../CourseTable/TimeSlots';
 import {
   handleSaveNewTemplate,
@@ -29,7 +29,8 @@ const CourseTemplateForm: React.FC<CourseFormProps> = ({
       },
       weekday: 'Monday',
       maxParticipants: 0,
-      category: []
+      category: [],
+      coursePic: ''
     }
   );
 
@@ -80,6 +81,14 @@ const CourseTemplateForm: React.FC<CourseFormProps> = ({
               name="courseName"
               type="text"
               value={localCourse.courseName}
+              onChange={handleChange}
+              className="w-full border px-2 py-1"
+            />
+             <label>Course Picture</label>
+            <input
+              name="coursePic"
+              type="text"
+              value={localCourse.coursePic}
               onChange={handleChange}
               className="w-full border px-2 py-1"
             />
@@ -207,12 +216,19 @@ const CourseTemplateForm: React.FC<CourseFormProps> = ({
 
             <div className="flex justify-end mt-4">
               {!isEditing && (
-                <button
+               <div>
+               <button
                   onClick={() => handleUpdateTemplate(localCourse, closeForm)}
                   className="bg-green-500 text-white px-4 py-2 rounded"
                 >
                   Save changes
                 </button>
+                   <button
+                   onClick={() => handleSaveNewTemplate(localCourse, closeForm)}
+                   className="bg-primary text-white px-4 py-2 rounded ml-2"
+                 >
+                   Save as new Course
+                 </button></div>
               )}
               {isEditing && (
                 <button
