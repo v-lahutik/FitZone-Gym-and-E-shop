@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Login from '../../components/Auth/Login';
 import { FaArrowRight } from 'react-icons/fa6';
 import './CoursePage.css';
-import HeroImage2 from '/src/assets/images/Hero/hero_1_1.jpg';
+import HeroImage2 from '../../assets/images/Hero/hero_1_1.jpg';
 import axios from 'axios';
 import { URL } from '../../utils/URL';
 import { CourseTemplate } from '../../custom.Types/courseTemplatesType';
