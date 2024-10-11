@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Login from '../../components/Auth/Login';
 import { FaArrowRight } from 'react-icons/fa6';
 import './CoursePage.css';
-
+import HeroImage from '../../assets/images/Hero/hero_1_1.jpg';
 import axios from 'axios';
 import { URL } from '../../utils/URL';
 import { CourseTemplate } from '../../custom.Types/courseTemplatesType';
@@ -66,7 +66,7 @@ export default function CoursesPage() {
         className="hero bg-cover bg-center flex items-center h-[30vh]"
         style={{
           backgroundImage:
-            "url('/src/assets/images/Hero/Background-breadcrumb.png')"
+            `url${HeroImage}`,
         }}
       >
         <div className="container mx-auto max-w-[1280px] px-4 ">
