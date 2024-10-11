@@ -1,5 +1,5 @@
 import './Hero.css';
-import HeroImage from '../../assets/images/Hero/background_hero.png';
+import HeroImage from '../../../assets/images/Hero/hero-bg.jpg';
 
 const Hero: React.FC = () => {
   return (
