@@ -1,61 +1,33 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-import { useEffect, useRef, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-
+import { useEffect, useState } from 'react';
+import { NavLink} from 'react-router-dom';
 import Logo from '/src/assets/images/Logo/fitzone_logo.png';
 import { IoIosArrowDown } from 'react-icons/io';
 import { FaArrowLeft } from 'react-icons/fa6';
-
 import { RxAvatar } from 'react-icons/rx';
 import { IoSchoolOutline } from 'react-icons/io5';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 
 interface SidebarProps {
+  // interface for SidebarProps
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
 }
 
-export default function MemberSidebar({
+export default function AdminSidebar({
   sidebarOpen,
   setSidebarOpen
 }: SidebarProps) {
-  const location = useLocation();
-  const { pathname } = location;
-
-  const trigger = useRef<any>(null);
-  const sidebar = useRef<any>(null);
-
-  const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
+  // SidebarProps is passed as an argument to AdminSidebar
+  
+  const storedSidebarExpanded = localStorage.getItem('sidebar-expanded'); // get the value of 'sidebar-expanded' from localStorage
   const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
+    storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true' // if storedSidebarExpanded is null, set it to false, else set it to storedSidebarExpanded
   );
-  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
-  const [isCourseSubmenuOpen, setIsCourseSubmenuOpen] = useState(false);
+  const [isCourseSubmenuOpen, setIsCourseSubmenuOpen] = useState(false); // set isCourseSubmenuOpen to false
 
   const toggleCourseSubmenu = () => {
     setIsCourseSubmenuOpen(!isCourseSubmenuOpen);
   };
-
-  const toggleSubmenu = () => {
-    setIsSubmenuOpen(!isSubmenuOpen);
-  };
-
-  // close on click outside
-  useEffect(() => {
-    const clickHandler = ({ target }: MouseEvent) => {
-      if (!sidebar.current || !trigger.current) return;
-      if (
-        !sidebarOpen ||
-        sidebar.current.contains(target) ||
-        trigger.current.contains(target)
-      )
-        return;
-      setSidebarOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
 
   useEffect(() => {
     localStorage.setItem('sidebar-expanded', sidebarExpanded.toString());
@@ -68,7 +40,6 @@ export default function MemberSidebar({
 
   return (
     <aside
-      ref={sidebar}
       className={`absolute left-0 top-0 z-[9999] flex h-screen w-72 flex-col overflow-y-hidden bg-blackColor2 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
@@ -80,7 +51,6 @@ export default function MemberSidebar({
         </NavLink>
 
         <button
-          ref={trigger}
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-controls="sidebar"
           aria-expanded={sidebarOpen}

@@ -1,5 +1,17 @@
 import { Address } from "./userTypes";
 
+export type Orders = {
+  orderNumber: string;
+  orderDate: string;
+  totalPrice: number;
+  paymentStatus: string;
+  deliveryAddress: Address;
+  deliveryDate: string;
+  status: string;
+  products: Product[];
+  createdAt: string;
+  userId: UserId;
+};
 export type ProductId = {
     quantity: number;
     productId: string;
@@ -22,31 +34,6 @@ export type Category = {
     categoryName: string;
   };
 
-
-// export type Orders = {
-//     orderNumber: string;
-//     orderDate: string;
-//     totalPrice: number;
-//     paymentStatus: string;
-//     deliveryAddress: Address;
-//     deliveryDate: string;
-//     status: string;
-//     products: Product[];
-//     createdAt: string;
-//   };
-
-  export type Orders = {
-    orderNumber: string;
-    orderDate: string;
-    totalPrice: number;
-    paymentStatus: string;
-    deliveryAddress: Address;
-    deliveryDate: string;
-    status: string;
-    products: Product[];
-    createdAt: string;
-    userId: UserId;
-  };
 export type UserId={
     firstName: string;
     lastName: string;

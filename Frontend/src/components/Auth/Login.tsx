@@ -163,7 +163,7 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
             href="#"
             className="text-sm font-thin text-gray-800 mt-2 inline-block hover:text-primary"
           >
-            Forget Password
+            Forgot Password?
           </a>
         </div>
         <button className="cursor-pointer py-2 px-4 block mt-8 mb-6 bg-primary text-white font-bold w-full text-center rounded">

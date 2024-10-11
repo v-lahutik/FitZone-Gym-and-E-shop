@@ -3,20 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ReactNode } from 'react';
 import { URL } from '../utils/URL';
 import axios from 'axios';
+import { User } from '../custom.Types/userTypes';
 import Swal from 'sweetalert2';
-import { Address } from '../custom.Types/userTypes';
 
-
-interface User {
-  _id: string | null;
-  firstName: string | null;
-  lastName: string | null;
-  email: string | null;
-  membership: string | null;
-  address: Address | null;
-  role: string | null;
-  profilePic: string | null;
-}
 
 const userNull: User = {
   _id: null,
