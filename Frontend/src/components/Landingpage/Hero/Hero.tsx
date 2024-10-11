@@ -1,4 +1,5 @@
 import './Hero.css';
+import Hero2 from '../../../assets/images/Hero/hero_1_1.jpg'
 
 const Hero: React.FC = () => {
   return (
@@ -30,7 +31,7 @@ const Hero: React.FC = () => {
             </div>
             <div className="hidden lg:flex justify-center items-center self-end">
               <img
-                src="/src/assets/images/Hero/hero_1_1.jpg"
+                src={Hero2}
                 alt="Hero Image"
                 className="w-full h-auto "
               />
