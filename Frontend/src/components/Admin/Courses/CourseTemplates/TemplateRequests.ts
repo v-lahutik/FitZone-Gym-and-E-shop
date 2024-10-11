@@ -74,7 +74,10 @@ export const handleUpdateTemplate = async (
 };
 
 //  deleting a course template
-export const handleDeleteTemplate = async (template: CourseTemplate) => {
+export const handleDeleteTemplate = async (
+  template: CourseTemplate,
+  setTemplateChanged: React.Dispatch<React.SetStateAction<boolean>>
+) => {
   if (template) {
     const isConfirmed = await deleteTemplatePopUp();
     if (isConfirmed) {
@@ -92,13 +95,13 @@ export const handleDeleteTemplate = async (template: CourseTemplate) => {
           text: msg,
           icon: 'success'
         });
+        setTemplateChanged(true);
       } catch (err) {
         errorAlert(err as AxiosError);
       }
     }
   }
 };
-
 
 const errorAlert = (err: AxiosError) => {
   if (axios.isAxiosError(err)) {
