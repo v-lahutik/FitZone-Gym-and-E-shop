@@ -23,7 +23,8 @@ const CourseForm: React.FC<CourseFormProps> = ({ course, closeForm }) => {
       weekday: 'Monday',
       maxParticipants: 0,
       participants: [],
-      category: []
+      category: [],
+      coursePic: '',
     }
   );
 

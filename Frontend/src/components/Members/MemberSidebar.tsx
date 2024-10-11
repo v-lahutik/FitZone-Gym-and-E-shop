@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useEffect, useRef, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import Logo from '/src/assets/images/Logo/fitzone_logo.png';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -20,26 +20,24 @@ export default function MemberSidebar({
   sidebarOpen,
   setSidebarOpen
 }: SidebarProps) {
-  const location = useLocation();
-  const { pathname } = location;
+  // const location = useLocation();
+  // const { pathname } = location;
 
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
 
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
-  const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
-  );
-  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+  const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(false);
+  // const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
   const [isCourseSubmenuOpen, setIsCourseSubmenuOpen] = useState(false);
 
   const toggleCourseSubmenu = () => {
     setIsCourseSubmenuOpen(!isCourseSubmenuOpen);
   };
 
-  const toggleSubmenu = () => {
-    setIsSubmenuOpen(!isSubmenuOpen);
-  };
+  // const toggleSubmenu = () => {
+  //   setIsSubmenuOpen(!isSubmenuOpen);
+  // };
 
   // close on click outside
   useEffect(() => {
@@ -58,7 +56,9 @@ export default function MemberSidebar({
   });
 
   useEffect(() => {
-    localStorage.setItem('sidebar-expanded', sidebarExpanded.toString());
+    if (storedSidebarExpanded === 'true') {
+      setSidebarExpanded(JSON.parse(storedSidebarExpanded));
+    }
     if (sidebarExpanded) {
       document.querySelector('body')?.classList.add('sidebar-expanded');
     } else {
