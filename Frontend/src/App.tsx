@@ -21,6 +21,9 @@ import BookedCourses from './components/Members/Courses/BookedCourses.tsx';
 
 import CoursesPage from './pages/CoursesPage/CoursesPage.tsx';
 import SingleCoursePage from './pages/CoursesPage/SingleCoursePage.tsx';
+import VerifyHandlePage from './components/Auth/VerifyHandlePage.tsx';
+import UserNotFound from './components/Auth/UserNotFound.tsx';
+
 
 function App() {
   return (
@@ -31,6 +34,8 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/courses/:id" element={<SingleCoursePage />} />
+          <Route path="/verify/:uid" element={<VerifyHandlePage />} />
+          <Route path="/user-not-found" element={<UserNotFound />} />
           {/* Private Routes for Members */}
           <Route
             path="/member"

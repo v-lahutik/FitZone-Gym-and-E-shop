@@ -46,31 +46,22 @@ export const verifyAccount = async (
 
     const verified = await Verify.findOne({ token, userId });
     if (!verified) {
-      return res
-        .status(401)
-        .json({ message: "Verification link is not valid or has expired." });
+      return res.redirect('http://localhost:5173/user-not-found/?status=verify-error');
     }
 
     const user = await User.findById(userId);
     if (!user) {
-      return res
-        .status(404)
-        .json({ message: "User not found or already deleted." });
+      return res.redirect('http://localhost:5173/user-not-found/?status=user-not-found');
     }
 
     if (user.is_activated) {
-      return res
-        .status(400)
-        .json({ message: "User account is already activated." });
+      return res.redirect(`http://localhost:5173/verify/${userId}?status=already-activated`);
     }
 
     user.is_activated = true;
     await user.save();
 
-    res.status(200).json({
-      status: "Account verified!",
-      message: "Account has been successfully verified.",
-    });
+    return res.redirect(`http://localhost:5173/verify/${userId}?status=verified-success`);
   } catch (error) {
     next(error);
   }
