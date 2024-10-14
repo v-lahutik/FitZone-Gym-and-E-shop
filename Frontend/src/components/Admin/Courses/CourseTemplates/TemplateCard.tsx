@@ -15,8 +15,9 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
   setTemplateChanged
 }) => {
   return (
-    <div className="bg-white min-w-[200px] max-w-[280px] col-span-6 sm:col-span-4 md:col-span-3 xl:col-span-2 rounded-lg shadow-lg p-3">
+    <div className="bg-white min-w-[250px] max-w-[280px] col-span-6 md:col-span-4 xl:col-span-3 rounded-lg shadow-lg p-3 flex flex-col justify-between">
       <h3 className="text-lg font-bold">{template.courseName}</h3>
+      <img src={template.coursePic} alt={template.courseName} className="w-full h-40 object-cover rounded-lg mt-2" />
       <p className="text-sm">{template.instructor}</p>
       <div className="flex gap-2">
         <p className="text-sm">{template.weekday}</p>

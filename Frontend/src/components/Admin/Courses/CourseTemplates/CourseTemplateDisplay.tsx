@@ -61,7 +61,7 @@ const CourseTemplateDisplay: React.FC = () => {
       <div className="p-4">
         <div className="grid grid-cols-12 gap-3 overflow-x-auto">
           <div className="col-span-12 text-center">
-            <h1 className="text-3xl font-bold text-white">Course Templates</h1>
+            <h1 className="text-3xl font-bold text-black">Course Templates</h1>
           </div>
           {templates.map((template) => (
             <TemplateCard

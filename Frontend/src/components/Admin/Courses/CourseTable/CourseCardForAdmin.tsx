@@ -1,12 +1,12 @@
 import React from 'react';
-import Yoga from '../../../../assets/images/Courses/yoga.jpg';
+import Logo from '../../../../assets/images/Logo/fitzone_logo.png';
 import { FaRegClock } from 'react-icons/fa';
 import { FaHeartPulse } from 'react-icons/fa6';
 import { ImUsers } from 'react-icons/im';
 import { FaEdit } from 'react-icons/fa';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 import { handleDeleteCourse } from './CourseRequest';
-import { Course } from './CourseTable';
+import { Course } from '../../../../custom.Types/courseType';
 
 interface CourseCardForAdminProps {
   course: Course;
@@ -28,7 +28,7 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
       <div className="w-[320px] m-auto text-white border border-gray-300 rounded-lg p-2 bg-blight shadow-xl">
         <img
           alt=""
-          src={course.coursePic || Yoga}
+          src={course.coursePic || Logo}
           className="h-56 w-full rounded-md object-cover"
         />
 
@@ -99,9 +99,11 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
             </button>
           </div>
         </div>
+        <div className="flex justify-end">
         <button onClick={() => closeCard()} className="text-red-500">
           X Close
         </button>
+        </div>
       </div>
     </>
   );
