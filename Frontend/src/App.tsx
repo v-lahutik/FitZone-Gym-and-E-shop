@@ -13,7 +13,7 @@ import CourseTemplateDisplay from './components/Admin/Courses/CourseTemplates/Co
 import Dashboard from './components/Admin/Dashboard/Dashboard.tsx';
 import UserProfile from './components/Members/Profile/UserProfile.tsx';
 import Orders from './components/Members/MemberOrders/MemberOrders.tsx';
-import AdminProducts from './components/Admin/Products/AdminProducts.tsx';
+import AdminProductsDisplay from './components/Admin/Products/AdminProductsDisplay.tsx';
 import AdminProfile from './components/Admin/Profile/AdminProfile.tsx';
 import AdminOrders from './components/Admin/AdminOrders/AdminOrders.tsx';
 import MembersCourseTable from './components/Members/Courses/MembersCourseTable.tsx';
@@ -72,7 +72,7 @@ function App() {
               <Route path="templates" element={<CourseTemplateDisplay />} />
             </Route>
             <Route path="members" element={<MembersTable />} />
-            <Route path="shop" element={<AdminProducts />} />
+            <Route path="shop" element={<AdminProductsDisplay />} />
             <Route path="orders" element={<AdminOrders />} />
             <Route path="profile" element={<AdminProfile />} />
           </Route>

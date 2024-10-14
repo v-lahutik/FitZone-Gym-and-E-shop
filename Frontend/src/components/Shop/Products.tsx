@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Footer from '../Footer/Footer.tsx';
 
 export type Product = {
+  _id : string
   image: string;
   productName: string;
   description: string;
