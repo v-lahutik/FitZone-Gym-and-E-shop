@@ -74,7 +74,7 @@ export default function AdminSidebar({
             <ul className="mb-6 flex flex-col gap-1.5">
               {/* <!-- Menu Item Dashboard --> */}
 
-              <li>
+              <li onClick={()=>setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/admin/dashboard"
                   className={({ isActive }) =>
@@ -143,7 +143,7 @@ export default function AdminSidebar({
               {/* <!-- Menu Item Courses --> */}
 
               {/* <!-- Menu Item Shop --> */}
-              <li>
+              <li onClick={()=>setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/admin/shop"
                   className={({ isActive }) =>
@@ -158,7 +158,7 @@ export default function AdminSidebar({
               </li>
               {/* <!-- Menu Item Products --> */}
               {/* <!-- Menu Item Users --> */}
-              <li>
+              <li onClick={()=>setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/admin/orders"
                   className={({
@@ -172,7 +172,7 @@ export default function AdminSidebar({
                   Orders
                 </NavLink>
               </li>
-              <li>
+              <li onClick={()=>setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/admin/members"
                   className={({
@@ -186,7 +186,7 @@ export default function AdminSidebar({
                   Members
                 </NavLink>
               </li>
-              <li>
+              <li onClick={()=>setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/admin/profile"
                   className={({
