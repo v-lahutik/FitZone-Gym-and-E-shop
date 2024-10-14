@@ -23,6 +23,7 @@ import CoursesPage from './pages/CoursesPage/CoursesPage.tsx';
 import SingleCoursePage from './pages/CoursesPage/SingleCoursePage.tsx';
 import VerifyHandlePage from './components/Auth/VerifyHandlePage.tsx';
 import UserNotFound from './components/Auth/UserNotFound.tsx';
+import Page404 from './components/Page404.tsx';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           <Route path="/courses/:id" element={<SingleCoursePage />} />
           <Route path="/verify/:uid" element={<VerifyHandlePage />} />
           <Route path="/user-not-found" element={<UserNotFound />} />
+          <Route path="/*" element={<Page404 />} />
           {/* Private Routes for Members */}
           <Route
             path="/member"
