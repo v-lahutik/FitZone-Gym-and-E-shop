@@ -1,15 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
+import React, { useState, useEffect, useRef } from 'react';
+import { GiHamburgerMenu } from 'react-icons/gi';
+
+export interface MenuItem {
+  label: string;
+  link: string;
+}
 
 interface DropdownMenuProps {
-  menuItems: string[]; // Array of menu items
+  menuItems: MenuItem[]; // Array of menu items
   position?: string; // Optional positioning class for dropdown (e.g., 'top-[100px] right-0')
 }
 
-const DropdownMenu: React.FC<DropdownMenuProps> = ({
-  menuItems,
-  position = "top-[86px] right-0",
-}) => {
+const DropdownMenu: React.FC<DropdownMenuProps> = (
+  { menuItems },
+  { position = 'top-[86px] right-0' }
+) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -29,31 +34,32 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     } else {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
 
   return (
-    <div ref={dropdownRef}
-      className="md:hidden mx-4 mt-4 text-gray-400 text-xl"
+    <div
+      ref={dropdownRef}
+      className="md:hidden mx-4 mt-4 text-gray-400 text-xl cursor-pointer"
       onClick={toggleDropdown}
     >
       <GiHamburgerMenu />
       {isOpen && (
-        <div className={`absolute ${position} bg-bdark p-4 rounded-lg`}>
+        <div className={`absolute ${position} bg-bdark p-4 rounded-lg `}>
           <ul className="space-y-4">
             {menuItems.map((item, index) => (
               <li
                 key={index}
                 className="text-gray-400 hover:text-gray-300 cursor-pointer"
               >
-              <a href={`#${item}`}>{item.toUpperCase()}</a>  
+                <a href={item.link}>{item.label.toUpperCase()}</a>
               </li>
             ))}
           </ul>

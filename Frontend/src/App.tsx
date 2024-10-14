@@ -22,6 +22,10 @@ import BookedCourses from './components/Members/Courses/BookedCourses.tsx';
 import CoursesPage from './pages/CoursesPage/CoursesPage.tsx';
 import SingleCoursePage from './pages/CoursesPage/SingleCoursePage.tsx';
 import Products from './components/Shop/Products.tsx';
+import VerifyHandlePage from './components/Auth/VerifyHandlePage.tsx';
+import UserNotFound from './components/Auth/UserNotFound.tsx';
+import Page404 from './components/Page404.tsx';
+
 
 function App() {
   return (
@@ -33,6 +37,10 @@ function App() {
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/courses/:id" element={<SingleCoursePage />} />
           <Route path="/shop" element={<Products />} />
+          <Route path="/verify/:uid" element={<VerifyHandlePage />} />
+          <Route path="/user-not-found" element={<UserNotFound />} />
+          <Route path="/*" element={<Page404 />} />
+
           {/* Private Routes for Members */}
           <Route
             path="/member"

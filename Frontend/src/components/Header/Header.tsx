@@ -1,17 +1,41 @@
 import Logo from '../../assets/images/Logo/fitzone_logo.png';
 import { IoCart } from 'react-icons/io5';
-import DropdownMenu from '../../utils/DropdownMenu';
+import DropdownMenu, { MenuItem } from '../../utils/DropdownMenu';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
 
 interface HeaderProps {
   setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
-  const menuItems = ['membership', 'courses', 'shop', 'contact'];
+  const ifHomePage = window.location.pathname === '/';
+
   const [isScrolled, setIsScrolled] = useState(false);
   const isLandingPage = location.pathname === '/'; 
+
+  const homeMenuItems = [
+    { label: 'membership', link: '#membership' },
+    { label: 'courses', link: '#courses' },
+    { label: 'shop', link: '/shop' },
+    { label: 'contact', link: '#contact' }
+  ];
+  const generalMenuItems = [
+    { label: 'Home', link: '/' },
+    { label: 'courses', link: '/courses' },
+    { label: 'shop', link: '/shop' }
+    // { label: 'Contact', link: '/contact' }
+  ];
+
+  const renderMenuItems = (): MenuItem[] => {
+    if (location.pathname === '/') {
+      return homeMenuItems;
+    } else {
+      return generalMenuItems;
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +47,11 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
     };
   }, []);
 
+  const homePage = window.location.origin;
+  const homePageUrl = homePage.endsWith('/') ? homePage.slice(0, -1) : homePage;
+  const contactUrl = `${homePageUrl}#contact`;
+  console.log('🚀 ~ homePage:', contactUrl);
+
   return (
     <header
       className={`bg-blackColor2 flex items-center p-4 md:p-8 justify-between min-h-[50px] w-full transition-all duration-500 ${
@@ -31,16 +60,19 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
       }`}
     >
       <div className="basis-1/4 ">
-        <img
-          src={Logo}
-          alt="Logo"
-          className="sm:mr-4 min-w-[100px] max-w-[300px] h-auto w-full"
-        />
+        <Link to="/">
+          <img
+            src={Logo}
+            alt="Logo"
+            className="sm:mr-4 min-w-[100px] max-w-[300px] h-auto w-full"
+          />
+        </Link>
       </div>
 
       <div className="basis-1/2 flex justify-evenly">
         <nav>
           <ul className="hidden md:flex space-x-8 md:space-x-12 mx-4 mt-4">
+
             <li className="textLink">
               <a href="#membership">MEMBERSHIP</a>
             </li>
@@ -49,13 +81,41 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
             </li>
             <NavLink className="textLink"
                 to="/shop">SHOP</NavLink>
+
+            {ifHomePage ? (
+              <>
+                <li className="textLink">
+                  <a href="#membership">MEMBERSHIP</a>
+                </li>
+                <li className="textLink">
+                  <a href="#courses">COURSES</a>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="textLink">
+                  <Link to="/">HOME</Link>
+                </li>
+                <li className="textLink">
+                  <a href="/courses">COURSES</a>
+                </li>
+              </>
+            )}
+
+            <li className="textLink">SHOP</li>
+
+
             <li className="textLink">
-              <a href="#contact">CONTACT</a>
+              {ifHomePage ? (
+                <a href="#contact">CONTACT</a>
+              ) : (
+                <a href={contactUrl}>CONTACT</a>
+              )}
             </li>
           </ul>
         </nav>
       </div>
-      <DropdownMenu menuItems={menuItems} />
+      <DropdownMenu menuItems={renderMenuItems()} />
       <div className="basis-1/4 flex justify-end">
         <div>
           <button
