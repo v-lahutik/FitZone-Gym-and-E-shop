@@ -2,7 +2,9 @@ import Logo from '../../assets/images/Logo/fitzone_logo.png';
 import { IoCart } from 'react-icons/io5';
 import DropdownMenu, { MenuItem } from '../../utils/DropdownMenu';
 import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+
 
 interface HeaderProps {
   setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,6 +14,7 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
   const ifHomePage = window.location.pathname === '/';
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const isLandingPage = location.pathname === '/'; 
 
   const homeMenuItems = [
     { label: 'membership', link: '#membership' },
@@ -69,6 +72,16 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
       <div className="basis-1/2 flex justify-evenly">
         <nav>
           <ul className="hidden md:flex space-x-8 md:space-x-12 mx-4 mt-4">
+
+            <li className="textLink">
+              <a href="#membership">MEMBERSHIP</a>
+            </li>
+            <li className="textLink">
+              <a href="#courses">COURSES</a>
+            </li>
+            <NavLink className="textLink"
+                to="/shop">SHOP</NavLink>
+
             {ifHomePage ? (
               <>
                 <li className="textLink">
@@ -90,6 +103,7 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
             )}
 
             <li className="textLink">SHOP</li>
+
 
             <li className="textLink">
               {ifHomePage ? (
