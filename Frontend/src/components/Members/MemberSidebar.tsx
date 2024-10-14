@@ -71,11 +71,12 @@ export default function AdminSidebar({
             <ul className="mb-6 flex flex-col gap-1.5">
               {/* <!-- Menu Item Dashboard --> */}
 
-              <li>
+              <li onClick={()=>setIsCourseSubmenuOpen(false)}>
+       
                 <NavLink
-                  to="/member/profile"
-                  className={({
-                    isActive
+                 to="/member/profile"
+                 className={({
+                   isActive
                   }) => `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
                     isActive ? 'bg-graydark text-white' : ''
                   }
@@ -84,12 +85,13 @@ export default function AdminSidebar({
                   <RxAvatar />
                   Profile
                 </NavLink>
+             
               </li>
 
-              {/* <!-- Menu Item Dashboard --> */}
-
+     
               {/* <!-- Menu Item Courses --> */}
-              <li
+              <li>
+              <div
                 onClick={toggleCourseSubmenu}
                 className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
               >
@@ -100,6 +102,8 @@ export default function AdminSidebar({
                     isCourseSubmenuOpen && 'rotate-180'
                   }`}
                 />
+                </div>
+
                 {isCourseSubmenuOpen && (
                   <div
                     className={`translate transform overflow-hidden ${
@@ -140,7 +144,7 @@ export default function AdminSidebar({
               {/* <!-- Menu Item Courses --> */}
 
               {/* <!-- Menu Item Shop --> */}
-              <li>
+              <li onClick={()=>setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/member/orders"
                   className={({
