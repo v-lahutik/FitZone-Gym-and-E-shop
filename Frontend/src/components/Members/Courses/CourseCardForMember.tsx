@@ -31,7 +31,7 @@ const CourseCardForMember: React.FC<CourseCardForMemberProps> = ({
           </div>
           <img
             alt=""
-            src={Yoga}
+            src={course.coursePic || Yoga}
             className="h-[340px] w-full rounded-md object-cover"
           />
 
@@ -53,7 +53,9 @@ const CourseCardForMember: React.FC<CourseCardForMemberProps> = ({
 
                 <div className="mt-1.5 sm:mt-0 text-sm">
                   <p className="text-gray-500 ">Category</p>
-                  <p>{course.category}</p>
+                  {course.category.length === 1 ? (
+                  <p>{course.category[0]}</p>) :
+                (<p>{`${course.category[0]}, ${course.category[1]}`}</p>)}
                 </div>
               </div>
             </div>

@@ -50,8 +50,9 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
 
               <div className="mt-1.5 sm:mt-0 text-sm">
                 <p className="text-gray-500 ">Category</p>
-
-                <p>{course.category}</p>
+                {course.category.length === 1 ? (
+                  <p>{course.category[0]}</p>) :
+                (<p>{`${course.category[0]}, ${course.category[1]}`}</p>)}
               </div>
             </div>
           </div>
