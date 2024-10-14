@@ -2,6 +2,7 @@ import Logo from '../../assets/images/Logo/fitzone_logo.png';
 import { IoCart } from 'react-icons/io5';
 import DropdownMenu from '../../utils/DropdownMenu';
 import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 interface HeaderProps {
   setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,6 +11,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
   const menuItems = ['membership', 'courses', 'shop', 'contact'];
   const [isScrolled, setIsScrolled] = useState(false);
+  const isLandingPage = location.pathname === '/'; 
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,7 +47,8 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
             <li className="textLink">
               <a href="#courses">COURSES</a>
             </li>
-            <li className="textLink">SHOP</li>
+            <NavLink className="textLink"
+                to="/shop">SHOP</NavLink>
             <li className="textLink">
               <a href="#contact">CONTACT</a>
             </li>
