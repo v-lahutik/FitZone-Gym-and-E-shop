@@ -25,12 +25,14 @@ import Products from './components/Shop/Products.tsx';
 import VerifyHandlePage from './components/Auth/VerifyHandlePage.tsx';
 import UserNotFound from './components/Auth/UserNotFound.tsx';
 import Page404 from './components/Page404.tsx';
+import { CartProvider } from './context/CartContext.tsx';
 
 
 function App() {
   return (
     <UserProvider>
       <DateProvider>
+        <CartProvider>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
@@ -77,6 +79,7 @@ function App() {
             <Route path="profile" element={<AdminProfile />} />
           </Route>
         </Routes>
+        </CartProvider>
       </DateProvider>
     </UserProvider>
   );
