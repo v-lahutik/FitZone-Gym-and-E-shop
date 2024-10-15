@@ -14,15 +14,15 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
   const ifHomePage = window.location.pathname === '/';
   const userContext = useContext(UserContext);
 
-  const authenticate = userContext?.authenticate;
+  // const authenticate = userContext?.authenticate;
 
-  useEffect(() => {
-    if (!userContext?.isLoggedIn) {
-      if (authenticate) {
-        authenticate();
-      }
-    }
-  }, [userContext?.isLoggedIn]);
+  // useEffect(() => {
+  //   if (!userContext?.isLoggedIn) {
+  //     if (authenticate) {
+  //       authenticate();
+  //     }
+  //   }
+  // }, [userContext?.isLoggedIn]);
 
   const [isScrolled, setIsScrolled] = useState(false);
 

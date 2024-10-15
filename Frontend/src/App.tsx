@@ -25,7 +25,7 @@ import Products from './components/Shop/Products.tsx';
 import VerifyHandlePage from './components/Auth/VerifyHandlePage.tsx';
 import UserNotFound from './components/Auth/UserNotFound.tsx';
 import Page404 from './components/Page404.tsx';
-
+import PublicLayout from './Layouts/PublicLayout.tsx';
 
 function App() {
   return (
@@ -33,13 +33,16 @@ function App() {
       <DateProvider>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/courses/:id" element={<SingleCoursePage />} />
-          <Route path="/shop" element={<Products />} />
-          <Route path="/verify/:uid" element={<VerifyHandlePage />} />
-          <Route path="/user-not-found" element={<UserNotFound />} />
-          <Route path="/*" element={<Page404 />} />
+
+          <Route path="/" element={<PublicLayout />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/courses" element={<CoursesPage />} />
+            <Route path="/courses/:id" element={<SingleCoursePage />} />
+            <Route path="/shop" element={<Products />} />
+            <Route path="/verify/:uid" element={<VerifyHandlePage />} />
+            <Route path="/user-not-found" element={<UserNotFound />} />
+            <Route path="/*" element={<Page404 />} />
+          </Route>
 
           {/* Private Routes for Members */}
           <Route

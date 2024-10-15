@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { URL } from '../../utils/URL.ts';
 import { PiShoppingCartBold } from 'react-icons/pi';
-import Header from '../Header/Header.tsx';
 import { Link } from 'react-router-dom';
-import Footer from '../Footer/Footer.tsx';
 
 export type Product = {
   image: string;
@@ -24,14 +22,12 @@ const Products: React.FC = () => {
   useEffect(() => {
     axios.get(`${URL}/products`).then((response) => {
       setProducts(response.data);
-      
     });
   }, []);
   console.log(products);
 
   return (
     <div className="bg-white">
-      <Header />
       <section
         id="breadcrumb-section"
         className="hero bg-cover bg-center flex items-center h-[30vh]"
@@ -90,8 +86,10 @@ const Products: React.FC = () => {
               <h5 className="text-xl tracking-tight text-slate-900">
                 {product.productName}
               </h5>
-              <p className="text-gray-600 line-clamp-2 hover:line-clamp-4 h-12">{product.description}</p>
-              
+              <p className="text-gray-600 line-clamp-2 hover:line-clamp-4 h-12">
+                {product.description}
+              </p>
+
               <div className="mt-2 mb-5 flex items-center justify-between">
                 <p>
                   <span className="text-xl font-bold text-slate-900">
@@ -115,7 +113,7 @@ const Products: React.FC = () => {
                     </svg>
                   ))}
                   <span className="mr-2 ml-3 rounded bg-primary px-2.5 py-0.5 text-white text-xs font-semibold">
-                   {product.averageRating}
+                    {product.averageRating}
                   </span>
                 </div>
               </div>
@@ -127,7 +125,6 @@ const Products: React.FC = () => {
           </div>
         ))}
       </section>
-     <Footer />
     </div>
   );
 };
