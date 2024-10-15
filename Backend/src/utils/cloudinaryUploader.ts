@@ -17,7 +17,7 @@ export async function uploadImage(image: string) {
     // Upload the image to Cloudinary
     const result = await cloudinary.uploader.upload(image,
         {transformation:[
-            {   aspect_ratio: '1.0',
+            {   aspect_ratio: '1.33',
                 folder:'equipment',
                 width: 500,
                 crop: 'fill',}

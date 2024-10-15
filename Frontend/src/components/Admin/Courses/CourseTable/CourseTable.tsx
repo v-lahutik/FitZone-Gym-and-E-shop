@@ -5,30 +5,8 @@ import { DateContext } from '../../../../context/DateContext.tsx';
 import axios from 'axios';
 import { URL } from '../../../../utils/URL.ts';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import {Course} from '../../../../custom.Types/courseType.tsx'
 
-export interface Course {
-  coursePic: string;
-  courseName: string;
-  description: string;
-  instructor: string;
-  date: string;
-  time: {
-    start: string;
-    end: string;
-  };
-  weekday:
-    | 'Monday'
-    | 'Tuesday'
-    | 'Wednesday'
-    | 'Thursday'
-    | 'Friday'
-    | 'Saturday'
-    | 'Sunday';
-  maxParticipants: number;
-  participants: [];
-  category: ('Flexibility' | 'Strength' | 'Cardio')[]; //takes 1 or more values in an array
-  _id: string;
-}
 
 const CourseTable: React.FC = () => {
   const dateContext = useContext(DateContext);
