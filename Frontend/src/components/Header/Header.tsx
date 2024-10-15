@@ -1,10 +1,10 @@
 import Logo from '../../assets/images/Logo/fitzone_logo.png';
 import { IoCart } from 'react-icons/io5';
 import DropdownMenu, { MenuItem } from '../../utils/DropdownMenu';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import { UserContext } from '../../context/UserContext';
 
 interface HeaderProps {
   setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,9 +12,19 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
   const ifHomePage = window.location.pathname === '/';
+  const userContext = useContext(UserContext);
+
+  const authenticate = userContext?.authenticate;
+
+  useEffect(() => {
+    if (!userContext?.isLoggedIn) {
+      if (authenticate) {
+        authenticate();
+      }
+    }
+  }, [userContext?.isLoggedIn]);
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const isLandingPage = location.pathname === '/'; 
 
   const homeMenuItems = [
     { label: 'membership', link: '#membership' },
@@ -48,9 +58,7 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
   }, []);
 
   const homePage = window.location.origin;
-  const homePageUrl = homePage.endsWith('/') ? homePage.slice(0, -1) : homePage;
-  const contactUrl = `${homePageUrl}#contact`;
-  console.log('🚀 ~ homePage:', contactUrl);
+  const contactUrl = `${homePage}#contact`;
 
   return (
     <header
@@ -72,16 +80,6 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
       <div className="basis-1/2 flex justify-evenly">
         <nav>
           <ul className="hidden md:flex space-x-8 md:space-x-12 mx-4 mt-4">
-
-            <li className="textLink">
-              <a href="#membership">MEMBERSHIP</a>
-            </li>
-            <li className="textLink">
-              <a href="#courses">COURSES</a>
-            </li>
-            <NavLink className="textLink"
-                to="/shop">SHOP</NavLink>
-
             {ifHomePage ? (
               <>
                 <li className="textLink">
@@ -102,8 +100,9 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
               </>
             )}
 
-            <li className="textLink">SHOP</li>
-
+            <NavLink className="textLink" to="/shop">
+              SHOP
+            </NavLink>
 
             <li className="textLink">
               {ifHomePage ? (
@@ -122,7 +121,7 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
             onClick={() => setLoginOpen(true)}
             className="mt-3 rounded p-2 bg-primary text-white"
           >
-            LOGIN
+            {userContext?.isLoggedIn ? 'PROFILE' : 'LOGIN'}
           </button>
         </div>
         <div className="ml-4 mt-5 textLink text-2xl sm:text-3xl">

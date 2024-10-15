@@ -6,7 +6,6 @@ import axios from 'axios';
 import { User } from '../custom.Types/userTypes';
 import Swal from 'sweetalert2';
 
-
 const userNull: User = {
   _id: null,
   firstName: null,
@@ -63,19 +62,19 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     } finally {
       //add a loading state to prevent the page from rendering before the user is authenticated
       setUserLoading(false);
-     
     }
   };
 
   useEffect(() => {
-    if (
-      (location.pathname.startsWith('/admin') && user.role !== 'Admin') ||
-      (location.pathname.startsWith('/member') && user.role !== 'Member')
-    ) {
-      authenticate();
-    } else {
-      setUserLoading(false);
-    }
+    // if (
+    //   (location.pathname.startsWith('/admin') && user.role !== 'Admin') ||
+    //   (location.pathname.startsWith('/member') && user.role !== 'Member')
+    // ) {
+    authenticate();
+    //}
+    // else {
+    //   setUserLoading(false);
+    // }
   }, []);
 
   useEffect(() => {
