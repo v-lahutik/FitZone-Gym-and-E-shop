@@ -41,9 +41,7 @@ const MembersCourseTable: React.FC = () => {
     getStartOfWeek(new Date())
   );
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [currentDay, setCurrentDay] = useState<string>(
-    weekdays[currentDate.getDay()]
-  );
+  const [currentDay, setCurrentDay] = useState<string>('');
   const userContext = useContext(UserContext);
   const userId = userContext?.user?._id;
   const [weeklyCourses, setWeeklyCourses] = useState<Course[]>([]); // set weekly courses from database
@@ -66,6 +64,12 @@ const MembersCourseTable: React.FC = () => {
     // Cleanup the event listener
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => { 
+    console.log(currentDate.getDay())
+    setCurrentDay(currentDate.getDay() === 0 ? weekdays[6] : weekdays[currentDate.getDay()-1]);
+  }, [currentDate]);
+
 
   // Function to navigate between days in daily view
   const handleDayChange = (direction: 'prev' | 'next') => {
