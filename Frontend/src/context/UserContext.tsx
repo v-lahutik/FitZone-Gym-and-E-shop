@@ -100,8 +100,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const login = (userData: User) => {
     setUser(userData);
     console.log('User:', userData);
-    if (userData.role === 'Admin') navigate('/admin/dashboard');
-    else navigate('/member');
+    if (userData.role === 'Admin') navigate('/admin/profile');
+    else navigate('/member/profile');
     setIsLoggedIn(true);
   };
 

@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react';
-import Header from '../../components/Header/Header';
 import { Link, useLocation } from 'react-router-dom';
-import Login from '../../components/Auth/Login';
 import { FaArrowRight } from 'react-icons/fa6';
 import './CoursePage.css';
 
 import axios from 'axios';
 import { URL } from '../../utils/URL';
 import { CourseTemplate } from '../../custom.Types/courseTemplatesType';
-import Footer from '../../components/Footer/Footer';
 
 export default function CoursesPage() {
-  const [loginOpen, setLoginOpen] = useState<boolean>(false);
-
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
 
@@ -41,26 +36,8 @@ export default function CoursesPage() {
     fetchCourses();
   }, []);
 
-  //useEffect to handle scroll lock when login form is open
-
-  useEffect(() => {
-    if (loginOpen) {
-      //disable scroll
-      document.body.style.overflow = 'hidden';
-    } else {
-      //enable scroll
-      document.body.style.overflow = 'unset';
-    }
-    // cleanup function for when component unmounts
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [loginOpen]);
-
   return (
     <>
-      <Header setLoginOpen={setLoginOpen} />
-
       <section
         id="breadcrumb-section"
         className="hero bg-cover bg-center flex items-center h-[30vh]"
@@ -141,14 +118,6 @@ export default function CoursesPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
-
-      {loginOpen && (
-        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-          <Login setLoginOpen={setLoginOpen} />
-        </div>
-      )}
     </>
   );
 }
