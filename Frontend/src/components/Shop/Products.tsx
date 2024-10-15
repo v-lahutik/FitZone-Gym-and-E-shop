@@ -15,6 +15,7 @@ export type Product = {
     categoryName: string;
   };
   stock: number;
+  averageRating: number;
 };
 
 const Products: React.FC = () => {
@@ -23,8 +24,10 @@ const Products: React.FC = () => {
   useEffect(() => {
     axios.get(`${URL}/products`).then((response) => {
       setProducts(response.data);
+      
     });
   }, []);
+  console.log(products);
 
   return (
     <div className="bg-white">
@@ -112,7 +115,7 @@ const Products: React.FC = () => {
                     </svg>
                   ))}
                   <span className="mr-2 ml-3 rounded bg-primary px-2.5 py-0.5 text-white text-xs font-semibold">
-                    5.0
+                   {product.averageRating}
                   </span>
                 </div>
               </div>

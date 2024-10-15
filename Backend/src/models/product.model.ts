@@ -10,9 +10,10 @@ export interface ProductInput {
 
 }
 
-
 export interface ProductDocument extends ProductInput, Document {
   category: Schema.Types.ObjectId | CategoryDocument;
+  averageRating: number;
+  numReviews: number;
   createdAt: Date;
   updatedAt: Date;
 
@@ -34,7 +35,9 @@ const productSchema = new Schema<ProductDocument>(
     },
     image: { type: String, required: true },
 
-    category:  { type: Schema.Types.ObjectId, ref: "Category" , required: true }
+    category:  { type: Schema.Types.ObjectId, ref: "Category" , required: true },
+    averageRating: { type: Number, min: 0, max: 5 },
+    numReviews: { type: Number},
   }, { timestamps: true }
 
   
