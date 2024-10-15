@@ -56,7 +56,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               type="text"
               value={localProduct.productName}
               onChange={handleChange}
-              className="w-full border px-2 py-1"
+              className="w-full border px-2 py-1 mb-2"
+              placeholder='product name'
             />
             <label>Product Picture</label>
             <input
@@ -64,7 +65,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               type="text"
               value={localProduct.image}
               onChange={handleChange}
-              className="w-full border px-2 py-1"
+              className="w-full border px-2 py-1 mb-2"
+              placeholder='URL of the image'
             />
 
             <label>Description</label>
@@ -73,15 +75,38 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               type="text"
               value={localProduct.description}
               onChange={handleChange}
-              className="w-full border px-2 py-1"
+              className="w-full border px-2 py-1 mb-2"
+              placeholder='description'
             />
-            <div className="flex justify-between">
+
+            <label>Category</label>
+            <select
+              name="category"
+              value={localProduct.category.categoryName}
+              onChange={handleChange}
+              className="border border-gray-300 rounded px-3 py-2 bg-white text-gray-700 shadow-sm hover:border-gray-400"
+            >
+              <option value="670d14cfd3e6bf356b5763c8">Equipment</option>
+              <option value="670d14ddd3e6bf356b5763cc">Accessories</option>
+              <option value="670d14efd3e6bf356b5763d0">Supplements/Food</option>
+            </select>
+            <div className="flex justify-between gap-2 mb-2">
               <div className="w-1/2 flex flex-col">
                 <label>Price</label>
                 <input
                   name="price"
                   type="text"
                   value={localProduct.price}
+                  onChange={handleChange}
+                  className="w-full border px-2 py-1"
+                />
+              </div>
+              <div className="w-1/2 flex flex-col">
+                <label>Stock</label>
+                <input
+                  name="stock"
+                  type="text"
+                  value={localProduct.stock}
                   onChange={handleChange}
                   className="w-full border px-2 py-1"
                 />
@@ -93,9 +118,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               {!isEditing && (
                 <div>
                   <button
-                    onClick={() =>
-                      handleUpdateProduct(localProduct, closeForm)
-                    }
+                    onClick={() => handleUpdateProduct(localProduct, closeForm)}
                     className="bg-green-500 text-white px-4 py-2 rounded"
                   >
                     Save changes
