@@ -29,7 +29,7 @@ export const editProduct = async (req:Request,res:Response,next:NextFunction) =>
         const {productName,description,price,stock,image,category} = req.body
         const editedProduct = await Product.findByIdAndUpdate(pid, {productName,description,price,stock,image,category}, { new: true });
         await editedProduct?.populate('category')
-        res.status(200).json({ msg: "product edited successfully", editedProduct });
+        res.status(200).json({ msg: "product updated successfully !!", editedProduct });
     } catch (error) {
         next(error);
     }

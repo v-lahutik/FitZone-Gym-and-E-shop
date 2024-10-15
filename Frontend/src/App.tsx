@@ -13,7 +13,7 @@ import CourseTemplateDisplay from './components/Admin/Courses/CourseTemplates/Co
 import Dashboard from './components/Admin/Dashboard/Dashboard.tsx';
 import UserProfile from './components/Members/Profile/UserProfile.tsx';
 import Orders from './components/Members/MemberOrders/MemberOrders.tsx';
-import AdminProducts from './components/Admin/Products/AdminProducts.tsx';
+import AdminProductsDisplay from './components/Admin/Products/AdminProductsDisplay.tsx';
 import AdminProfile from './components/Admin/Profile/AdminProfile.tsx';
 import AdminOrders from './components/Admin/AdminOrders/AdminOrders.tsx';
 import MembersCourseTable from './components/Members/Courses/MembersCourseTable.tsx';
@@ -25,7 +25,7 @@ import Products from './components/Shop/Products.tsx';
 import VerifyHandlePage from './components/Auth/VerifyHandlePage.tsx';
 import UserNotFound from './components/Auth/UserNotFound.tsx';
 import Page404 from './components/Page404.tsx';
-
+import PublicLayout from './Layouts/PublicLayout.tsx';
 
 function App() {
   return (
@@ -33,13 +33,16 @@ function App() {
       <DateProvider>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/courses/:id" element={<SingleCoursePage />} />
-          <Route path="/shop" element={<Products />} />
-          <Route path="/verify/:uid" element={<VerifyHandlePage />} />
-          <Route path="/user-not-found" element={<UserNotFound />} />
-          <Route path="/*" element={<Page404 />} />
+
+          <Route path="/" element={<PublicLayout />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/courses" element={<CoursesPage />} />
+            <Route path="/courses/:id" element={<SingleCoursePage />} />
+            <Route path="/shop" element={<Products />} />
+            <Route path="/verify/:uid" element={<VerifyHandlePage />} />
+            <Route path="/user-not-found" element={<UserNotFound />} />
+            <Route path="/*" element={<Page404 />} />
+          </Route>
 
           {/* Private Routes for Members */}
           <Route
@@ -72,7 +75,7 @@ function App() {
               <Route path="templates" element={<CourseTemplateDisplay />} />
             </Route>
             <Route path="members" element={<MembersTable />} />
-            <Route path="shop" element={<AdminProducts />} />
+            <Route path="shop" element={<AdminProductsDisplay />} />
             <Route path="orders" element={<AdminOrders />} />
             <Route path="profile" element={<AdminProfile />} />
           </Route>
