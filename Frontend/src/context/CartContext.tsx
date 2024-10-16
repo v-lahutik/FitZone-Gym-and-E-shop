@@ -1,7 +1,10 @@
 import { createContext, useReducer, useContext, ReactNode } from 'react';
 
 interface CartItem {
-  productId: string; 
+  productId: string;
+  image: string;
+  productName: string;
+  price: number;
   quantity: number;
 }
 
@@ -16,6 +19,7 @@ const initialCartState: CartState = {
 // Define the possible cart actions
 type CartAction =
   | { type: 'ADD_TO_CART'; payload: CartItem }
+  | { type: 'CHANGE_QUANTITY'; payload: { productId: string; quantity: number } }
   | { type: 'REMOVE_FROM_CART'; payload: { productId: string } }
   | { type: 'CLEAR_CART' };
 
@@ -33,6 +37,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         updatedCart[existingItemIndex].quantity += action.payload.quantity;
         return { ...state, cart: updatedCart };
       }
+      
 
       // If item is new, add it to the cart
       return {
@@ -40,7 +45,17 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         cart: [...state.cart, action.payload],
       };
     }
-
+    case 'CHANGE_QUANTITY': {
+      const updatedCart = state.cart.map(item => 
+        item.productId.toString() === action.payload.productId.toString()
+          ? { ...item, quantity: action.payload.quantity }
+          : item
+      );
+      return {
+        ...state,
+        cart: updatedCart,
+      };
+    }
     case 'REMOVE_FROM_CART': {
       const updatedCart = state.cart.filter(
         (item) => item.productId.toString() !== action.payload.productId.toString()
@@ -65,7 +80,8 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 // Create the CartContext with a default value of undefined (will be handled by the provider)
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (productId: string, quantity: number) => void;
+  addToCart: (productId: string, image: string, productName: string, price: number, quantity: number) => void;
+  changeQuantity: (productId: string, quantity: number) => void;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
 }
@@ -81,15 +97,23 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const [state, dispatch] = useReducer(cartReducer, initialCartState);
 
   // Function to add item to cart
-  const addToCart = (productId: string, quantity: number) => {
-    console.log('Adding to cart:', { productId, quantity }); // Log product details before adding
+  const addToCart = (productId: string, image: string, productName: string, price: number, quantity: number) => {
+    console.log('Adding to cart:', { productId, image, productName, price, quantity }); 
     
     dispatch({
       type: 'ADD_TO_CART',
-      payload: { productId, quantity },
+      payload: { productId, image, productName, price, quantity },
     });
   };
 
+    // Function to change quantity
+    const changeQuantity = (productId: string, quantity: number) => {
+      dispatch({
+        type: 'CHANGE_QUANTITY',
+        payload: { productId, quantity },
+      });
+    };
+  
   // Function to remove item from cart
   const removeFromCart = (productId: string) => {
     dispatch({
@@ -112,6 +136,7 @@ console.log("cart", state.cart)
       value={{
         cart: state.cart,
         addToCart,
+        changeQuantity,
         removeFromCart,
         clearCart,
       }}
