@@ -4,7 +4,10 @@ import { FaRegClock } from 'react-icons/fa';
 import { FaHeartPulse } from 'react-icons/fa6';
 import { ImUsers } from 'react-icons/im';
 import { Course } from './MembersCourseTable';
-import { bookNewCourse } from './BookingRequest';
+import { useContext } from 'react';
+import { bookNewCourse, cancelBookedCourse } from './BookingRequest';
+import { UserContext } from '../../../context/UserContext';
+import { render } from 'react-dom';
 
 interface CourseCardForMemberProps {
   course: Course;
@@ -20,6 +23,46 @@ const CourseCardForMember: React.FC<CourseCardForMemberProps> = ({
   setCourseBooked,
   isPast
 }) => {
+  const { user } = useContext(UserContext) || {};
+
+  const renderButton = () => {
+    if (isPast) {
+      return (
+        <button
+          disabled={true}
+          className="rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 p-3 opacity-50"
+        >
+          can not book
+        </button>
+      );
+    }
+    if (course.participants.includes(user?._id)) {
+      return (
+        <button
+          onClick={async () => {
+            await cancelBookedCourse(course);
+            setCourseBooked(false);
+            closeCard();
+          }}
+          className="rounded-lg bg-gradient-to-r from-primary via-primary to-red-500 p-3 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+        >
+          Cancel booking
+        </button>
+      );
+    } else {
+      return <button
+        onClick={async () => {
+          await bookNewCourse(course);
+          setCourseBooked(true);
+          closeCard();
+        }}
+        className="rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 p-3 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+      >
+        Book now
+      </button>;
+    }
+  };
+
   return (
     <>
       <div className="fixed inset-0 z-10 flex justify-center items-center bg-black bg-opacity-50">
@@ -54,8 +97,10 @@ const CourseCardForMember: React.FC<CourseCardForMemberProps> = ({
                 <div className="mt-1.5 sm:mt-0 text-sm">
                   <p className="text-gray-500 ">Category</p>
                   {course.category.length === 1 ? (
-                  <p>{course.category[0]}</p>) :
-                (<p>{`${course.category[0]}, ${course.category[1]}`}</p>)}
+                    <p>{course.category[0]}</p>
+                  ) : (
+                    <p>{`${course.category[0]}, ${course.category[1]}`}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -87,27 +132,7 @@ const CourseCardForMember: React.FC<CourseCardForMemberProps> = ({
             <div className="m-4 flex justify-around">
               <p className="text-center text-gray-600">{course.description}</p>
             </div>
-            <div className="my-4 flex justify-around">
-              {!isPast ? (
-                <button
-                  onClick={async() => {
-                    await bookNewCourse(course);
-                    setCourseBooked(true);
-                    closeCard();
-                  }}
-                  className="rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 p-3 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
-                >
-                  Book now
-                </button>
-              ) : (
-                <button
-                  disabled={true}
-                  className="rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 p-3 opacity-50"
-                >
-                  can not book
-                </button>
-              )}
-            </div>
+            <div className="my-4 flex justify-around">{renderButton()}</div>
           </div>
         </div>
       </div>
