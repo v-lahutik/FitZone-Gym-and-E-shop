@@ -3,6 +3,8 @@ import axios from 'axios';
 import { URL } from '../../utils/URL.ts';
 import { PiShoppingCartBold } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
+import Footer from '../Footer/Footer.tsx';
+import { useCart } from '../../context/CartContext.tsx';
 
 export type Product = {
   _id : string
@@ -15,10 +17,19 @@ export type Product = {
   };
   stock: number;
   averageRating: number;
+  _id: string;
 };
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const {addToCart}=useCart()
+
+  const handleAddToCart = (product: Product) => {
+    const productId = product._id;
+    const quantity = 1; 
+    addToCart(productId, quantity);
+  };
+  
 
   useEffect(() => {
     axios.get(`${URL}/products`).then((response) => {
@@ -118,7 +129,9 @@ const Products: React.FC = () => {
                   </span>
                 </div>
               </div>
-              <button className="w-full flex items-center justify-center rounded-md bg-blackColor3 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary focus:outline-none focus:ring-4 focus:ring-blue-300">
+              <button 
+               onClick={() => handleAddToCart(product)}
+               className="w-full flex items-center justify-center rounded-md bg-blackColor3 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary focus:outline-none focus:ring-4 focus:ring-blue-300">
                 <PiShoppingCartBold className="mr-2 h-6 w-6" />
                 Add to cart
               </button>

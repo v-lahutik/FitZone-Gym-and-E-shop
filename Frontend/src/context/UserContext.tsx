@@ -57,7 +57,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       // if the user is not authenticated, reset the user state
       setUser(userNull);
-      navigate('/');
+      //navigate('/');
       setIsLoggedIn(false);
     } finally {
       //add a loading state to prevent the page from rendering before the user is authenticated

@@ -18,19 +18,20 @@ import AdminProfile from './components/Admin/Profile/AdminProfile.tsx';
 import AdminOrders from './components/Admin/AdminOrders/AdminOrders.tsx';
 import MembersCourseTable from './components/Members/Courses/MembersCourseTable.tsx';
 import BookedCourses from './components/Members/Courses/BookedCourses.tsx';
-
 import CoursesPage from './pages/CoursesPage/CoursesPage.tsx';
 import SingleCoursePage from './pages/CoursesPage/SingleCoursePage.tsx';
 import Products from './components/Shop/Products.tsx';
 import VerifyHandlePage from './components/Auth/VerifyHandlePage.tsx';
 import UserNotFound from './components/Auth/UserNotFound.tsx';
 import Page404 from './components/Page404.tsx';
+import { CartProvider } from './context/CartContext.tsx';
 import PublicLayout from './Layouts/PublicLayout.tsx';
 
 function App() {
   return (
     <UserProvider>
       <DateProvider>
+        <CartProvider>
         <Routes>
           {/* Public Routes */}
 
@@ -80,6 +81,7 @@ function App() {
             <Route path="profile" element={<AdminProfile />} />
           </Route>
         </Routes>
+        </CartProvider>
       </DateProvider>
     </UserProvider>
   );
