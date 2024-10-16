@@ -27,7 +27,11 @@ import Page404 from './components/Page404.tsx';
 import { CartProvider } from './context/CartContext.tsx';
 import PublicLayout from './Layouts/PublicLayout.tsx';
 
+
 function App() {
+
+
+
   return (
     <UserProvider>
       <DateProvider>
