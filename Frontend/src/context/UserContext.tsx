@@ -14,7 +14,8 @@ const userNull: User = {
   membership: null,
   address: null,
   role: null,
-  profilePic: null
+  profilePic: null,
+  is_activated: false
 };
 
 interface UserContextType {
@@ -66,15 +67,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    // if (
-    //   (location.pathname.startsWith('/admin') && user.role !== 'Admin') ||
-    //   (location.pathname.startsWith('/member') && user.role !== 'Member')
-    // ) {
+    if (
+      (location.pathname.startsWith('/admin') && user.role !== 'Admin') ||
+      (location.pathname.startsWith('/member') && user.role !== 'Member')
+    ) {
     authenticate();
-    //}
-    // else {
-    //   setUserLoading(false);
-    // }
+    }
+    else {
+      setUserLoading(false);
+    }
   }, []);
 
   useEffect(() => {
