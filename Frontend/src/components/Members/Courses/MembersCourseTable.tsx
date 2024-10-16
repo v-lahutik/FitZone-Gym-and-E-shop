@@ -9,30 +9,7 @@ import { DateContext } from '../../../context/DateContext.tsx';
 import { UserContext } from '../../../context/UserContext.tsx';
 import { URL } from '../../../utils/URL.ts';
 import CourseCardForMember from './CourseCardForMember.tsx';
-
-export interface Course {
-  coursePic: string;
-  courseName: string;
-  description: string;
-  instructor: string;
-  date: string;
-  time: {
-    start: string;
-    end: string;
-  };
-  weekday:
-    | 'Monday'
-    | 'Tuesday'
-    | 'Wednesday'
-    | 'Thursday'
-    | 'Friday'
-    | 'Saturday'
-    | 'Sunday';
-  maxParticipants: number;
-  participants: [string];
-  category: ('Flexibility' | 'Strength' | 'Cardio')[]; //takes 1 or more values in an array
-  _id: string;
-}
+import { Course } from '../../../custom.Types/courseType.tsx';
 
 const MembersCourseTable: React.FC = () => {
   const dateContext = useContext(DateContext);
@@ -51,6 +28,7 @@ const MembersCourseTable: React.FC = () => {
   const [courseBooked, setCourseBooked] = useState<boolean>(false); // Handle the change in course for re-fetch
   const [isPast, setIsPast] = useState<boolean>(false); // to check the date of course is already in the past
   const [isMobileView, setIsMobileView] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Function to handle resizing
@@ -65,11 +43,58 @@ const MembersCourseTable: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => { 
-    console.log(currentDate.getDay())
-    setCurrentDay(currentDate.getDay() === 0 ? weekdays[6] : weekdays[currentDate.getDay()-1]);
-  }, [currentDate]);
+  const fetchCoursesForWeek = async (startDate: Date, endDate: Date) => {
+    console.log('fetching courses');
+    try {
+      setIsLoading(true);
+      const response = await axios({
+        url: `${URL}/users/courses`,
+        method: 'GET',
+        params: {
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString()
+        },
+        withCredentials: true
+      });
+      const data = await response.data.allCoursesForWeek;
+      setWeeklyCourses(data);
 
+      const dailyCourses = data.filter((course: Course) => {
+        return course.weekday === currentDay;
+      });
+      setDailyCourses(dailyCourses);
+      setCourseBooked(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          'Error fetching courseTemplates data',
+          error.response?.data
+        );
+      } else {
+        console.error('Unexpected error', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchCoursesForWeek(currentWeekStart, getEndOfWeek(currentWeekStart));
+  }, [currentWeekStart, courseBooked]);
+
+  useEffect(() => {
+    const dailyCourses = weeklyCourses.filter((course: Course) => {
+      return course.weekday === currentDay;
+    });
+    setDailyCourses(dailyCourses);
+    setIsLoading(false);
+  }, [currentDay, weeklyCourses]);
+
+  useEffect(() => {
+    setCurrentDay(
+      currentDate.getDay() === 0
+        ? weekdays[6]
+        : weekdays[currentDate.getDay() - 1]
+    );
+  }, [currentDate]);
 
   // Function to navigate between days in daily view
   const handleDayChange = (direction: 'prev' | 'next') => {
@@ -89,6 +114,18 @@ const MembersCourseTable: React.FC = () => {
     }
   };
 
+  const handlePreviousWeek = () => {
+    const previousWeekStart = new Date(currentWeekStart); //get current monday
+    previousWeekStart.setDate(previousWeekStart.getDate() - 7); //set to previous monday
+    setCurrentWeekStart(previousWeekStart);
+  };
+
+  const handleNextWeek = () => {
+    const nextWeekStart = new Date(currentWeekStart);
+    nextWeekStart.setDate(nextWeekStart.getDate() + 7);
+    setCurrentWeekStart(nextWeekStart);
+  };
+
   // to check if the date is in the past
   const checkDate = (date: string) => {
     const present = new Date();
@@ -98,48 +135,6 @@ const MembersCourseTable: React.FC = () => {
       setIsPast(false);
     }
   };
-
-  const fetchCoursesForWeek = async (startDate: Date, endDate: Date) => {
-    try {
-      const response = await axios({
-        url: `${URL}/users/courses`,
-        method: 'GET',
-        params: {
-          startDate: startDate.toISOString(),
-          endDate: endDate.toISOString()
-        },
-        withCredentials: true
-      });
-      const data = response.data.allCoursesForWeek;
-      setWeeklyCourses(data);
-      setCourseBooked(false);
-      console.log('Courses for week', data);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          'Error fetching courseTemplates data',
-          error.response?.data
-        );
-      } else {
-        console.error('Unexpected error', error);
-      }
-    }
-  };
-
-  //calculate the current week and fetch courses for that week
-  useEffect(() => {
-    const startOfWeek = currentWeekStart;
-    const endOfWeek = getEndOfWeek(startOfWeek);
-    fetchCoursesForWeek(startOfWeek, endOfWeek);
-  }, [currentWeekStart, courseBooked]);
-
-  //filter daily courses based on the current day
-  useEffect(() => {
-    const dailyCourses = weeklyCourses.filter((course) => {
-      return course.weekday === currentDay;
-    });
-    setDailyCourses(dailyCourses);
-  }, [currentDay, weeklyCourses]);
 
   //  calculate which rows the course spans based on time
   const getCoursePosition = (start: string, end: string) => {
@@ -160,18 +155,6 @@ const MembersCourseTable: React.FC = () => {
   const closeCard = () => {
     setCurrentCourse(null);
     setIsCardOpen(false);
-  };
-
-  const handlePreviousWeek = () => {
-    const previousWeekStart = new Date(currentWeekStart); //get current monday
-    previousWeekStart.setDate(previousWeekStart.getDate() - 7); //set to previous monday
-    setCurrentWeekStart(previousWeekStart);
-  };
-
-  const handleNextWeek = () => {
-    const nextWeekStart = new Date(currentWeekStart);
-    nextWeekStart.setDate(nextWeekStart.getDate() + 7);
-    setCurrentWeekStart(nextWeekStart);
   };
 
   // Render weekly or daily view based on the current screen size
@@ -204,12 +187,12 @@ const MembersCourseTable: React.FC = () => {
                   className="cursor-pointer"
                 />
               </div>
-              <div className="overflow-x-auto p-4">
+              <div className="p-4">
                 {/* <CourseCardDisplay /> */}
-                <table className="min-w-full table-fixed border-collapse border border-gray-300">
+                <table className="min-w-full border-collapse border border-gray-300">
                   <thead>
                     <tr>
-                      <th className="w-1/12 p-2 bg-primary text-white border border-gray-300 sticky left-0">
+                      <th className="w-1/12 p-2 bg-primary text-white border border-gray-300">
                         Time
                       </th>
 
@@ -223,81 +206,90 @@ const MembersCourseTable: React.FC = () => {
                   </thead>
                   <tbody>
                     {/*loop over time slots to create rows*/}
-                    {timeSlots.map((slot, rowIndex) => {
-                      const cellKey = `${currentDay}-${rowIndex}`;
-                      const isSpanned = dailySpannedCells.has(cellKey);
-
-                      const courseForSlot = dailyCourses.find(
-                        (course) =>
-                          course.weekday === currentDay &&
-                          getCoursePosition(course.time.start, course.time.end)
-                            .startIndex === rowIndex //check if course start time matches current slot
-                      );
-                      if (!isSpanned && courseForSlot) {
-                        const { startIndex, endIndex } = getCoursePosition(
-                          courseForSlot.time.start,
-                          courseForSlot.time.end
+                    {!isLoading &&
+                      timeSlots.map((slot, rowIndex) => {
+                        //find course for current slot
+                        const courseForSlot = dailyCourses.find(
+                          (course) =>
+                            course.weekday === currentDay &&
+                            getCoursePosition(
+                              course.time.start,
+                              course.time.end
+                            ).startIndex === rowIndex //check if course start time matches current slot
                         );
-                        const rowSpan = endIndex - startIndex;
-                        // Mark cells that are spanned by this course
-                        for (let i = startIndex; i < endIndex; i++) {
-                          dailySpannedCells.add(
-                            `${currentDay}-${rowIndex + i}`
-                          );
-                        }
+                        const cellKey = `${currentDay}-${rowIndex}`;
+
+                        const isSpanned = dailySpannedCells.has(cellKey);
+
+                        // if (!isSpanned && courseForSlot) {
+                        //   const { startIndex, endIndex } = getCoursePosition(
+                        //     courseForSlot.time.start,
+                        //     courseForSlot.time.end
+                        //   );
+                        //   const rowSpan = endIndex - startIndex;
+                        //   // Mark cells that are spanned by this course
+                        //   for (let i = startIndex; i < endIndex; i++) {
+                        //     dailySpannedCells.add(`${currentDay}-${i}`);
+                        //   }
 
                         return (
                           <tr key={slot}>
-                            <td className="p-1 text-center text-xs border bg-white border-gray-300 sticky left-0">
+                            <td className="p-1 text-center text-xs border bg-white border-gray-300">
                               {slot}
                             </td>
-                            <td
-                              key={`${currentDay}-${slot}`}
-                              className={`p-2 text-center ${
-                                userId &&
-                                courseForSlot.participants.includes(userId)
-                                  ? 'bg-blue-300'
-                                  : 'bg-blue-100'
-                              } border border-gray-300`}
-                              rowSpan={rowSpan}
-                            >
-                              <div
-                                onClick={() => {
-                                  openCard(courseForSlot);
-                                  checkDate(courseForSlot.date);
-                                }}
-                                className="bg-white shadow rounded-lg p-2 hover:cursor-pointer hover:bg-red-100 duration-300 ease-in-out"
-                              >
-                                <h3 className="text-sm font-semibold text-primary">
-                                  {courseForSlot.courseName}
-                                </h3>
-                                <p className="text-xs block md:hidden lg:block">
-                                  Instructor: {courseForSlot.instructor}
-                                </p>
-                                <p className="text-xs block md:hidden lg:block">
-                                  Participants:{' '}
-                                  {`${courseForSlot.participants.length} / ${courseForSlot.maxParticipants}`}
-                                </p>
-                              </div>
-                            </td>
+                            {!isSpanned && courseForSlot
+                              ? (() => {
+                                  const { startIndex, endIndex } =
+                                    getCoursePosition(
+                                      courseForSlot.time.start,
+                                      courseForSlot.time.end
+                                    );
+                                  const rowSpan = endIndex - startIndex;
+                                  // Mark cells that are spanned by this course
+                                  for (let i = startIndex; i < endIndex; i++) {
+                                    dailySpannedCells.add(`${currentDay}-${i}`);
+                                  }
+
+                                  return (
+                                    <td
+                                      key={`${currentDay}-${slot}`}
+                                      className={`p-2 text-center ${
+                                        userId &&
+                                        courseForSlot.participants.includes(
+                                          userId
+                                        )
+                                          ? 'bg-blue-300'
+                                          : 'bg-blue-100'
+                                      } border border-gray-300`}
+                                      rowSpan={rowSpan}
+                                    >
+                                      <div
+                                        onClick={() => {
+                                          openCard(courseForSlot);
+                                          checkDate(courseForSlot.date);
+                                        }}
+                                        className="bg-white shadow rounded-lg p-2 hover:cursor-pointer hover:bg-green-200 duration-300 ease-in-out"
+                                      >
+                                        <h3 className="text-sm font-semibold text-primary">
+                                          {courseForSlot.courseName}
+                                        </h3>
+                                        <p className="text-xs block md:hidden lg:block">
+                                          Instructor: {courseForSlot.instructor}
+                                        </p>
+                                        <p className="text-xs block md:hidden lg:block">
+                                          Participants:{' '}
+                                          {`${courseForSlot.participants.length} / ${courseForSlot.maxParticipants}`}
+                                        </p>
+                                      </div>
+                                    </td>
+                                  );
+                                })()
+                              : !isSpanned && (
+                                  <td className="p-2 text-center border bg-gray-100 border-gray-300"></td>
+                                )}
                           </tr>
                         );
-                      } else if (!isSpanned && !courseForSlot) {
-                        return (
-                          <tr key={slot}>
-                            <td className="p-1 text-center text-xs border bg-white border-gray-300 sticky left-0">
-                              {slot}
-                            </td>
-                            <td
-                              key={`${currentDay}-${slot}`}
-                              className="p-2 text-center border bg-gray-100 border-gray-300"
-                            ></td>
-                          </tr>
-                        );
-                      } else {
-                        return null;
-                      }
-                    })}
+                      })}
                   </tbody>
                 </table>
               </div>
@@ -333,12 +325,12 @@ const MembersCourseTable: React.FC = () => {
                 className="cursor-pointer"
               />
             </div>
-            <div className="overflow-x-auto p-4">
+            <div className="p-4">
               {/* <CourseCardDisplay /> */}
               <table className="min-w-full table-fixed border-collapse border border-gray-300">
                 <thead>
                   <tr>
-                    <th className="w-1/12 p-2 bg-primary text-white border border-gray-300 sticky left-0">
+                    <th className="w-1/12 p-2 bg-primary text-white border border-gray-300">
                       Time
                     </th>
                     {weekdays.map((day) => (
@@ -356,7 +348,7 @@ const MembersCourseTable: React.FC = () => {
                   {timeSlots.map((slot, rowIndex) => {
                     return (
                       <tr key={slot}>
-                        <td className="p-1 text-center text-xs border bg-white border-gray-300 sticky left-0 ">
+                        <td className="p-1 text-center text-xs border bg-white border-gray-300 ">
                           {slot}
                         </td>
                         {/*loop over weekdays to create columns for this row*/}
@@ -399,8 +391,10 @@ const MembersCourseTable: React.FC = () => {
                                 <td
                                   key={`${day}-${slot}`}
                                   className={`p-2 text-center ${
-                                    userId &&
-                                    courseForSlot.participants.includes(userId)
+                                    userId! &&
+                                    courseForSlot?.participants?.includes(
+                                      userId
+                                    )
                                       ? 'bg-blue-300'
                                       : 'bg-blue-100'
                                   }  border border-gray-300`}
@@ -411,7 +405,7 @@ const MembersCourseTable: React.FC = () => {
                                       openCard(courseForSlot);
                                       checkDate(courseForSlot.date);
                                     }}
-                                    className="bg-white shadow rounded-lg p-2 hover:cursor-pointer hover:bg-red-100 duration-300 ease-in-out"
+                                    className="bg-white shadow rounded-lg p-2 hover:cursor-pointer hover:bg-green-200 duration-300 ease-in-out"
                                   >
                                     <h3 className="text-sm font-semibold text-primary">
                                       {courseForSlot.courseName}
@@ -448,7 +442,9 @@ const MembersCourseTable: React.FC = () => {
       );
     }
   };
-
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return renderTable();
 };
 

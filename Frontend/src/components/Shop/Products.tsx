@@ -24,8 +24,12 @@ const Products: React.FC = () => {
 
   const handleAddToCart = (product: Product) => {
     const productId = product._id;
-    const quantity = 1;
-    addToCart(productId, quantity);
+    const image = product.image;
+    const productName = product.productName;
+    const price = product.price;
+    const quantity = 1; 
+
+    addToCart(productId,image, productName, price, quantity);
   };
 
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -41,7 +45,7 @@ const Products: React.FC = () => {
       setProducts(response.data);
     });
   }, []);
-  console.log(products);
+  
 
   useEffect(() => {
     let filtered = products;
@@ -114,7 +118,7 @@ const Products: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center">
             <div className="flex flex-col justify-center items-start text-white">
               <h1 className="text-3xl md:text-4xl lg:text-6xl   font-kanit mb-4 font-bold ">
-                Courses
+                Shop
               </h1>
               <ul className="font-archivo font-medium uppercase text-sm lg:text-lg flex">
                 <li className="flex space-x-2 text-primary mr-2">
@@ -124,7 +128,7 @@ const Products: React.FC = () => {
                 </li>
 
                 <li>
-                  <Link to="/courses" className="text-white mr-1">
+                  <Link to="/shop" className="text-white mr-1">
                     Shop
                   </Link>
                 </li>

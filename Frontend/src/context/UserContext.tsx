@@ -27,7 +27,14 @@ interface UserContextType {
   authenticate: () => void;
 }
 
-export const UserContext = createContext<UserContextType | null>(null);
+export const UserContext = createContext<UserContextType>({
+  user: userNull,
+  isLoggedIn: false,
+  userLoading: true,
+  login: () => {},
+  logout: () => {},
+  authenticate: () => {}
+});
 
 interface UserProviderProps {
   children: ReactNode;
@@ -71,9 +78,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       (location.pathname.startsWith('/admin') && user.role !== 'Admin') ||
       (location.pathname.startsWith('/member') && user.role !== 'Member')
     ) {
-    authenticate();
-    }
-    else {
+      authenticate();
+    } else {
       setUserLoading(false);
     }
   }, []);
