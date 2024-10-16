@@ -24,7 +24,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       image: '',
       category: {
         categoryName: ''
-      }
+      },
+      averageRating:0
     }
   );
 

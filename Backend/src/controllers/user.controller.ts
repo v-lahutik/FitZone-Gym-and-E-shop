@@ -86,7 +86,7 @@ export const login = async (
     if (!user.is_activated) {
       return res
         .status(403)
-        .json({ error: "Please verify your email before logging in." });
+        .json({ msg: "Please verify your email before logging in." });
     }
     const isMatch = await user.comparePass(loginPassword);
     if (!isMatch) {

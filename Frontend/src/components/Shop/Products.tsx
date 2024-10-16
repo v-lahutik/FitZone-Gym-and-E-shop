@@ -7,7 +7,7 @@ import Footer from '../Footer/Footer.tsx';
 import { useCart } from '../../context/CartContext.tsx';
 
 export type Product = {
-  _id : string
+  _id: string;
   image: string;
   productName: string;
   description: string;
@@ -31,12 +31,77 @@ const Products: React.FC = () => {
   };
   
 
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [filterCategory, setFilterCategory] = useState<string>(''); // For category filter
+  const [filterByPrice, setFilterByPrice] = useState<string>(''); // For price filter
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+
+  const [currentPage, setCurrentPage] = useState<number>(1); // for pagination
+  const [itemsPerPage, setItemPerPage] = useState<number>(12);
+
   useEffect(() => {
     axios.get(`${URL}/products`).then((response) => {
       setProducts(response.data);
     });
   }, []);
   console.log(products);
+
+  useEffect(() => {
+    let filtered = products;
+
+    // Filter by search term (product name)
+    if (searchTerm) {
+      filtered = filtered.filter((product) =>
+        product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Filter by product status
+    if (filterCategory) {
+      filtered = filtered.filter(
+        (product) => product.category.categoryName === filterCategory
+      );
+    }
+
+    // Filter by price (ascending)
+    if (filterByPrice === 'Ascending') {
+      filtered = [...filtered].sort((a, b) => a.price - b.price);
+    }
+
+    // Filter by price (descending)
+    if (filterByPrice === 'Descending') {
+      filtered = [...filtered].sort((a, b) => b.price - a.price);
+    }
+
+    setFilteredProducts(filtered);
+    setItemPerPage(12)
+  }, [searchTerm, filterCategory, filterByPrice, products]);
+
+  //calculate the number of pages
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const displayedItems = filteredProducts.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+  //pagination
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+  // handle filter
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+  const handleCategoryFilterChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setFilterCategory(event.target.value);
+  };
+  const handleByPriceFilterChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setFilterByPrice(event.target.value);
+  };
 
   return (
     <div className="bg-white">
@@ -72,10 +137,49 @@ const Products: React.FC = () => {
         </div>
       </section>
 
+      {/* Search section */}
+      <div className="flex-col">
+        <h2 className="text-4xl text-center font-semibold my-5 text-bodydark1">
+          Our Products
+        </h2>
+        <div className="my-4 flex gap-4 flex-wrap justify-center">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="border border-gray-300 rounded px-3 py-2 bg-white text-gray-700 shadow-sm hover:border-gray-400"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+
+          {/* Category Filter */}
+          <select
+            value={filterCategory}
+            onChange={handleCategoryFilterChange}
+            className="border border-gray-300 rounded px-3 py-2 bg-white text-gray-700 shadow-sm hover:border-gray-400"
+          >
+            <option value="">Filter by Category</option>
+            <option value="Equipment">Equipment</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Supplements/Food">Supplements/Food</option>
+          </select>
+
+          {/* Price Filter */}
+          <select
+            value={filterByPrice}
+            onChange={handleByPriceFilterChange}
+            className="border border-gray-300 rounded px-3 py-2 bg-white text-gray-700 shadow-sm hover:border-gray-400"
+          >
+            <option value="">Filter by Price</option>
+            <option value="Ascending">Low Price</option>
+            <option value="Descending">High Price</option>
+          </select>
+        </div>
+      </div>
+
       {/* Grid Section */}
       <section className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 justify-items-center justify-center  gap-1 mt-10 mb-5">
         {/* Product cards */}
-        {products.map((product) => (
+        {displayedItems.map((product) => (
           <div
             key={product._id}
             className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md"
@@ -139,6 +243,31 @@ const Products: React.FC = () => {
           </div>
         ))}
       </section>
+      <div className="flex justify-between m-4 p-4">
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={`px-4 py-2 border border-blackColor3 rounded text-blackColor3 ${
+            currentPage === 1 ? 'cursor-not-allowed opacity-50' : 'hover:text-white hover:bg-blackColor3 transition transform duration-300 ease-in-out'
+          }`}
+        >
+          Previous
+        </button>
+        <span className="px-4 py-2 text-blackColor3">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages || totalPages === 0}
+          className={`px-4 py-2 border border-blackColor3 rounded text-blackColor3  ${
+            currentPage === totalPages || totalPages === 0
+              ? 'cursor-not-allowed opacity-50'
+              : 'hover:text-white hover:bg-blackColor3 transition transform duration-300 ease-in-out'
+          }`}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
