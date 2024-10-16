@@ -17,7 +17,7 @@ export interface Course {
       | 'Saturday'
       | 'Sunday';
     maxParticipants: number;
-    participants: [];
+    participants: [string];
     category: ('Flexibility' | 'Strength' | 'Cardio')[]; //takes 1 or more values in an array
     _id: string;
   }
