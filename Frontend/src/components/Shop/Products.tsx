@@ -104,6 +104,28 @@ const Products: React.FC = () => {
     setFilterByPrice(event.target.value);
   };
 
+  // stock appearance
+  const getStockBadge = (stock: number) => {
+    let badgeText:string = 'Unavailable';
+    let badgeStyle:string = 'bg-red-800 text-white';
+  
+    if (stock !== undefined) {
+      if (stock > 10) {
+        badgeText = 'Available';
+        badgeStyle = 'bg-green-500 text-white';
+      } else if (stock > 5) {
+        badgeText = 'Few Left';
+        badgeStyle = 'bg-yellow-500 text-white';
+      } else if (stock > 0) {
+        badgeText = 'Low Stock';
+        badgeStyle = 'bg-orange-600 text-white';
+      } else {
+        badgeText = 'Out of Stock';
+        badgeStyle = 'bg-primary text-white'; // Replace 'bg-primary' with your desired color class for out of stock
+      }
+    }
+    return {badgeText,badgeStyle}
+  } 
   return (
     <div className="bg-white">
       <section
@@ -180,7 +202,9 @@ const Products: React.FC = () => {
       {/* Grid Section */}
       <section className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 justify-items-center justify-center  gap-1 mt-10 mb-5">
         {/* Product cards */}
-        {displayedItems.map((product) => (
+        {displayedItems.map((product) =>{ 
+          const { badgeText, badgeStyle } = getStockBadge(product.stock);
+          return (
           <div
             key={product._id}
             className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md hover:scale-105 transition transform duration-300 hover:bg-slate-100"
@@ -193,11 +217,9 @@ const Products: React.FC = () => {
                   alt={product.productName}
                 />
                 <span
-                  className={`absolute top-0 left-0 m-2 rounded-full px-2 text-center text-sm font-medium text-white ${
-                    product.stock > 0 ? 'bg-black' : 'bg-primary'
-                  }`}
+                  className={`absolute top-0 left-0 m-2 rounded-full px-2 text-center text-sm font-medium ${badgeStyle}`}
                 >
-                  {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+                  {badgeText}
                 </span>
               </div>
             </Link>
@@ -219,7 +241,7 @@ const Products: React.FC = () => {
                 </p>
                 <div className="flex items-center">
                   {/* Stars for rating */}
-                  {[...Array(5)].map((_, index) => (
+                  {[...Array(Math.round(product.averageRating))].map((_, index) => (
                     <svg
                       key={index}
                       aria-hidden="true"
@@ -245,7 +267,7 @@ const Products: React.FC = () => {
               </button>
             </div>
           </div>
-        ))}
+        )})}
       </section>
       <div className="flex justify-between m-4 p-4">
         <button
