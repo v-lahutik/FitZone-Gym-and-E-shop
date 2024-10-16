@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import {User} from '../../custom.Types/userTypes';
+import Cart from '../Shop/Cart';
 
 interface HeaderProps {
   setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,7 +16,9 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
   const userContext = useContext(UserContext);
   const { user, logout, isLoggedIn, authenticate} = userContext || {};
- 
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);  // Add state to handle cart visibility
+
   const ifHomePage = window.location.pathname === '/';
 
 
@@ -25,7 +28,6 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
           }
   }, [userContext?.isLoggedIn]);
 
-  const [isScrolled, setIsScrolled] = useState(false);
 
   const homeMenuItems = [
     { label: 'membership', link: '#membership' },
@@ -126,11 +128,18 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
           >
             LOGIN
           </button>
-        </div>)}
-        <div className="ml-4 mt-5 textLink text-2xl sm:text-3xl">
+        </div>
+        )}
+        
+       {/* Cart Icon */}
+       <div className="ml-4 mt-5 textLink text-2xl sm:text-3xl cursor-pointer" onClick={() => setCartOpen(true)}>
           <IoCart />
         </div>
       </div>
+
+      {/* Render the Cart component when cartOpen is true */}
+      {cartOpen && <Cart open={cartOpen} setOpen={setCartOpen} items={[]} />}
+        
     </header>
   );
 };
