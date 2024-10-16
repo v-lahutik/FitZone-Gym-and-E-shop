@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
-import {User} from '../../custom.Types/userTypes';
 import Cart from '../Shop/Cart';
 import UserLoggedIn from '../UserLoggedIn';
 import { useCart } from '../../context/CartContext';
@@ -61,6 +60,7 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
 
   const homePage = window.location.origin;
   const contactUrl = `${homePage}#contact`;

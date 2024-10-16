@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Login from '../components/Auth/Login';
 
 export default function PublicLayout() {
   const [loginOpen, setLoginOpen] = useState<boolean>(false);
+  const location = useLocation();
 
   useEffect(() => {
     if (loginOpen) {
@@ -20,6 +21,12 @@ export default function PublicLayout() {
       document.body.style.overflow = 'unset';
     };
   }, [loginOpen]);
+
+    // Scroll to top on location change
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [location]);
+
   return (
     <>
       <Header setLoginOpen={setLoginOpen} />
