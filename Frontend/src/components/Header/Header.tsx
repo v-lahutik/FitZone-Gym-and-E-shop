@@ -8,6 +8,7 @@ import { UserContext } from '../../context/UserContext';
 import {User} from '../../custom.Types/userTypes';
 import Cart from '../Shop/Cart';
 import UserLoggedIn from '../UserLoggedIn';
+import { useCart } from '../../context/CartContext';
 
 interface HeaderProps {
   setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +18,8 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
   const userContext = useContext(UserContext);
   const { user, logout, isLoggedIn, authenticate} = userContext || {};
   const [isScrolled, setIsScrolled] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);  // Add state to handle cart visibility
+  const [cartOpen, setCartOpen] = useState(false); // State to manage the cart open/close
+  const{getTotalQuantity}=useCart();
 
   const ifHomePage = window.location.pathname === '/';
 
@@ -131,15 +133,21 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
         </div>
         )}
         
-       {/* Cart Icon */}
-       <div className="ml-4 mt-5 textLink text-2xl sm:text-3xl cursor-pointer" onClick={() => setCartOpen(true)}>
+      {/* Cart Icon */}
+      <div className="relative ml-4 mt-5 textLink text-2xl sm:text-3xl cursor-pointer" onClick={() => setCartOpen(true)}>
           <IoCart />
+          
+          {/* Show total quantity if there are items in the cart */}
+          {getTotalQuantity() > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-sm">
+              {getTotalQuantity()}
+            </span>
+          )}
         </div>
       </div>
 
       {/* Render the Cart component when cartOpen is true */}
-      {cartOpen && <Cart open={cartOpen} setOpen={setCartOpen} items={[]} />}
-        
+      {cartOpen && <Cart open={cartOpen} setOpen={setCartOpen} products={[]} />}
     </header>
   );
 };

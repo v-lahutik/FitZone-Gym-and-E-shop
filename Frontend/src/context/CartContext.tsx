@@ -84,6 +84,7 @@ interface CartContextType {
   changeQuantity: (productId: string, quantity: number) => void;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
+  getTotalQuantity: () => number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -128,6 +129,9 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       type: 'CLEAR_CART',
     });
   };
+  const getTotalQuantity = () => {
+    return state.cart.reduce((total, item) => total + item.quantity, 0);
+  };
 
 console.log("cart", state.cart)
 
@@ -139,6 +143,7 @@ console.log("cart", state.cart)
         changeQuantity,
         removeFromCart,
         clearCart,
+        getTotalQuantity
       }}
     >
       {children}

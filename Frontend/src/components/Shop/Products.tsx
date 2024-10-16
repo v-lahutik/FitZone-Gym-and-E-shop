@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { URL } from '../../utils/URL.ts';
-import { PiShoppingCartBold } from 'react-icons/pi';
+import { TbShoppingCart } from 'react-icons/tb';
+import { FaCheck } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext.tsx';
 
@@ -20,18 +21,33 @@ export type Product = {
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const {addToCart}=useCart()
+  const [switchedIcons, setSwitchedIcons] = useState<{
+    [key: string]: boolean;
+  }>({}); // State to manage the cart icon switch
+
+  const { addToCart } = useCart();
 
   const handleAddToCart = (product: Product) => {
     const productId = product._id;
     const image = product.image;
     const productName = product.productName;
     const price = product.price;
-    const quantity = 1; 
+    const quantity = 1;
+    addToCart(productId, image, productName, price, quantity);
 
-    addToCart(productId,image, productName, price, quantity);
+    setSwitchedIcons((prev) => ({
+      ...prev,
+      [productId]: true
+    }));
+
+    // Set a timer to switch the icon back after 2 seconds
+    setTimeout(() => {
+      setSwitchedIcons((prev) => ({
+        ...prev,
+        [productId]: false
+      }));
+    }, 1500);
   };
-  
 
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filterCategory, setFilterCategory] = useState<string>(''); // For category filter
@@ -46,7 +62,6 @@ const Products: React.FC = () => {
       setProducts(response.data);
     });
   }, []);
-  
 
   useEffect(() => {
     let filtered = products;
@@ -76,7 +91,7 @@ const Products: React.FC = () => {
     }
 
     setFilteredProducts(filtered);
-    setItemPerPage(12)
+    setItemPerPage(12);
   }, [searchTerm, filterCategory, filterByPrice, products]);
 
   //calculate the number of pages
@@ -235,10 +250,18 @@ const Products: React.FC = () => {
                   </span>
                 </div>
               </div>
-              <button 
-               onClick={() => handleAddToCart(product)}
-               className="w-full flex items-center justify-center rounded-md bg-blackColor3 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary focus:outline-none focus:ring-4 focus:ring-blue-300">
-                <PiShoppingCartBold className="mr-2 h-6 w-6" />
+              <button
+                onClick={() => handleAddToCart(product)}
+                disabled={product.stock === 0}
+                className={`w-full flex items-center justify-center rounded-md bg-blackColor3 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary
+              ${product.stock === 0 ? 'cursor-not-allowed opacity-50' : ''}`}
+              >
+                {/* Conditionally render the icons based on the productId */}
+                {switchedIcons[product._id] ? (
+                  <FaCheck className="mr-2 h-6 w-6" />
+                ) : (
+                  <TbShoppingCart className="mr-2 h-6 w-6" />
+                )}
                 Add to cart
               </button>
             </div>
@@ -250,7 +273,9 @@ const Products: React.FC = () => {
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
           className={`px-4 py-2 border border-blackColor3 rounded text-blackColor3 ${
-            currentPage === 1 ? 'cursor-not-allowed opacity-50' : 'hover:text-white hover:bg-blackColor3 transition transform duration-300 ease-in-out'
+            currentPage === 1
+              ? 'cursor-not-allowed opacity-50'
+              : 'hover:text-white hover:bg-blackColor3 transition transform duration-300 ease-in-out'
           }`}
         >
           Previous
