@@ -121,7 +121,7 @@ export default function AdminSidebar({
                           }
                           `}
                         >
-                          Weekly Courses
+                          Course Calendar
                         </NavLink>
                       </li>
                       <li>
@@ -134,7 +134,7 @@ export default function AdminSidebar({
                           }
                           `}
                         >
-                          Your Booked Courses
+                          My Booked Courses
                         </NavLink>
                       </li>
                     </ul>
