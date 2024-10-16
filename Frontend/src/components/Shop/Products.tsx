@@ -129,7 +129,7 @@ const Products: React.FC = () => {
     if (stock !== undefined) {
       if (stock > 10) {
         badgeText = 'Available';
-        badgeStyle = 'bg-green-500 text-white';
+        badgeStyle = 'bg-black text-white';
       } else if (stock > 5) {
         badgeText = 'Few Left';
         badgeStyle = 'bg-yellow-500 text-white';
@@ -287,10 +287,6 @@ const Products: React.FC = () => {
                 ) : (
                   <TbShoppingCart className="mr-2 h-6 w-6" />
                 )}
-                className="w-full flex items-center justify-center rounded-md bg-blackColor3 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary focus:outline-none focus:ring-4 focus:ring-blue-300"
-              >
-                <PiShoppingCartBold className="mr-2 h-6 w-6" />
-
                 Add to cart
               </button>
             </div>
