@@ -60,8 +60,6 @@ export default function SingleCoursePage() {
 
   return (
     <>
-      <Header setLoginOpen={setLoginOpen} />
-
       <section
         id="breadcrumb-section"
         className="hero bg-cover bg-center flex items-center h-[30vh]"
