@@ -1,16 +1,22 @@
 import Logo from '../../assets/images/Logo/fitzone_logo.png';
 import { IoCart } from 'react-icons/io5';
 import DropdownMenu, { MenuItem } from '../../utils/DropdownMenu';
+
 import { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
+
 
 interface HeaderProps {
   setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
+  const userContext = useContext(UserContext);
+  const { user, logout, isLoggedIn } = userContext;
+
+
   const ifHomePage = window.location.pathname === '/';
   const userContext = useContext(UserContext);
 
@@ -115,7 +121,9 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
         </nav>
       </div>
       <DropdownMenu menuItems={renderMenuItems()} />
+      
       <div className="basis-1/4 flex justify-end">
+      {isLoggedIn ? ( <UserLoggedIn user={user} logout={logout} />) : (
         <div>
           <button
             onClick={() => setLoginOpen(true)}
@@ -123,7 +131,7 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
           >
             {userContext?.isLoggedIn ? 'PROFILE' : 'LOGIN'}
           </button>
-        </div>
+        </div>)}
         <div className="ml-4 mt-5 textLink text-2xl sm:text-3xl">
           <IoCart />
         </div>
@@ -133,3 +141,75 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
 };
 
 export default Header;
+
+
+interface LoggedInProps {
+  user: {
+    firstName: string;
+    lastName: string;
+    membership: string;
+    profilePic: string;
+  };
+  logout: () => void;
+}
+
+const UserLoggedIn: React.FC<LoggedInProps> = ({user, logout}) => {
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+  const [isOpen, setIsOpen] = useState(false);
+
+  return           <div className="relative">
+  <button
+    className="flex items-center gap-4"
+    onClick={toggleDropdown}
+  >
+    <span className="hidden text-right lg:block">
+      <span className="block text-sm font-medium text-black dark:text-white">
+        {user.firstName} {user.lastName}
+      </span>
+      <span className="block text-xs"> {user.membership}</span>
+    </span>
+    <span className="h-12 w-12 rounded-full">
+      <img
+        src={
+          user.profilePic ||
+          'https://i.pinimg.com/736x/c5/ab/41/c5ab41e3f9766798af79b40d535f45e0.jpg'
+        }
+        alt="Profile picture"
+        className="rounded-full"
+        // Fallback image if the profile picture is not available or invalid
+        onError={(e) => {
+          e.currentTarget.src =
+            'https://i.pinimg.com/736x/c5/ab/41/c5ab41e3f9766798af79b40d535f45e0.jpg';
+        }}
+      />
+    </span>
+    <IoIosArrowDown
+      aria-hidden="true"
+      className="-mr-1 h-5 w-5 text-gray-400"
+    />
+  </button>
+
+  <div
+    className={`absolute right-0 z-999  w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition transform duration-300 ease-in-out ${
+      isOpen
+        ? 'opacity-100 scale-100 '
+        : 'opacity-0 scale-95 pointer-events-none'
+    } `}
+  >
+    <div className="py-1">
+      
+      <NavLink className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
+      to="/member/profile">Your Profile</NavLink>
+     
+      <li
+         onClick={() => logout()}
+        className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
+      >
+        Sign out
+      </li>
+    </div>
+  </div>
+</div>}
