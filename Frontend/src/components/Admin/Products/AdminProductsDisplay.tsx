@@ -199,7 +199,7 @@ export const AdminProductsDisplay: React.FC = () => {
                 </p>
                 <div className="flex items-center">
                   {/* Stars for rating */}
-                  {[...Array(5)].map((_, index) => (
+                  {[...Array(Math.round(product.averageRating))].map((_, index) => (
                     <svg
                       key={index}
                       aria-hidden="true"
@@ -212,7 +212,7 @@ export const AdminProductsDisplay: React.FC = () => {
                     </svg>
                   ))}
                   <span className="mr-2 ml-3 rounded bg-primary px-2.5 py-0.5 text-white text-xs font-semibold">
-                    5.0
+                    {product.averageRating}
                   </span>
                 </div>
               </div>

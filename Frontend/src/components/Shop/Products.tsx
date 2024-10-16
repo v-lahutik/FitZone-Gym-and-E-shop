@@ -20,7 +20,7 @@ export type Product = {
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const {addToCart}=useCart()
+  const { addToCart } = useCart();
 
   const handleAddToCart = (product: Product) => {
     const productId = product._id;
@@ -31,7 +31,6 @@ const Products: React.FC = () => {
 
     addToCart(productId,image, productName, price, quantity);
   };
-  
 
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filterCategory, setFilterCategory] = useState<string>(''); // For category filter
@@ -76,7 +75,7 @@ const Products: React.FC = () => {
     }
 
     setFilteredProducts(filtered);
-    setItemPerPage(12)
+    setItemPerPage(12);
   }, [searchTerm, filterCategory, filterByPrice, products]);
 
   //calculate the number of pages
@@ -105,6 +104,28 @@ const Products: React.FC = () => {
     setFilterByPrice(event.target.value);
   };
 
+  // stock appearance
+  const getStockBadge = (stock: number) => {
+    let badgeText:string = 'Unavailable';
+    let badgeStyle:string = 'bg-red-800 text-white';
+  
+    if (stock !== undefined) {
+      if (stock > 10) {
+        badgeText = 'Available';
+        badgeStyle = 'bg-green-500 text-white';
+      } else if (stock > 5) {
+        badgeText = 'Few Left';
+        badgeStyle = 'bg-yellow-500 text-white';
+      } else if (stock > 0) {
+        badgeText = 'Low Stock';
+        badgeStyle = 'bg-orange-600 text-white';
+      } else {
+        badgeText = 'Out of Stock';
+        badgeStyle = 'bg-primary text-white'; // Replace 'bg-primary' with your desired color class for out of stock
+      }
+    }
+    return {badgeText,badgeStyle}
+  } 
   return (
     <div className="bg-white">
       <section
@@ -181,25 +202,27 @@ const Products: React.FC = () => {
       {/* Grid Section */}
       <section className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 justify-items-center justify-center  gap-1 mt-10 mb-5">
         {/* Product cards */}
-        {displayedItems.map((product) => (
+        {displayedItems.map((product) =>{ 
+          const { badgeText, badgeStyle } = getStockBadge(product.stock);
+          return (
           <div
             key={product._id}
-            className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md"
+            className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md hover:scale-105 transition transform duration-300 hover:bg-slate-100"
           >
-            <div className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl items-center justify-center">
-              <img
-                className="object-cover"
-                src={product.image}
-                alt={product.productName}
-              />
-              <span
-                className={`absolute top-0 left-0 m-2 rounded-full px-2 text-center text-sm font-medium text-white ${
-                  product.stock > 0 ? 'bg-black' : 'bg-primary'
-                }`}
-              >
-                {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
-              </span>
-            </div>
+            <Link to={product._id}>
+              <div className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl items-center justify-center">
+                <img
+                  className="object-cover"
+                  src={product.image}
+                  alt={product.productName}
+                />
+                <span
+                  className={`absolute top-0 left-0 m-2 rounded-full px-2 text-center text-sm font-medium ${badgeStyle}`}
+                >
+                  {badgeText}
+                </span>
+              </div>
+            </Link>
             <div className="mt-4 px-5 pb-5">
               <h5 className="text-xl tracking-tight text-slate-900">
                 {product.productName}
@@ -218,7 +241,7 @@ const Products: React.FC = () => {
                 </p>
                 <div className="flex items-center">
                   {/* Stars for rating */}
-                  {[...Array(5)].map((_, index) => (
+                  {[...Array(Math.round(product.averageRating))].map((_, index) => (
                     <svg
                       key={index}
                       aria-hidden="true"
@@ -235,22 +258,25 @@ const Products: React.FC = () => {
                   </span>
                 </div>
               </div>
-              <button 
-               onClick={() => handleAddToCart(product)}
-               className="w-full flex items-center justify-center rounded-md bg-blackColor3 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary focus:outline-none focus:ring-4 focus:ring-blue-300">
+              <button
+                onClick={() => handleAddToCart(product)}
+                className="w-full flex items-center justify-center rounded-md bg-blackColor3 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary focus:outline-none focus:ring-4 focus:ring-blue-300"
+              >
                 <PiShoppingCartBold className="mr-2 h-6 w-6" />
                 Add to cart
               </button>
             </div>
           </div>
-        ))}
+        )})}
       </section>
       <div className="flex justify-between m-4 p-4">
         <button
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
           className={`px-4 py-2 border border-blackColor3 rounded text-blackColor3 ${
-            currentPage === 1 ? 'cursor-not-allowed opacity-50' : 'hover:text-white hover:bg-blackColor3 transition transform duration-300 ease-in-out'
+            currentPage === 1
+              ? 'cursor-not-allowed opacity-50'
+              : 'hover:text-white hover:bg-blackColor3 transition transform duration-300 ease-in-out'
           }`}
         >
           Previous

@@ -26,6 +26,7 @@ import UserNotFound from './components/Auth/UserNotFound.tsx';
 import Page404 from './components/Page404.tsx';
 import { CartProvider } from './context/CartContext.tsx';
 import PublicLayout from './Layouts/PublicLayout.tsx';
+import SingleProductPage from './components/Shop/SingleProductPage.tsx';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
             <Route path="/courses" element={<CoursesPage />} />
             <Route path="/courses/:id" element={<SingleCoursePage />} />
             <Route path="/shop" element={<Products />} />
+            <Route path="/shop/:pid" element={<SingleProductPage />} />
             <Route path="/verify/:uid" element={<VerifyHandlePage />} />
             <Route path="/user-not-found" element={<UserNotFound />} />
             <Route path="/*" element={<Page404 />} />
