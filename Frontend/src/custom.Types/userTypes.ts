@@ -15,6 +15,7 @@ export interface User {
   address: Address | null;
   role: string | null;
   profilePic: string | null;
+  is_activated: boolean | null;
 }
   export interface Member {
     firstName: string;

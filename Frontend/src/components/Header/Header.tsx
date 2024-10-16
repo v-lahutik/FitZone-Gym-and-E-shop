@@ -1,12 +1,12 @@
 import Logo from '../../assets/images/Logo/fitzone_logo.png';
 import { IoCart } from 'react-icons/io5';
 import DropdownMenu, { MenuItem } from '../../utils/DropdownMenu';
-
+import { IoIosArrowDown } from 'react-icons/io';
 import { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
-
+import {User} from '../../custom.Types/userTypes';
 
 interface HeaderProps {
   setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,21 +14,16 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
   const userContext = useContext(UserContext);
-  const { user, logout, isLoggedIn } = userContext;
-
-
+  const { user, logout, isLoggedIn, authenticate} = userContext || {};
+ 
   const ifHomePage = window.location.pathname === '/';
-  const userContext = useContext(UserContext);
 
-  // const authenticate = userContext?.authenticate;
 
-  // useEffect(() => {
-  //   if (!userContext?.isLoggedIn) {
-  //     if (authenticate) {
-  //       authenticate();
-  //     }
-  //   }
-  // }, [userContext?.isLoggedIn]);
+  useEffect(() => {
+    if (!isLoggedIn) {
+            authenticate?.();
+          }
+  }, [userContext?.isLoggedIn]);
 
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -123,13 +118,13 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
       <DropdownMenu menuItems={renderMenuItems()} />
       
       <div className="basis-1/4 flex justify-end">
-      {isLoggedIn ? ( <UserLoggedIn user={user} logout={logout} />) : (
+      {isLoggedIn && user && logout ? ( <UserLoggedIn user={user} logout={logout} />) : (
         <div>
           <button
             onClick={() => setLoginOpen(true)}
             className="mt-3 rounded p-2 bg-primary text-white"
           >
-            {userContext?.isLoggedIn ? 'PROFILE' : 'LOGIN'}
+            LOGIN
           </button>
         </div>)}
         <div className="ml-4 mt-5 textLink text-2xl sm:text-3xl">
@@ -144,12 +139,7 @@ export default Header;
 
 
 interface LoggedInProps {
-  user: {
-    firstName: string;
-    lastName: string;
-    membership: string;
-    profilePic: string;
-  };
+  user: User
   logout: () => void;
 }
 
@@ -160,18 +150,18 @@ const UserLoggedIn: React.FC<LoggedInProps> = ({user, logout}) => {
   };
   const [isOpen, setIsOpen] = useState(false);
 
-  return           <div className="relative">
+  return           <div>
   <button
     className="flex items-center gap-4"
     onClick={toggleDropdown}
   >
     <span className="hidden text-right lg:block">
-      <span className="block text-sm font-medium text-black dark:text-white">
+      <span className="block text-sm font-medium text-gray-400">
         {user.firstName} {user.lastName}
       </span>
-      <span className="block text-xs"> {user.membership}</span>
+      <span className="block text-xs text-gray-400"> {user.membership}</span>
     </span>
-    <span className="h-12 w-12 rounded-full">
+    <span className="h-12 w-12 rounded-full mb-2">
       <img
         src={
           user.profilePic ||
@@ -188,7 +178,7 @@ const UserLoggedIn: React.FC<LoggedInProps> = ({user, logout}) => {
     </span>
     <IoIosArrowDown
       aria-hidden="true"
-      className="-mr-1 h-5 w-5 text-gray-400"
+      className="-mr-1 h-5 w-5 text-gray-400 hidden lg:block"
     />
   </button>
 
@@ -202,7 +192,7 @@ const UserLoggedIn: React.FC<LoggedInProps> = ({user, logout}) => {
     <div className="py-1">
       
       <NavLink className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
-      to="/member/profile">Your Profile</NavLink>
+      to={`/${user.role?.toLowerCase()}/profile`}>Your Profile</NavLink>
      
       <li
          onClick={() => logout()}
