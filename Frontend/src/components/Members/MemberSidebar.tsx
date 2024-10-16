@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
-import { NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Logo from '/src/assets/images/Logo/fitzone_logo.png';
 import { IoIosArrowDown } from 'react-icons/io';
 import { FaArrowLeft } from 'react-icons/fa6';
 import { RxAvatar } from 'react-icons/rx';
 import { IoSchoolOutline } from 'react-icons/io5';
+import { IoCartOutline } from 'react-icons/io5';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
+import { FaHome } from 'react-icons/fa';
 
 interface SidebarProps {
   // interface for SidebarProps
@@ -18,7 +20,7 @@ export default function AdminSidebar({
   setSidebarOpen
 }: SidebarProps) {
   // SidebarProps is passed as an argument to AdminSidebar
-  
+
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded'); // get the value of 'sidebar-expanded' from localStorage
   const [sidebarExpanded, setSidebarExpanded] = useState(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true' // if storedSidebarExpanded is null, set it to false, else set it to storedSidebarExpanded
@@ -45,9 +47,19 @@ export default function AdminSidebar({
       }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
-      <div className="flex items-center justify-between gap-2 px-6 py-6 lg:py-7">
+      <div className="flex items-center justify-around gap-2 px-5 py-6 lg:py-7">
         <NavLink to="/">
           <img src={Logo} alt="Logo" className="max-w-[150px] h-auto w-full" />
+        </NavLink>
+        <NavLink to="/" className="text-white ">
+          <FaHome
+            style={{
+              width: '30px',
+              height: '30px',
+              position: 'relative',
+              top: '6px'
+            }}
+          />
         </NavLink>
 
         <button
@@ -71,12 +83,11 @@ export default function AdminSidebar({
             <ul className="mb-6 flex flex-col gap-1.5">
               {/* <!-- Menu Item Dashboard --> */}
 
-              <li onClick={()=>setIsCourseSubmenuOpen(false)}>
-       
+              <li onClick={() => setIsCourseSubmenuOpen(false)}>
                 <NavLink
-                 to="/member/profile"
-                 className={({
-                   isActive
+                  to="/member/profile"
+                  className={({
+                    isActive
                   }) => `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
                     isActive ? 'bg-graydark text-white' : ''
                   }
@@ -85,23 +96,21 @@ export default function AdminSidebar({
                   <RxAvatar />
                   Profile
                 </NavLink>
-             
               </li>
 
-     
               {/* <!-- Menu Item Courses --> */}
               <li>
-              <div
-                onClick={toggleCourseSubmenu}
-                className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
-              >
-                <IoSchoolOutline />
-                Courses
-                <IoIosArrowDown
-                  className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                    isCourseSubmenuOpen && 'rotate-180'
-                  }`}
-                />
+                <div
+                  onClick={toggleCourseSubmenu}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
+                >
+                  <IoSchoolOutline />
+                  Courses
+                  <IoIosArrowDown
+                    className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
+                      isCourseSubmenuOpen && 'rotate-180'
+                    }`}
+                  />
                 </div>
 
                 {isCourseSubmenuOpen && (
@@ -142,9 +151,22 @@ export default function AdminSidebar({
                 )}
               </li>
               {/* <!-- Menu Item Courses --> */}
-
+              <li onClick={() => setIsCourseSubmenuOpen(false)}>
+                <NavLink
+                  to="/shop"
+                  className={({
+                    isActive
+                  }) => `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
+                    isActive ? 'bg-graydark text-white' : ''
+                  }
+                  `}
+                >
+                  <IoCartOutline />
+                  Shop
+                </NavLink>
+              </li>
               {/* <!-- Menu Item Shop --> */}
-              <li onClick={()=>setIsCourseSubmenuOpen(false)}>
+              <li onClick={() => setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/member/orders"
                   className={({

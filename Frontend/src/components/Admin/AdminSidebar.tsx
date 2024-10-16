@@ -49,7 +49,7 @@ export default function AdminSidebar({
       }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
-      <div className="flex items-center justify-between gap-2 px-6 py-6 lg:py-7">
+      <div className="flex items-center justify-around gap-2 px-5 py-6 lg:py-7">
         <NavLink to="/">
           <img src={Logo} alt="Logo" className="max-w-[150px] h-auto w-full" />
         </NavLink>

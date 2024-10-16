@@ -40,18 +40,7 @@ const MemberHeader = (props: {
             />
           </Link>
         </div>
-
-        <nav className="flex-1">
-          <ul className="flex justify-center space-x-8 ">
-            <li className="text-white hover:bg-graydark px-4 py-2 duration-300 rounded-sm cursor-pointer">
-              <Link to="/">Home</Link>
-            </li>
-
-            <li className="text-white hover:bg-graydark px-4 py-2 duration-300 rounded-sm cursor-pointer">
-              <Link to="/shop">Shop</Link>
-            </li>
-          </ul>
-        </nav>
+        <div className='placeholder'></div>
 
         <div className="flex items-center gap-3 2xsm:gap-7 justify-end">
           <ul className="flex items-center gap-2 2xsm:gap-4">
