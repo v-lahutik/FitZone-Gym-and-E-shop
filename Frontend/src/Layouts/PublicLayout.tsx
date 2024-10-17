@@ -3,9 +3,11 @@ import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import { Outlet, useLocation } from 'react-router-dom';
 import Login from '../components/Auth/Login';
+import ForgotPass from '../components/Auth/ForgotPass';
 
 export default function PublicLayout() {
   const [loginOpen, setLoginOpen] = useState<boolean>(false);
+  const [resetPassOpen, setResetPassOpen] = useState<boolean>(false); // for forget password
   const location = useLocation();
 
   useEffect(() => {
@@ -34,7 +36,12 @@ export default function PublicLayout() {
       <Footer />
       {loginOpen && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-          <Login setLoginOpen={setLoginOpen} />
+          <Login setLoginOpen={setLoginOpen} setResetPassOpen={setResetPassOpen} />
+        </div>
+      )}
+      {resetPassOpen && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+          <ForgotPass setLoginOpen={setLoginOpen} setResetPassOpen={setResetPassOpen} />
         </div>
       )}
     </>
