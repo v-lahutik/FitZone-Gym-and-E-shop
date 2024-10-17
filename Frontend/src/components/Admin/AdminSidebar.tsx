@@ -24,7 +24,6 @@ export default function AdminSidebar({
   // SidebarProps is passed as an argument to AdminSidebar
 
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded'); // get the value of 'sidebar-expanded' from localStorage
-  const [sidebarExpanded, setSidebarExpanded] = useState(false)
   const [isCourseSubmenuOpen, setIsCourseSubmenuOpen] = useState(false); // set isCourseSubmenuOpen to false
 
   const toggleCourseSubmenu = () => {
@@ -33,14 +32,14 @@ export default function AdminSidebar({
 
   useEffect(() => {
     if (storedSidebarExpanded === 'true') {
-      setSidebarExpanded(JSON.parse(storedSidebarExpanded));
+      setSidebarOpen(true);
     }
-    if (sidebarExpanded) {
+    if (sidebarOpen) {
       document.querySelector('body')?.classList.add('sidebar-expanded');
     } else {
       document.querySelector('body')?.classList.remove('sidebar-expanded');
     }
-  }, [sidebarExpanded]);
+  }, [sidebarOpen]);
 
   return (
     <aside
@@ -85,7 +84,7 @@ export default function AdminSidebar({
             <ul className="mb-6 flex flex-col gap-1.5">
               {/* <!-- Menu Item Dashboard --> */}
 
-              <li onClick={() => setIsCourseSubmenuOpen(false)}>
+              <li onClick={() => {setIsCourseSubmenuOpen(false); setSidebarOpen(false)}}>
                 <NavLink
                   to="/admin/dashboard"
                   className={({ isActive }) =>
@@ -123,7 +122,7 @@ export default function AdminSidebar({
                     }`}
                   >
                     <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                      <li>
+                      <li onClick={()=> setSidebarOpen(false)}>
                         <NavLink
                           to="/admin/courses/week"
                           className={({ isActive }) =>
@@ -135,7 +134,7 @@ export default function AdminSidebar({
                           Weekly Courses
                         </NavLink>
                       </li>
-                      <li>
+                      <li onClick={()=> setSidebarOpen(false)}>
                         <NavLink
                           to="/admin/courses/templates"
                           className={({ isActive }) =>
@@ -154,7 +153,7 @@ export default function AdminSidebar({
               {/* <!-- Menu Item Courses --> */}
 
               {/* <!-- Menu Item Shop --> */}
-              <li onClick={() => setIsCourseSubmenuOpen(false)}>
+              <li onClick={() => {setIsCourseSubmenuOpen(false); setSidebarOpen(false)}}>
                 <NavLink
                   to="/admin/shop"
                   className={({ isActive }) =>
@@ -169,7 +168,7 @@ export default function AdminSidebar({
               </li>
               {/* <!-- Menu Item Products --> */}
               {/* <!-- Menu Item Users --> */}
-              <li onClick={() => setIsCourseSubmenuOpen(false)}>
+              <li onClick={() => {setIsCourseSubmenuOpen(false); setSidebarOpen(false)}}>
                 <NavLink
                   to="/admin/orders"
                   className={({
@@ -183,7 +182,7 @@ export default function AdminSidebar({
                   Orders
                 </NavLink>
               </li>
-              <li onClick={() => setIsCourseSubmenuOpen(false)}>
+              <li onClick={() => {setIsCourseSubmenuOpen(false); setSidebarOpen(false)}}>
                 <NavLink
                   to="/admin/members"
                   className={({
@@ -197,7 +196,7 @@ export default function AdminSidebar({
                   Members
                 </NavLink>
               </li>
-              <li onClick={() => setIsCourseSubmenuOpen(false)}>
+              <li onClick={() => {setIsCourseSubmenuOpen(false); setSidebarOpen(false)}}>
                 <NavLink
                   to="/admin/profile"
                   className={({
