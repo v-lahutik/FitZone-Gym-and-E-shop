@@ -22,8 +22,6 @@ export default function AdminSidebar({
   sidebarOpen,
   setSidebarOpen
 }: SidebarProps) {
-  const location = useLocation();
-  const { pathname } = location;
 
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
@@ -37,9 +35,6 @@ export default function AdminSidebar({
     setIsCourseSubmenuOpen(!isCourseSubmenuOpen);
   };
 
-  // const toggleSubmenu = () => {
-  //   setIsSubmenuOpen(!isSubmenuOpen);
-  // };
 
   // close on click outside
   useEffect(() => {
