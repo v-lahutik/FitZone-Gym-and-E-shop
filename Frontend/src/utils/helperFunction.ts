@@ -213,3 +213,62 @@ export const deleteUserPopUp = (): Promise<boolean> => {
     }
   });
 };
+
+
+// Products
+export const saveProductPopUp = (): Promise<boolean> => {
+  return Swal.fire({
+    title: 'Save the Product?',
+    text: 'If you want to save the product ? click Yes!',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, save it!',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+};
+
+export const updateProductPopUp = (): Promise<boolean> => {
+  return Swal.fire({
+    title: 'Update the Product?',
+    text: 'If you want to update the product info ? click Yes!',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Update it!',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+};
+
+export const deleteProductPopUp = (): Promise<boolean> => {
+  return Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Delete it!',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+};

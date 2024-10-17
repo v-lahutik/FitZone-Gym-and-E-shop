@@ -7,8 +7,9 @@ import { FaArrowLeft } from 'react-icons/fa6';
 import { BsShop } from 'react-icons/bs';
 import { FiUsers } from 'react-icons/fi';
 import { IoSchoolOutline } from 'react-icons/io5';
-import { HiOutlineShoppingBag } from "react-icons/hi";
+import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { RxAvatar } from 'react-icons/rx';
+import { FaHome } from 'react-icons/fa';
 
 interface SidebarProps {
   // interface for SidebarProps
@@ -21,7 +22,7 @@ export default function AdminSidebar({
   setSidebarOpen
 }: SidebarProps) {
   // SidebarProps is passed as an argument to AdminSidebar
-  
+
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded'); // get the value of 'sidebar-expanded' from localStorage
   const [sidebarExpanded, setSidebarExpanded] = useState(false)
   const [isCourseSubmenuOpen, setIsCourseSubmenuOpen] = useState(false); // set isCourseSubmenuOpen to false
@@ -48,9 +49,19 @@ export default function AdminSidebar({
       }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
-      <div className="flex items-center justify-between gap-2 px-6 py-6 lg:py-7">
+      <div className="flex items-center justify-around gap-2 px-5 py-6 lg:py-7">
         <NavLink to="/">
           <img src={Logo} alt="Logo" className="max-w-[150px] h-auto w-full" />
+        </NavLink>
+        <NavLink to="/" className="text-white ">
+          <FaHome
+            style={{
+              width: '30px',
+              height: '30px',
+              position: 'relative',
+              top: '6px'
+            }}
+          />
         </NavLink>
 
         <button
@@ -74,7 +85,7 @@ export default function AdminSidebar({
             <ul className="mb-6 flex flex-col gap-1.5">
               {/* <!-- Menu Item Dashboard --> */}
 
-              <li>
+              <li onClick={() => setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/admin/dashboard"
                   className={({ isActive }) =>
@@ -143,7 +154,7 @@ export default function AdminSidebar({
               {/* <!-- Menu Item Courses --> */}
 
               {/* <!-- Menu Item Shop --> */}
-              <li>
+              <li onClick={() => setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/admin/shop"
                   className={({ isActive }) =>
@@ -158,7 +169,7 @@ export default function AdminSidebar({
               </li>
               {/* <!-- Menu Item Products --> */}
               {/* <!-- Menu Item Users --> */}
-              <li>
+              <li onClick={() => setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/admin/orders"
                   className={({
@@ -166,13 +177,13 @@ export default function AdminSidebar({
                   }) => `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
                     isActive ? 'bg-graydark text-white' : ''
                   }
-                  `}                >
+                  `}
+                >
                   <HiOutlineShoppingBag />
-
                   Orders
                 </NavLink>
               </li>
-              <li>
+              <li onClick={() => setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/admin/members"
                   className={({
@@ -186,7 +197,7 @@ export default function AdminSidebar({
                   Members
                 </NavLink>
               </li>
-              <li>
+              <li onClick={() => setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/admin/profile"
                   className={({

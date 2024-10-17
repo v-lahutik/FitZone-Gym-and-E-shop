@@ -22,6 +22,9 @@ const setEndOfDay = (date: Date) => {
   return newDate;
 };
 
+
+
+
 // Create a provider component
 export const DateProvider: React.FC<{ children: ReactNode }> = ({
   children

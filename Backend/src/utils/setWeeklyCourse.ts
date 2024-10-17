@@ -43,6 +43,7 @@ export const createWeeklyCourses = async () => {
     courseDate.setDate(courseDate.getDate() + weekDayOffset);
 
     return {
+      coursePic,
       courseName,
       category,
       date: courseDate,

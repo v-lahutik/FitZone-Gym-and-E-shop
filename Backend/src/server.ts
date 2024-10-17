@@ -13,8 +13,7 @@ import { createWeeklyCourses } from "./utils/setWeeklyCourse";
 import cron from "node-cron";
 import { UserRole } from "./models/user.model";
 import publicRouter from "./routers/public.router";
-import { fileURLToPath } from "url";
-import path from "path";
+
 
 dotenv.config();
 const app: Application = express();
@@ -24,7 +23,7 @@ connectToDB();
 
 // set courses for week
 // every sunday at 6 am, this func is going to run to set the courses
-cron.schedule("0 6 * * 0", async () => {
+cron.schedule('0 6 * * 0', async () => {
   await createWeeklyCourses();
 });
 
@@ -45,7 +44,7 @@ app.use("/admin", authenticateAndCheckRoles([UserRole.admin]), adminRouter);
 
 // error handlers
 app.use((req: Request, res: Response, next: NextFunction) => {
-  next(createError("Route not found!", 404));
+  next(createError('Route not found!', 404));
 });
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

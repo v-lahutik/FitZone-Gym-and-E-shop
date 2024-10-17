@@ -1,24 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { URL } from '../../../utils/URL';
+import { URL } from '../../../utils/URL.ts';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { CiSearch } from 'react-icons/ci';
-import {Address} from '../../../custom.Types/userTypes.ts';
-import {Product} from '../../../custom.Types/orderTypes.ts';
+import {Orders} from '../../../custom.Types/orderTypes.ts';
 
-export type Orders = {
-  orderNumber: string;
-  orderDate: string;
-  totalPrice: number;
-  paymentStatus: string;
-  deliveryAddress: Address;
-  deliveryDate: string;
-  status: string;
-  products: Product[];
-  createdAt: string;
-};
-
-const Orders: React.FC = () => {
+const MemberOrders: React.FC = () => {
   const [orders, setOrders] = useState<Orders[]>([]);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null); // To track the expanded order
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -269,4 +256,4 @@ const Orders: React.FC = () => {
   );
 };
 
-export default Orders;
+export default MemberOrders;

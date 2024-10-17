@@ -1,0 +1,393 @@
+[
+  {
+    "courseName": "Yoga for Beginners",
+    "coursePic": "",
+    "description": "A calming and centering class focusing on the basics of yoga.",
+    "instructor": "Emily White",
+    "time": { "start": "08:00", "end": "09:00" },
+    "weekday": "Monday",
+    "maxParticipants": 15,
+    "category": ["Flexibility"]
+  },
+  {
+    "courseName": "Advanced Spinning",
+    "coursePic": "",
+    "description": "High-intensity spinning to boost your endurance and leg strength.",
+    "instructor": "John Lee",
+    "time": { "start": "10:00", "end": "11:00" },
+    "weekday": "Monday",
+    "maxParticipants": 20,
+    "category": ["Cardio"]
+  },
+  {
+    "courseName": "Boxing Basics",
+    "coursePic": "",
+    "description": "Learn the fundamentals of boxing with professional techniques.",
+    "instructor": "Chris Johnson",
+    "time": { "start": "17:00", "end": "18:00" },
+    "weekday": "Monday",
+    "maxParticipants": 12,
+    "category": ["Strength", "Cardio"]
+  },
+  {
+    "courseName": "Pilates Core Strength",
+    "coursePic": "",
+    "description": "Strengthen your core and improve flexibility with Pilates.",
+    "instructor": "Laura Evans",
+    "time": { "start": "18:30", "end": "19:30" },
+    "weekday": "Monday",
+    "maxParticipants": 15,
+    "category": ["Flexibility", "Strength"]
+  },
+  {
+    "courseName": "Bodyweight HIIT",
+    "coursePic": "",
+    "description": "Intense interval training using only your body weight for resistance.",
+    "instructor": "Mike Thompson",
+    "time": { "start": "19:45", "end": "20:45" },
+    "weekday": "Monday",
+    "maxParticipants": 18,
+    "category": ["Strength", "Cardio"]
+  },
+  {
+    "courseName": "Healthy Back",
+    "coursePic": "",
+    "description": "Strengthen your back and improve posture with targeted exercises.",
+    "instructor": "Emily White",
+    "time": { "start": "21:00", "end": "22:00" },
+    "weekday": "Monday",
+    "maxParticipants": 10,
+    "category": ["Flexibility"]
+  },
+  {
+    "courseName": "Advanced Boxing",
+    "coursePic": "",
+    "description": "Take your boxing skills to the next level with advanced techniques.",
+    "instructor": "Chris Johnson",
+    "time": { "start": "08:00", "end": "09:00" },
+    "weekday": "Tuesday",
+    "maxParticipants": 12,
+    "category": ["Strength", "Cardio"]
+  },
+  {
+    "courseName": "Yoga Flow",
+    "coursePic": "",
+    "description": "A dynamic and flowing yoga class to improve flexibility and strength.",
+    "instructor": "Emily White",
+    "time": { "start": "09:30", "end": "10:30" },
+    "weekday": "Tuesday",
+    "maxParticipants": 15,
+    "category": ["Flexibility"]
+  },
+  {
+    "courseName": "Spinning Power",
+    "coursePic": "",
+    "description": "A challenging ride focusing on power and endurance.",
+    "instructor": "John Lee",
+    "time": { "start": "17:00", "end": "18:00" },
+    "weekday": "Tuesday",
+    "maxParticipants": 20,
+    "category": ["Cardio"]
+  },
+  {
+    "courseName": "Pilates for Beginners",
+    "coursePic": "",
+    "description": "A gentle introduction to Pilates for all fitness levels.",
+    "instructor": "Laura Evans",
+    "time": { "start": "18:30", "end": "19:30" },
+    "weekday": "Tuesday",
+    "maxParticipants": 15,
+    "category": ["Flexibility", "Strength"]
+  },
+  {
+    "courseName": "Kids Fit",
+    "coursePic": "",
+    "description": "Fun and fitness for kids, helping them stay active and healthy.",
+    "instructor": "Sarah Green",
+    "time": { "start": "19:45", "end": "20:45" },
+    "weekday": "Tuesday",
+    "maxParticipants": 20,
+    "category": ["Cardio"]
+  },
+  {
+    "courseName": "Bodyweight Strength",
+    "coursePic": "",
+    "description": "Build strength using only your body weight as resistance.",
+    "instructor": "Mike Thompson",
+    "time": { "start": "21:00", "end": "22:00" },
+    "weekday": "Tuesday",
+    "maxParticipants": 18,
+    "category": ["Strength"]
+  },
+  {
+    "courseName": "Yoga for Flexibility",
+    "coursePic": "",
+    "description": "Deep stretches and yoga poses to increase flexibility and relaxation.",
+    "instructor": "Emily White",
+    "time": { "start": "08:00", "end": "09:00" },
+    "weekday": "Wednesday",
+    "maxParticipants": 15,
+    "category": ["Flexibility"]
+  },
+  {
+    "courseName": "Spinning Endurance",
+    "coursePic": "",
+    "description": "Endurance-focused spinning session to push your limits.",
+    "instructor": "John Lee",
+    "time": { "start": "09:30", "end": "10:30" },
+    "weekday": "Wednesday",
+    "maxParticipants": 20,
+    "category": ["Cardio"]
+  },
+  {
+    "courseName": "Boxing Circuit Training",
+    "coursePic": "",
+    "description": "Boxing-based circuit training for strength and cardio conditioning.",
+    "instructor": "Chris Johnson",
+    "time": { "start": "17:00", "end": "18:00" },
+    "weekday": "Wednesday",
+    "maxParticipants": 12,
+    "category": ["Strength", "Cardio"]
+  },
+  {
+    "courseName": "Pilates Stretch and Tone",
+    "coursePic": "",
+    "description": "A mix of Pilates stretching and toning exercises for a balanced workout.",
+    "instructor": "Laura Evans",
+    "time": { "start": "18:30", "end": "19:30" },
+    "weekday": "Wednesday",
+    "maxParticipants": 15,
+    "category": ["Flexibility", "Strength"]
+  },
+  {
+    "courseName": "Bodyweight Cardio",
+    "coursePic": "",
+    "description": "Cardio workout using bodyweight exercises to keep your heart pumping.",
+    "instructor": "Mike Thompson",
+    "time": { "start": "19:45", "end": "20:45" },
+    "weekday": "Wednesday",
+    "maxParticipants": 18,
+    "category": ["Cardio", "Strength"]
+  },
+  {
+    "courseName": "Healthy Back",
+    "coursePic": "",
+    "description": "Focus on posture and back strength with this healthy back session.",
+    "instructor": "Emily White",
+    "time": { "start": "21:00", "end": "22:00" },
+    "weekday": "Wednesday",
+    "maxParticipants": 10,
+    "category": ["Flexibility"]
+  },
+
+  {
+    "courseName": "Boxing Basics",
+    "coursePic": "",
+    "description": "Learn the fundamentals of boxing with professional techniques.",
+    "instructor": "Chris Johnson",
+    "time": { "start": "08:00", "end": "09:00" },
+    "weekday": "Thursday",
+    "maxParticipants": 12,
+    "category": ["Strength", "Cardio"]
+  },
+  {
+    "courseName": "Yoga Flow",
+    "coursePic": "",
+    "description": "A dynamic and flowing yoga class to improve flexibility and strength.",
+    "instructor": "Emily White",
+    "time": { "start": "09:30", "end": "10:30" },
+    "weekday": "Thursday",
+    "maxParticipants": 15,
+    "category": ["Flexibility"]
+  },
+  {
+    "courseName": "Spinning Power",
+    "coursePic": "",
+    "description": "A challenging ride focusing on power and endurance.",
+    "instructor": "John Lee",
+    "time": { "start": "17:00", "end": "18:00" },
+    "weekday": "Thursday",
+    "maxParticipants": 20,
+    "category": ["Cardio"]
+  },
+  {
+    "courseName": "Bodyweight HIIT",
+    "coursePic": "",
+    "description": "Intense interval training using only your body weight for resistance.",
+    "instructor": "Mike Thompson",
+    "time": { "start": "18:30", "end": "19:30" },
+    "weekday": "Thursday",
+    "maxParticipants": 18,
+    "category": ["Strength", "Cardio"]
+  },
+  {
+    "courseName": "Pilates Core Strength",
+    "coursePic": "",
+    "description": "Strengthen your core and improve flexibility with Pilates.",
+    "instructor": "Laura Evans",
+    "time": { "start": "19:45", "end": "20:45" },
+    "weekday": "Thursday",
+    "maxParticipants": 15,
+    "category": ["Flexibility", "Strength"]
+  },
+  {
+    "courseName": "Advanced Boxing",
+    "coursePic": "",
+    "description": "Take your boxing skills to the next level with advanced techniques.",
+    "instructor": "Chris Johnson",
+    "time": { "start": "21:00", "end": "22:00" },
+    "weekday": "Thursday",
+    "maxParticipants": 12,
+    "category": ["Strength", "Cardio"]
+  },
+  {
+    "courseName": "Yoga for Beginners",
+    "coursePic": "",
+    "description": "A calming and centering class focusing on the basics of yoga.",
+    "instructor": "Emily White",
+    "time": { "start": "08:00", "end": "09:00" },
+    "weekday": "Friday",
+    "maxParticipants": 15,
+    "category": ["Flexibility"]
+  },
+  {
+    "courseName": "Spinning Endurance",
+    "coursePic": "",
+    "description": "Endurance-focused spinning session to push your limits.",
+    "instructor": "John Lee",
+    "time": { "start": "10:00", "end": "11:00" },
+    "weekday": "Friday",
+    "maxParticipants": 20,
+    "category": ["Cardio"]
+  },
+  {
+    "courseName": "Boxing Circuit Training",
+    "coursePic": "",
+    "description": "Boxing-based circuit training for strength and cardio conditioning.",
+    "instructor": "Chris Johnson",
+    "time": { "start": "17:00", "end": "18:00" },
+    "weekday": "Friday",
+    "maxParticipants": 12,
+    "category": ["Strength", "Cardio"]
+  },
+  {
+    "courseName": "Kids Fit",
+    "coursePic": "",
+    "description": "Fun and fitness for kids, helping them stay active and healthy.",
+    "instructor": "Sarah Green",
+    "time": { "start": "18:30", "end": "19:30" },
+    "weekday": "Friday",
+    "maxParticipants": 20,
+    "category": ["Cardio"]
+  },
+  {
+    "courseName": "Bodyweight Strength",
+    "coursePic": "",
+    "description": "Build strength using only your body weight as resistance.",
+    "instructor": "Mike Thompson",
+    "time": { "start": "19:45", "end": "20:45" },
+    "weekday": "Friday",
+    "maxParticipants": 18,
+    "category": ["Strength"]
+  },
+  {
+    "courseName": "Pilates Stretch and Tone",
+    "coursePic": "",
+    "description": "A mix of Pilates stretching and toning exercises for a balanced workout.",
+    "instructor": "Laura Evans",
+    "time": { "start": "21:00", "end": "22:00" },
+    "weekday": "Friday",
+    "maxParticipants": 15,
+    "category": ["Flexibility", "Strength"]
+  },
+  {
+    "courseName": "Advanced Spinning",
+    "coursePic": "",
+    "description": "High-intensity spinning to boost your endurance and leg strength.",
+    "instructor": "John Lee",
+    "time": { "start": "08:00", "end": "09:00" },
+    "weekday": "Saturday",
+    "maxParticipants": 20,
+    "category": ["Cardio"]
+  },
+  {
+    "courseName": "Bodyweight Cardio",
+    "coursePic": "",
+    "description": "Cardio workout using bodyweight exercises to keep your heart pumping.",
+    "instructor": "Mike Thompson",
+    "time": { "start": "09:30", "end": "10:30" },
+    "weekday": "Saturday",
+    "maxParticipants": 18,
+    "category": ["Cardio", "Strength"]
+  },
+  {
+    "courseName": "Boxing Advanced",
+    "coursePic": "",
+    "description": "Improve your boxing techniques with advanced training sessions.",
+    "instructor": "Chris Johnson",
+    "time": { "start": "17:00", "end": "18:00" },
+    "weekday": "Saturday",
+    "maxParticipants": 12,
+    "category": ["Strength", "Cardio"]
+  },
+  {
+    "courseName": "Yoga for Flexibility",
+    "coursePic": "",
+    "description": "Stretch your muscles and unwind with yoga poses designed for flexibility.",
+    "instructor": "Emily White",
+    "time": { "start": "18:30", "end": "19:30" },
+    "weekday": "Saturday",
+    "maxParticipants": 15,
+    "category": ["Flexibility"]
+  },
+  {
+    "courseName": "Spinning Power",
+    "coursePic": "",
+    "description": "A challenging spinning session to test your endurance and power.",
+    "instructor": "John Lee",
+    "time": { "start": "08:00", "end": "09:00" },
+    "weekday": "Sunday",
+    "maxParticipants": 20,
+    "category": ["Cardio"]
+  },
+  {
+    "courseName": "Pilates Core Focus",
+    "coursePic": "",
+    "description": "Strengthen your core with Pilates movements designed for a strong midsection.",
+    "instructor": "Laura Evans",
+    "time": { "start": "09:30", "end": "10:30" },
+    "weekday": "Sunday",
+    "maxParticipants": 15,
+    "category": ["Flexibility", "Strength"]
+  },
+  {
+    "courseName": "Kids Fit",
+    "coursePic": "",
+    "description": "Fun exercises for kids to stay fit and active.",
+    "instructor": "Sarah Green",
+    "time": { "start": "17:00", "end": "18:00" },
+    "weekday": "Sunday",
+    "maxParticipants": 20,
+    "category": ["Cardio"]
+  },
+  {
+    "courseName": "Healthy Back",
+    "coursePic": "",
+    "description": "Improve posture and reduce back pain with targeted exercises.",
+    "instructor": "Emily White",
+    "time": { "start": "18:30", "end": "19:30" },
+    "weekday": "Sunday",
+    "maxParticipants": 10,
+    "category": ["Flexibility"]
+  },
+  {
+    "courseName": "Pilates Core Stretch",
+    "coursePic": "",
+    "description": "Combining core strength exercises with stretching for balance and flexibility.",
+    "instructor": "Laura Evans",
+    "time": { "start": "19:45", "end": "20:45" },
+    "weekday": "Sunday",
+    "maxParticipants": 15,
+    "category": ["Flexibility", "Strength"]
+  }
+]

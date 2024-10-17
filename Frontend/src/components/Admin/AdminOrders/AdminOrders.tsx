@@ -194,11 +194,11 @@ const AdminOrders: React.FC = () => {
                         </td>
                         <td className="min-w-[150px] border-b border-[#eee] py-5 px-4 dark:border-strokedark ">
                           <p className="text-sm">
-                            {order.userId.firstName} {order.userId.lastName}
+                            {order.userId?.firstName} {order.userId?.lastName}
                           </p>
                         </td>
                         <td className="min-w-[150px] border-b border-[#eee] py-5 px-4 dark:border-strokedark ">
-                          <p className="text-sm">{order.userId._id}</p>
+                          <p className="text-sm">{order.userId?._id}</p>
                         </td>
 
                         <td className="min-w-[150px] border-b border-[#eee] py-5 px-4 text-sm dark:border-strokedark">

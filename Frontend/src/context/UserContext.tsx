@@ -3,20 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ReactNode } from 'react';
 import { URL } from '../utils/URL';
 import axios from 'axios';
+import { User } from '../custom.Types/userTypes';
 import Swal from 'sweetalert2';
-import { Address } from '../custom.Types/userTypes';
-
-
-interface User {
-  _id: string | null;
-  firstName: string | null;
-  lastName: string | null;
-  email: string | null;
-  membership: string | null;
-  address: Address | null;
-  role: string | null;
-  profilePic: string | null;
-}
 
 const userNull: User = {
   _id: null,
@@ -26,7 +14,8 @@ const userNull: User = {
   membership: null,
   address: null,
   role: null,
-  profilePic: null
+  profilePic: null,
+  is_activated: false
 };
 
 interface UserContextType {
@@ -38,7 +27,14 @@ interface UserContextType {
   authenticate: () => void;
 }
 
-export const UserContext = createContext<UserContextType | null>(null);
+export const UserContext = createContext<UserContextType>({
+  user: userNull,
+  isLoggedIn: false,
+  userLoading: true,
+  login: () => {},
+  logout: () => {},
+  authenticate: () => {}
+});
 
 interface UserProviderProps {
   children: ReactNode;
@@ -69,12 +65,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       // if the user is not authenticated, reset the user state
       setUser(userNull);
-      navigate('/');
+      //navigate('/');
       setIsLoggedIn(false);
     } finally {
       //add a loading state to prevent the page from rendering before the user is authenticated
       setUserLoading(false);
-     
     }
   };
 
@@ -112,8 +107,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const login = (userData: User) => {
     setUser(userData);
     console.log('User:', userData);
-    if (userData.role === 'Admin') navigate('/admin/dashboard');
-    else navigate('/member');
+    if (userData.role === 'Admin') navigate('/admin/profile');
+    else navigate('/member/profile');
     setIsLoggedIn(true);
   };
 

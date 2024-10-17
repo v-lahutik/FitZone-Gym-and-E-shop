@@ -6,22 +6,24 @@ import { NavLink } from 'react-router-dom';
 import Logo from '/src/assets/images/Logo/fitzone_logo.png';
 import { IoIosArrowDown } from 'react-icons/io';
 import { FaArrowLeft } from 'react-icons/fa6';
-
 import { RxAvatar } from 'react-icons/rx';
 import { IoSchoolOutline } from 'react-icons/io5';
+import { IoCartOutline } from 'react-icons/io5';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
+import { FaHome } from 'react-icons/fa';
 
 interface SidebarProps {
+  // interface for SidebarProps
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
 }
 
-export default function MemberSidebar({
+export default function AdminSidebar({
   sidebarOpen,
   setSidebarOpen
 }: SidebarProps) {
-  // const location = useLocation();
-  // const { pathname } = location;
+  const location = useLocation();
+  const { pathname } = location;
 
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
@@ -68,19 +70,27 @@ export default function MemberSidebar({
 
   return (
     <aside
-      ref={sidebar}
       className={`absolute left-0 top-0 z-[9999] flex h-screen w-72 flex-col overflow-y-hidden bg-blackColor2 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
-      <div className="flex items-center justify-between gap-2 px-6 py-6 lg:py-7">
+      <div className="flex items-center justify-around gap-2 px-5 py-6 lg:py-7">
         <NavLink to="/">
           <img src={Logo} alt="Logo" className="max-w-[150px] h-auto w-full" />
         </NavLink>
+        <NavLink to="/" className="text-white ">
+          <FaHome
+            style={{
+              width: '30px',
+              height: '30px',
+              position: 'relative',
+              top: '6px'
+            }}
+          />
+        </NavLink>
 
         <button
-          ref={trigger}
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-controls="sidebar"
           aria-expanded={sidebarOpen}
@@ -101,7 +111,7 @@ export default function MemberSidebar({
             <ul className="mb-6 flex flex-col gap-1.5">
               {/* <!-- Menu Item Dashboard --> */}
 
-              <li>
+              <li onClick={() => setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/member/profile"
                   className={({
@@ -116,20 +126,21 @@ export default function MemberSidebar({
                 </NavLink>
               </li>
 
-              {/* <!-- Menu Item Dashboard --> */}
-
               {/* <!-- Menu Item Courses --> */}
-              <li
-                onClick={toggleCourseSubmenu}
-                className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
-              >
-                <IoSchoolOutline />
-                Courses
-                <IoIosArrowDown
-                  className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                    isCourseSubmenuOpen && 'rotate-180'
-                  }`}
-                />
+              <li>
+                <div
+                  onClick={toggleCourseSubmenu}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
+                >
+                  <IoSchoolOutline />
+                  Courses
+                  <IoIosArrowDown
+                    className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
+                      isCourseSubmenuOpen && 'rotate-180'
+                    }`}
+                  />
+                </div>
+
                 {isCourseSubmenuOpen && (
                   <div
                     className={`translate transform overflow-hidden ${
@@ -147,7 +158,7 @@ export default function MemberSidebar({
                           }
                           `}
                         >
-                          Weekly Courses
+                          Course Calendar
                         </NavLink>
                       </li>
                       <li>
@@ -160,7 +171,7 @@ export default function MemberSidebar({
                           }
                           `}
                         >
-                          Your Booked Courses
+                          My Booked Courses
                         </NavLink>
                       </li>
                     </ul>
@@ -168,9 +179,22 @@ export default function MemberSidebar({
                 )}
               </li>
               {/* <!-- Menu Item Courses --> */}
-
+              <li onClick={() => setIsCourseSubmenuOpen(false)}>
+                <NavLink
+                  to="/shop"
+                  className={({
+                    isActive
+                  }) => `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
+                    isActive ? 'bg-graydark text-white' : ''
+                  }
+                  `}
+                >
+                  <IoCartOutline />
+                  Shop
+                </NavLink>
+              </li>
               {/* <!-- Menu Item Shop --> */}
-              <li>
+              <li onClick={() => setIsCourseSubmenuOpen(false)}>
                 <NavLink
                   to="/member/orders"
                   className={({

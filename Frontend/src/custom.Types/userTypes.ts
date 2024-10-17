@@ -6,6 +6,17 @@ export interface Address {
     country: string;
   };
 
+export interface User {
+  _id: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  membership: string | null;
+  address: Address | null;
+  role: string | null;
+  profilePic: string | null;
+  is_activated: boolean | null;
+}
   export interface Member {
     firstName: string;
     lastName: string;

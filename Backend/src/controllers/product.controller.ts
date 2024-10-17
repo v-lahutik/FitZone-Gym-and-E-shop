@@ -7,13 +7,13 @@ import { uploadImage } from "../utils/cloudinaryUploader";
 export const addNewProduct = async (req:Request,res:Response,next:NextFunction) => {
     try {
 
-        const {productName,description,price,stock,image,category} = req.body
+        const {productName,description,price,stock,image,category, averageRating, numReviews} = req.body
 
         const result = await uploadImage(image)
         if(!result) return res.status(400).json({msg: "image upload failed"})
 
        
-        const newProduct = await Product.create({productName,description,price,stock, image: result, category})
+        const newProduct = await Product.create({productName,description,price,stock, image: result, category, averageRating, numReviews});
 
         await newProduct.populate("category")
         res.status(200).json({ msg: "new product added successfully", newProduct });
@@ -29,7 +29,7 @@ export const editProduct = async (req:Request,res:Response,next:NextFunction) =>
         const {productName,description,price,stock,image,category} = req.body
         const editedProduct = await Product.findByIdAndUpdate(pid, {productName,description,price,stock,image,category}, { new: true });
         await editedProduct?.populate('category')
-        res.status(200).json({ msg: "product edited successfully", editedProduct });
+        res.status(200).json({ msg: "product updated successfully !!", editedProduct });
     } catch (error) {
         next(error);
     }
@@ -55,7 +55,7 @@ export const deleteProduct = async (req:Request, res:Response, next:NextFunction
 export const getAllProducts = async (req: Request,res: Response,next: NextFunction) => {
     try {
       const allProducts = await Product.find({}).populate("category", "categoryName").exec();
-      res.status(200).json({ msg: "get all product successfully", allProducts });
+      res.status(200).json(allProducts);
     } catch (error: any) {
       next(error);
     }

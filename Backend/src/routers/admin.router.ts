@@ -4,7 +4,7 @@ import { deleteUser, register, updateUser, getAllUsers, fetchAllDatabase } from 
 import { authenticateAndCheckRoles } from '../middlewares/authAndRoles'
 import {getAllCourseTemplates, createNewCourseTemplate, editCourseTemplate, deleteCourseTemplate} from '../controllers/courseTemplate.controller';
 import { addNewCourse, deleteCourse, editCourse, getAllCourses } from '../controllers/course.controller';
-import { addNewProduct, deleteProduct, editProduct} from '../controllers/product.controller'
+import { addNewProduct, deleteProduct, editProduct, getAllProducts} from '../controllers/product.controller'
 import { addNewCategory, deleteCategory } from '../controllers/category.controller';
 import { error } from 'console';
 import { deleteOrder, getAllOrders, getOneOrder, updateOrderStatus } from '../controllers/order.controller';
@@ -34,6 +34,7 @@ adminRouter.delete('/courses/delete/:cid',deleteCourse)
 adminRouter.patch('/courses/edit/:cid',editCourse)
 
 //edit Products
+adminRouter.get('/products',getAllProducts)
 adminRouter.post("/products/add", addNewProduct)
 adminRouter.patch("/products/edit/:pid",editProduct)
 adminRouter.delete("/products/delete/:pid",deleteProduct)
