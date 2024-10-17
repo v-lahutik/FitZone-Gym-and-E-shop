@@ -21,8 +21,16 @@ export default function CoursesPage() {
       try {
         const response = await axios.get(`${URL}/public/courseTemplates`);
         const data = response.data;
-        console.log('🚀 ~ fetchCourses ~ data:', data);
-        setCourses(data.allTemplates);
+        const uniqueCourses = data.allTemplates.reduce(
+          (acc: CourseTemplate[], course: CourseTemplate) => {
+            if (!acc.some((c) => c.courseName === course.courseName)) {
+              acc.push(course);
+            }
+            return acc;
+          },
+          []
+        );
+        setCourses(uniqueCourses);
         setLoading(false);
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -40,7 +48,7 @@ export default function CoursesPage() {
       <section
         id="breadcrumb-section"
         className="hero bg-cover bg-center flex items-center h-[30vh]"
-         >
+      >
         <div className="container mx-auto max-w-[1280px] px-4 ">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center">
             <div className="flex flex-col justify-center items-start text-white">

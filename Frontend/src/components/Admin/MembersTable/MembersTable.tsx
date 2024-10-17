@@ -70,19 +70,19 @@ const MembersTable: React.FC = () => {
       });
     }
     if (filterMembership) {
-      filtered = members.filter((member) => {
+      filtered = filtered.filter((member) => {
         return member.membership === filterMembership;
       });
     }
 
     // if (filterRole) {
-    //   filtered = members.filter((member) => {
+    //   filtered = filtered.filter((member) => {
     //     return member.role === filterRole;
     //   });
     // }
 
     if (filterIsActivated) {
-      filtered = members.filter((member) => {
+      filtered = filtered.filter((member) => {
         if (filterIsActivated.toLowerCase() === 'active')
           return member.is_activated;
         if (filterIsActivated.toLowerCase() === 'inactive')

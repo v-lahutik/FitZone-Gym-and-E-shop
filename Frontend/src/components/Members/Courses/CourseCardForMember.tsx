@@ -41,7 +41,7 @@ const CourseCardForMember: React.FC<CourseCardForMemberProps> = ({
         <button
           onClick={async () => {
             await cancelBookedCourse(course);
-            setCourseBooked(false);
+            setCourseBooked(true);
             closeCard();
           }}
           className="rounded-lg bg-gradient-to-r from-primary via-primary to-red-500 p-3 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
