@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { URL } from '../../../../utils/URL';
-import { Course } from './CourseTable';
+import { Course } from '../../../../custom.Types/courseType';
 import {
   deleteCoursePopUp,
   saveCoursePopUp,

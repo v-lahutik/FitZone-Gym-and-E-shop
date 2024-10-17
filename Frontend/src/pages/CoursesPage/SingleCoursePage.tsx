@@ -1,5 +1,4 @@
 import { Link, useLocation } from 'react-router-dom';
-import Header from '../../components/Header/Header';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { URL } from '../../utils/URL';
@@ -11,7 +10,7 @@ import './CoursePage.css';
 export default function SingleCoursePage() {
   const [course, setCourse] = useState<CourseTemplate | undefined>(undefined);
   const [loading, setLoading] = useState(true);
-  const [loginOpen, setLoginOpen] = useState<boolean>(false);
+
 
   const { id } = useParams();
   console.log('🚀 ~ SingleCoursePage ~ id:', id);
@@ -20,19 +19,6 @@ export default function SingleCoursePage() {
   const pathnames = location.pathname.split('/').filter((x) => x);
   console.log('🚀 ~ SingleCoursePage ~ pathnames:', pathnames);
 
-  useEffect(() => {
-    if (loginOpen) {
-      //disable scroll
-      document.body.style.overflow = 'hidden';
-    } else {
-      //enable scroll
-      document.body.style.overflow = 'unset';
-    }
-    // cleanup function for when component unmounts
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [loginOpen]);
 
   // fetch course
   useEffect(() => {

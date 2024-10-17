@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { URL } from '../../../utils/URL';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
-import { Course } from './MembersCourseTable';
+import { Course } from '../../../custom.Types/courseType';
 import { cancelBookedCourse } from './BookingRequest';
 
 const BookedCourses: React.FC = () => {

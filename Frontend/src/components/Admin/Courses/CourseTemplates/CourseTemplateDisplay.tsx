@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import CourseTemplateForm from './CourseTemplateForm';
 import TemplateCard from './TemplateCard';
 import axios from 'axios';

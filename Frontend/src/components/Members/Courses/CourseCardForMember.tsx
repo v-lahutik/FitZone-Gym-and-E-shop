@@ -3,11 +3,11 @@ import Yoga from '../../../assets/images/Courses/yoga.jpg';
 import { FaRegClock } from 'react-icons/fa';
 import { FaHeartPulse } from 'react-icons/fa6';
 import { ImUsers } from 'react-icons/im';
-import { Course } from './MembersCourseTable';
+import { Course } from '../../../custom.Types/courseType';
 import { useContext } from 'react';
 import { bookNewCourse, cancelBookedCourse } from './BookingRequest';
 import { UserContext } from '../../../context/UserContext';
-import { render } from 'react-dom';
+
 
 interface CourseCardForMemberProps {
   course: Course;
