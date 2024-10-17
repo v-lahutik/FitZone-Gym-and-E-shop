@@ -30,7 +30,7 @@ export default function PublicLayout() {
   return (
     <>
       <Header setLoginOpen={setLoginOpen} />
-      <Outlet />
+      <Outlet/>
       <Footer />
       {loginOpen && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
