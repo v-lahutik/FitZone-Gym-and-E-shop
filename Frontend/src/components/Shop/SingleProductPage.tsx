@@ -128,6 +128,9 @@ export default function SingleProductPage() {
         <div className="flex flex-wrap mb-5 container h-auto pt-20 max-w-[1280px] mx-auto">
           <div className="w-full md:w-7/12 lg:w-8/12 px-4">
             <div className="th-page page-single">
+              <Link to="/shop" className="text-red-500">
+              <span className='text-xl inline-block mb-8'>{'<< back to shop'}</span>
+              </Link>
               <div className="page-img">
                 <img
                   className="rounded-3xl"
