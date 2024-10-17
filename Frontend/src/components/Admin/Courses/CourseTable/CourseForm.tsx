@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { weekdays, timeSlots } from './TimeSlots';
 import { handleUpdateCourse } from './CourseRequest';
-import { Course } from './CourseTable';
+import { Course } from '../../../../custom.Types/courseType';
 
 interface CourseFormProps {
   course: Course | null;
@@ -22,7 +22,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ course, closeForm }) => {
       },
       weekday: 'Monday',
       maxParticipants: 0,
-      participants: [],
+      participants: [''],
       category: [],
       coursePic: '',
     }
@@ -49,10 +49,10 @@ const CourseForm: React.FC<CourseFormProps> = ({ course, closeForm }) => {
     const { value } = e.target as {
       value: 'Strength' | 'Cardio' | 'Flexibility';
     };
-    setLocalCourse((prevCourse) => ({
+    setLocalCourse((prevCourse: Course) => ({
       ...prevCourse,
       category: prevCourse.category.includes(value)
-        ? prevCourse.category.filter((cat) => cat !== value) // Remove if already selected
+        ? prevCourse.category.filter((cat: string) => cat !== value) // Remove if already selected
         : [...prevCourse.category, value] // Add if not selected
     }));
   };
