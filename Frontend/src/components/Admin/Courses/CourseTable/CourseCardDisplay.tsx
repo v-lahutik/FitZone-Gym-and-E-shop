@@ -3,7 +3,7 @@ import { useState } from 'react';
 // import { URL } from '../../../utils/URL';
 import CourseCardForAdmin from './CourseCardForAdmin';
 import CourseForm from './CourseForm';
-import { Course } from './CourseTable';
+import { Course } from '../../../../custom.Types/courseType';
 
 interface CourseCardDisplayProps {
   course: Course;

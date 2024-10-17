@@ -7,15 +7,15 @@ export interface Address {
   };
 
 export interface User {
-  _id: string | null;
-  firstName: string | null;
-  lastName: string | null;
-  email: string | null;
-  membership: string | null;
+  _id: string ;
+  firstName: string;
+  lastName: string;
+  email: string;
+  membership: string;
   address: Address | null;
-  role: string | null;
-  profilePic: string | null;
-  is_activated: boolean | null;
+  role: string;
+  profilePic: string;
+  is_activated: boolean;
 }
   export interface Member {
     firstName: string;
