@@ -7,6 +7,7 @@ export enum UserRole {
   guest = "Guest",
 }
 export enum membership {
+  none= "None",
   basic = "Basic",
   standard = "Standard",
   premium = "Premium",
@@ -14,7 +15,7 @@ export enum membership {
 }
 
 export interface AddressInput {
-  streetNumber: number;
+  streetNumber: string;
   streetName: string;
   city: string;
   country: string;
@@ -24,7 +25,7 @@ export interface AddressInput {
 const addressSchema = new Schema(
   {
     streetNumber: {
-      type: Number,
+      type: String,
       required: true,
     },
     streetName: {
@@ -99,12 +100,12 @@ const userSchema = new Schema<UserDocument>(
     membership: {
       type: String,
       enum: Object.values(membership),
-      default: membership.basic,
+      default: membership.none,
     },
     role: {
       type: String,
       enum: Object.values(UserRole),
-      default: UserRole.member,
+      default: UserRole.guest,
     },
     profilePic: {
       type: String,

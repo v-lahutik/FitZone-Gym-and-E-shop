@@ -25,10 +25,26 @@ import Page404 from './components/Page404.tsx';
 import { CartProvider } from './context/CartContext.tsx';
 import PublicLayout from './Layouts/PublicLayout.tsx';
 import SingleProductPage from './components/Shop/SingleProductPage.tsx';
+import Checkout from './components/Shop/Checkout.tsx';
+import PassResetHandlePage from './components/Auth/PassResetHandlePage.tsx';
+
 import { LoginProvider } from './context/LoginContext.tsx';
 
 function App() {
+
+
   return (
+
+      <DateProvider>
+        <CartProvider>
+          <LoginProvider>
+    <UserProvider>
+        <Routes>
+          {/* Public Routes */}
+            <Route path="/*" element={<Page404 />} />
+            <Route path="/verify/:uid" element={<VerifyHandlePage />} />
+            <Route path="/user-not-found" element={<UserNotFound />} />
+            <Route path="/reset-password" element={<PassResetHandlePage />} />
     <DateProvider>
       <CartProvider>
         <LoginProvider>
@@ -36,6 +52,14 @@ function App() {
           <Routes>
             {/* Public Routes */}
 
+          <Route path="/" element={<PublicLayout />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/courses" element={<CoursesPage />} />
+            <Route path="/courses/:id" element={<SingleCoursePage />} />
+            <Route path="/shop" element={<Products />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/shop/:pid" element={<SingleProductPage />} />
+          </Route>
             <Route path="/" element={<PublicLayout />}>
               <Route path="/" element={<LandingPage />} />
               <Route path="/courses" element={<CoursesPage />} />

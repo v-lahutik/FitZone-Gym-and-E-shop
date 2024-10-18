@@ -38,7 +38,7 @@ userRouter.put('/cart/delete/:pid',authenticateAndCheckRoles([UserRole.admin, Us
 userRouter.delete('/cart/clear',authenticateAndCheckRoles([UserRole.admin, UserRole.member]),toClearCart)
 
 //orders
-userRouter.post('/orders',authenticateAndCheckRoles([UserRole.admin, UserRole.member]),createOrder)
+userRouter.post('/orders',createOrder)
 userRouter.get('/orders',authenticateAndCheckRoles([UserRole.admin, UserRole.member]),getOrders)
 userRouter.get('/orders/:oid',authenticateAndCheckRoles([UserRole.admin, UserRole.member]),getSingleOrder)
 
