@@ -46,22 +46,22 @@ export const verifyAccount = async (
 
     const verified = await Verify.findOne({ token, userId });
     if (!verified) {
-      return res.redirect('http://localhost:5173/user-not-found/?status=verify-error');
+      return res.redirect(`${process.env.FE_URL}/user-not-found/?status=verify-error`);
     }
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.redirect('http://localhost:5173/user-not-found/?status=user-not-found');
+      return res.redirect(`${process.env.FE_URL}/user-not-found/?status=user-not-found`);
     }
 
     if (user.is_activated) {
-      return res.redirect(`http://localhost:5173/verify/${userId}?status=already-activated`);
+      return res.redirect(`${process.env.FE_URL}/verify/${userId}?status=already-activated`);
     }
 
     user.is_activated = true;
     await user.save();
 
-    return res.redirect(`http://localhost:5173/verify/${userId}?status=verified-success`);
+    return res.redirect(`${process.env.FE_URL}/verify/${userId}?status=verified-success`);
   } catch (error) {
     next(error);
   }
@@ -223,19 +223,11 @@ export const verifyResetLink = async (
       console.log("Token:", token);
       console.log("User ID:", userId);
       console.log("Current Time:", Date.now());
-
-      return res.status(400).json({ message: "Invalid or expired token." });
+      return res.redirect(`${process.env.FE_URL}/verify-link-not-found/?status=verify-error`)
+      // return res.status(400).json({ message: "Invalid or expired token." });
     }
     // Display form to reset password - needs to be changed to a frontend form
-    res.send(`
-    <form method="post" action="/users/resetPassword">
-      <input type="hidden" name="token" value="${token}"> <!-- Hidden token -->
-      <input type="hidden" name="uid" value="${userId}"> <!-- Hidden user ID -->
-      <input type="password" name="newPassword" placeholder="Enter new password" required> <!-- User enters new password -->
-      <input type="password" name="confirmPassword" placeholder="Confirm new password" required> <!-- User confirms new password -->
-      <input type="submit" value="Reset Password">
-    </form>
-  `);
+    res.redirect(`${process.env.FE_URL}/reset-password?userId=${userId}&token=${token}&status=verified-success`);
   } catch (error) {
     next(error);
   }
@@ -248,7 +240,7 @@ export const resetPasswordHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { token, uid: userId, newPassword, confirmPassword } = req.body; // Access from the form submission
+    const { token, userId, newPassword, confirmPassword } = req.body; // Access from the form submission
 
     const verifyEntry = await Verify.findOne({
       token,
@@ -260,7 +252,7 @@ export const resetPasswordHandler = async (
       console.log("verifyEntry", verifyEntry);
       console.log("Token:", token);
       console.log("User ID:", userId);
-      return res.status(400).json({ message: "Invalid or expired token." });
+      return res.status(403).json({ message: "Invalid or expired token." });
     }
 
     const user = await User.findById(userId);
