@@ -7,11 +7,13 @@ import { IoMdCloseCircleOutline } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
+
 interface LoginProps {
   setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setResetPassOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
+const Login: React.FC<LoginProps> = ({ setLoginOpen, setResetPassOpen }) => {
   const [userLogin, setUserLogin] = useState<userLogin>({
     email: '',
     loginPassword: ''
@@ -159,12 +161,12 @@ const Login: React.FC<LoginProps> = ({ setLoginOpen }) => {
           <div className="text-red-500 text-sm">{errors.password}</div>
         )}
         <div>
-          <a
-            href="#"
+          <button
+            onClick={()=> {setResetPassOpen(true);setLoginOpen(false);}}
             className="text-sm font-thin text-gray-800 mt-2 inline-block hover:text-primary"
           >
             Forgot Password?
-          </a>
+          </button>
         </div>
         <button className="cursor-pointer py-2 px-4 block mt-8 mb-6 bg-primary text-white font-bold w-full text-center rounded">
           Login

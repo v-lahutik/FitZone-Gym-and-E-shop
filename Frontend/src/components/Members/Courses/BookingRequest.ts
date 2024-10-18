@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { URL } from '../../../utils/URL';
-import { Course } from './MembersCourseTable';
+import { Course } from '../../../custom.Types/courseType';
 import { bookedPopUp, cancelPopUp } from '../../../utils/helperFunction';
 import Swal from 'sweetalert2';
 

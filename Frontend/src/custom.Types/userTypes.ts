@@ -16,6 +16,7 @@ export interface User {
   role: string 
   profilePic: string 
   is_activated: boolean 
+
 }
   export interface Member {
     firstName: string;

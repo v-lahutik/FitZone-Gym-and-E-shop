@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+
 import Logo from '/src/assets/images/Logo/fitzone_logo.png';
 import { IoIosArrowDown } from 'react-icons/io';
 import { FaArrowLeft } from 'react-icons/fa6';
@@ -19,20 +22,40 @@ export default function AdminSidebar({
   sidebarOpen,
   setSidebarOpen
 }: SidebarProps) {
-  // SidebarProps is passed as an argument to AdminSidebar
 
-  const storedSidebarExpanded = localStorage.getItem('sidebar-expanded'); // get the value of 'sidebar-expanded' from localStorage
-  const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true' // if storedSidebarExpanded is null, set it to false, else set it to storedSidebarExpanded
-  );
-  const [isCourseSubmenuOpen, setIsCourseSubmenuOpen] = useState(false); // set isCourseSubmenuOpen to false
+  const trigger = useRef<any>(null);
+  const sidebar = useRef<any>(null);
+
+  const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
+  const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(false);
+  // const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+  const [isCourseSubmenuOpen, setIsCourseSubmenuOpen] = useState(false);
 
   const toggleCourseSubmenu = () => {
     setIsCourseSubmenuOpen(!isCourseSubmenuOpen);
   };
 
+
+  // close on click outside
   useEffect(() => {
-    localStorage.setItem('sidebar-expanded', sidebarExpanded.toString());
+    const clickHandler = ({ target }: MouseEvent) => {
+      if (!sidebar.current || !trigger.current) return;
+      if (
+        !sidebarOpen ||
+        sidebar.current.contains(target) ||
+        trigger.current.contains(target)
+      )
+        return;
+      setSidebarOpen(false);
+    };
+    document.addEventListener('click', clickHandler);
+    return () => document.removeEventListener('click', clickHandler);
+  });
+
+  useEffect(() => {
+    if (storedSidebarExpanded === 'true') {
+      setSidebarExpanded(JSON.parse(storedSidebarExpanded));
+    }
     if (sidebarExpanded) {
       document.querySelector('body')?.classList.add('sidebar-expanded');
     } else {

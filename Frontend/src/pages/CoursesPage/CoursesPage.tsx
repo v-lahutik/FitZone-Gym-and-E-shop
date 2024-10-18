@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaArrowRight } from 'react-icons/fa6';
 import './CoursePage.css';
-
 import axios from 'axios';
 import { URL } from '../../utils/URL';
 import { CourseTemplate } from '../../custom.Types/courseTemplatesType';
@@ -22,8 +21,16 @@ export default function CoursesPage() {
       try {
         const response = await axios.get(`${URL}/public/courseTemplates`);
         const data = response.data;
-        console.log('🚀 ~ fetchCourses ~ data:', data);
-        setCourses(data.allTemplates);
+        const uniqueCourses = data.allTemplates.reduce(
+          (acc: CourseTemplate[], course: CourseTemplate) => {
+            if (!acc.some((c) => c.courseName === course.courseName)) {
+              acc.push(course);
+            }
+            return acc;
+          },
+          []
+        );
+        setCourses(uniqueCourses);
         setLoading(false);
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -41,10 +48,6 @@ export default function CoursesPage() {
       <section
         id="breadcrumb-section"
         className="hero bg-cover bg-center flex items-center h-[30vh]"
-        style={{
-          backgroundImage:
-            "url('/src/assets/images/Hero/Background-breadcrumb.png')"
-        }}
       >
         <div className="container mx-auto max-w-[1280px] px-4 ">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center">

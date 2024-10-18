@@ -9,7 +9,7 @@ const MembersTable: React.FC = () => {
   const [filteredMembers, setFilteredMembers] = useState<Member[]>([]);
   const [filterName, setFilterName] = useState<string>('');
   const [filterMembership, setFilterMembership] = useState<string>('');
-  const [filterRole, setFilterRole] = useState<string>('');
+  // const [filterRole, setFilterRole] = useState<string>('');
   const [filterIsActivated, setFilterIsActivated] = useState<string>('');
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -70,19 +70,19 @@ const MembersTable: React.FC = () => {
       });
     }
     if (filterMembership) {
-      filtered = members.filter((member) => {
+      filtered = filtered.filter((member) => {
         return member.membership === filterMembership;
       });
     }
 
     // if (filterRole) {
-    //   filtered = members.filter((member) => {
+    //   filtered = filtered.filter((member) => {
     //     return member.role === filterRole;
     //   });
     // }
 
     if (filterIsActivated) {
-      filtered = members.filter((member) => {
+      filtered = filtered.filter((member) => {
         if (filterIsActivated.toLowerCase() === 'active')
           return member.is_activated;
         if (filterIsActivated.toLowerCase() === 'inactive')
@@ -91,7 +91,7 @@ const MembersTable: React.FC = () => {
     }
     setFilteredMembers(filtered);
     setCurrentPage(1);
-  }, [filterName, filterMembership, filterIsActivated, filterRole, members]);
+  }, [filterName, filterMembership, filterIsActivated, members]);
 
   //calculate the number of pages
   const indexOfLastMember = currentPage * membersPerPage;

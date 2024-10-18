@@ -2,3 +2,6 @@
   height: 760px;
 }
 
+#hero-section {
+  background-image: url('../../../assets/images/Hero/background_hero.png');
+}

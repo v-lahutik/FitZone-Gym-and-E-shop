@@ -3,11 +3,11 @@ import Yoga from '../../../assets/images/Courses/yoga.jpg';
 import { FaRegClock } from 'react-icons/fa';
 import { FaHeartPulse } from 'react-icons/fa6';
 import { ImUsers } from 'react-icons/im';
-import { Course } from './MembersCourseTable';
+import { Course } from '../../../custom.Types/courseType';
 import { useContext } from 'react';
 import { bookNewCourse, cancelBookedCourse } from './BookingRequest';
 import { UserContext } from '../../../context/UserContext';
-import { render } from 'react-dom';
+
 
 interface CourseCardForMemberProps {
   course: Course;
@@ -41,7 +41,7 @@ const CourseCardForMember: React.FC<CourseCardForMemberProps> = ({
         <button
           onClick={async () => {
             await cancelBookedCourse(course);
-            setCourseBooked(false);
+            setCourseBooked(true);
             closeCard();
           }}
           className="rounded-lg bg-gradient-to-r from-primary via-primary to-red-500 p-3 hover:text-white focus:outline-none focus:ring active:text-opacity-75"

@@ -1,19 +1,19 @@
-import express, { Request, Response, NextFunction, Application } from 'express';
-import cors from 'cors';
-import { createError } from './utils/helper';
-import { connectToDB } from './utils/db';
-import dotenv from 'dotenv';
-import morgan from 'morgan';
-import userRouter from './routers/user.router';
-import productRouter from './routers/product.router';
-import cookieParser from 'cookie-parser';
-import adminRouter from './routers/admin.router';
-import { authenticateAndCheckRoles } from './middlewares/authAndRoles';
-import { createWeeklyCourses } from './utils/setWeeklyCourse';
-import cron from 'node-cron';
-import { uploadImage, uploadMultipleImages } from './utils/cloudinaryUploader';
-import { UserRole } from './models/user.model';
-import publicRouter from './routers/public.router';
+import express, { Request, Response, NextFunction, Application } from "express";
+import cors from "cors";
+import { createError } from "./utils/helper";
+import { connectToDB } from "./utils/db";
+import dotenv from "dotenv";
+import morgan from "morgan";
+import userRouter from "./routers/user.router";
+import productRouter from "./routers/product.router";
+import cookieParser from "cookie-parser";
+import adminRouter from "./routers/admin.router";
+import { authenticateAndCheckRoles } from "./middlewares/authAndRoles";
+import { createWeeklyCourses } from "./utils/setWeeklyCourse";
+import cron from "node-cron";
+import { UserRole } from "./models/user.model";
+import publicRouter from "./routers/public.router";
+
 
 dotenv.config();
 const app: Application = express();
@@ -27,18 +27,22 @@ cron.schedule('0 6 * * 0', async () => {
   await createWeeklyCourses();
 });
 
+
+
 // middlewares
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
-app.use(morgan('dev'));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+// app.use(cors({ origin: "https://fit-zone-tedp.onrender.com", credentials: true }));
+app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 // routers
-app.use('/public', publicRouter);
-app.use('/users', userRouter);
-app.use('/products', productRouter);
-app.use('/admin', authenticateAndCheckRoles([UserRole.admin]), adminRouter);
+app.use("/public", publicRouter);
+app.use("/users", userRouter);
+app.use("/products", productRouter);
+app.use("/admin", authenticateAndCheckRoles([UserRole.admin]), adminRouter);
+
 
 // error handlers
 app.use((req: Request, res: Response, next: NextFunction) => {

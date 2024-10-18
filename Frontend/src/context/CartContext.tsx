@@ -13,13 +13,16 @@ interface CartState {
 }
 
 const initialCartState: CartState = {
-  cart: [],
+  cart: []
 };
 
 // Define the possible cart actions
 type CartAction =
   | { type: 'ADD_TO_CART'; payload: CartItem }
-  | { type: 'CHANGE_QUANTITY'; payload: { productId: string; quantity: number } }
+  | {
+      type: 'CHANGE_QUANTITY';
+      payload: { productId: string; quantity: number };
+    }
   | { type: 'REMOVE_FROM_CART'; payload: { productId: string } }
   | { type: 'CLEAR_CART' };
 
@@ -28,48 +31,50 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case 'ADD_TO_CART': {
       const existingItemIndex = state.cart.findIndex(
-        (item) => item.productId.toString() === action.payload.productId.toString()
+        (item) =>
+          item.productId.toString() === action.payload.productId.toString()
       );
 
       // If item already exists in the cart, update the quantity
       if (existingItemIndex >= 0) {
         const updatedCart = [...state.cart];
         updatedCart[existingItemIndex].quantity += action.payload.quantity;
-        return { ...state, cart: updatedCart };
+        const newState = { ...state, cart: updatedCart };
+        localStorage.setItem('cart', JSON.stringify(newState.cart));
+        return newState;
       }
-      
 
+      const newState = { ...state, cart: [...state.cart, action.payload] };
+      localStorage.setItem('cart', JSON.stringify(newState.cart));
       // If item is new, add it to the cart
-      return {
-        ...state,
-        cart: [...state.cart, action.payload],
-      };
+      return newState;
     }
     case 'CHANGE_QUANTITY': {
-      const updatedCart = state.cart.map(item => 
+      const updatedCart = state.cart.map((item) =>
         item.productId.toString() === action.payload.productId.toString()
           ? { ...item, quantity: action.payload.quantity }
           : item
       );
-      return {
-        ...state,
-        cart: updatedCart,
-      };
+      const newState = { ...state, cart: updatedCart };
+      localStorage.setItem('cart', JSON.stringify(newState.cart));
+      return newState;
     }
+
     case 'REMOVE_FROM_CART': {
       const updatedCart = state.cart.filter(
-        (item) => item.productId.toString() !== action.payload.productId.toString()
+        (item) =>
+          item.productId.toString() !== action.payload.productId.toString()
       );
-      return {
-        ...state,
-        cart: updatedCart,
-      };
+      const newState = { ...state, cart: updatedCart };
+      localStorage.setItem('cart', JSON.stringify(newState.cart));
+      return newState;
     }
 
     case 'CLEAR_CART':
+      localStorage.removeItem('cart');
       return {
         ...state,
-        cart: [],
+        cart: []
       };
 
     default:
@@ -80,7 +85,13 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 // Create the CartContext with a default value of undefined (will be handled by the provider)
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (productId: string, image: string, productName: string, price: number, quantity: number) => void;
+  addToCart: (
+    productId: string,
+    image: string,
+    productName: string,
+    price: number,
+    quantity: number
+  ) => void;
   changeQuantity: (productId: string, quantity: number) => void;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
@@ -97,34 +108,57 @@ interface CartProviderProps {
 export const CartProvider = ({ children }: CartProviderProps) => {
   const [state, dispatch] = useReducer(cartReducer, initialCartState);
 
+  const storedCart = localStorage.getItem('cart');
+
+  if (storedCart) {
+    state.cart = JSON.parse(storedCart);
+  }
   // Function to add item to cart
+
   const addToCart = (productId: string, image: string, productName: string, price: number, quantity: number) => {
+
+  const addToCart = (
+    productId: string,
+    image: string,
+    productName: string,
+    price: number,
+    quantity: number
+  ) => {
+    console.log('Adding to cart:', {
+      productId,
+      image,
+      productName,
+      price,
+      quantity
+    });
+
+
     dispatch({
       type: 'ADD_TO_CART',
-      payload: { productId, image, productName, price, quantity },
+      payload: { productId, image, productName, price, quantity }
     });
   };
 
-    // Function to change quantity
-    const changeQuantity = (productId: string, quantity: number) => {
-      dispatch({
-        type: 'CHANGE_QUANTITY',
-        payload: { productId, quantity },
-      });
-    };
-  
+  // Function to change quantity
+  const changeQuantity = (productId: string, quantity: number) => {
+    dispatch({
+      type: 'CHANGE_QUANTITY',
+      payload: { productId, quantity }
+    });
+  };
+
   // Function to remove item from cart
   const removeFromCart = (productId: string) => {
     dispatch({
       type: 'REMOVE_FROM_CART',
-      payload: { productId },
+      payload: { productId }
     });
   };
 
   // Function to clear the cart
   const clearCart = () => {
     dispatch({
-      type: 'CLEAR_CART',
+      type: 'CLEAR_CART'
     });
   };
   const getTotalQuantity = () => {

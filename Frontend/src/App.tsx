@@ -28,6 +28,7 @@ import { CartProvider } from './context/CartContext.tsx';
 import PublicLayout from './Layouts/PublicLayout.tsx';
 import SingleProductPage from './components/Shop/SingleProductPage.tsx';
 import Checkout from './components/Shop/Checkout.tsx';
+import PassResetHandlePage from './components/Auth/PassResetHandlePage.tsx';
 
 
 function App() {
@@ -39,6 +40,10 @@ function App() {
         <CartProvider>
         <Routes>
           {/* Public Routes */}
+            <Route path="/*" element={<Page404 />} />
+            <Route path="/verify/:uid" element={<VerifyHandlePage />} />
+            <Route path="/user-not-found" element={<UserNotFound />} />
+            <Route path="/reset-password" element={<PassResetHandlePage />} />
 
           <Route path="/" element={<PublicLayout />}>
             <Route path="/" element={<LandingPage />} />
@@ -47,9 +52,6 @@ function App() {
             <Route path="/shop" element={<Products />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/shop/:pid" element={<SingleProductPage />} />
-            <Route path="/verify/:uid" element={<VerifyHandlePage />} />
-            <Route path="/user-not-found" element={<UserNotFound />} />
-            <Route path="/*" element={<Page404 />} />
           </Route>
 
           {/* Private Routes for Members */}

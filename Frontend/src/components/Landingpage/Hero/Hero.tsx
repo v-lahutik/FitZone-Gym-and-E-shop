@@ -1,4 +1,5 @@
 import './Hero.css';
+import Hero2 from '../../../assets/images/Hero/hero_1_1.jpg'
 
 const Hero: React.FC = () => {
   return (
@@ -6,9 +7,7 @@ const Hero: React.FC = () => {
       <section
         id="hero-section"
         className="hero bg-cover bg-center flex items-center lg:items-end"
-        style={{
-          backgroundImage: "url('/src/assets/images/Hero/background_hero.png')"
-        }}
+      
       >
         <div className="container mx-auto max-w-[1280px] px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 justify-end">
@@ -32,7 +31,7 @@ const Hero: React.FC = () => {
             </div>
             <div className="hidden lg:flex justify-center items-center self-end">
               <img
-                src="/src/assets/images/Hero/hero_1_1.jpg"
+                src={Hero2}
                 alt="Hero Image"
                 className="w-full h-auto "
               />
