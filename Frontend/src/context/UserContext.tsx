@@ -1,6 +1,7 @@
 import { useState, createContext, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ReactNode } from 'react';
+import { useCart } from '../context/CartContext.tsx';
 import { URL } from '../utils/URL';
 import axios from 'axios';
 import { User } from '../custom.Types/userTypes';
@@ -41,6 +42,7 @@ interface UserProviderProps {
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+  const {clearCart} = useCart();
   const [user, setUser] = useState<User>(userNull);
   const navigate = useNavigate();
   const location = useLocation();
@@ -57,7 +59,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       if (response.status === 200) {
         const userData = response.data;
         setUser(userData);
-
         setIsLoggedIn(true);
       }
     } catch (error) {
@@ -65,7 +66,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       // if the user is not authenticated, reset the user state
       setUser(userNull);
-      //navigate('/');
       setIsLoggedIn(false);
     } finally {
       //add a loading state to prevent the page from rendering before the user is authenticated
@@ -74,17 +74,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    if (
-      (location.pathname.startsWith('/admin') && user.role !== 'Admin') ||
-      (location.pathname.startsWith('/member') && user.role !== 'Member')
-    ) {
       authenticate();
-    } else {
-      setUserLoading(false);
-    }
   }, []);
 
   useEffect(() => {
+    console.log('useEffect 2 for UserProvider');
     if (!userLoading) {
       // Redirect user if they try to access a page they are not authorized to
 
@@ -92,9 +86,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         (location.pathname.startsWith('/admin') && user.role !== 'Admin') ||
         (location.pathname.startsWith('/member') && user.role !== 'Member')
       ) {
-        setIsLoggedIn(false);
-        setUser(userNull);
-        navigate('/'); //redirect to home page if user is not an admin
+        logout();
         Swal.fire({
           title: 'Error!',
           text: 'Unauthorized access. You were logged out. Please log in again.',
@@ -106,9 +98,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   const login = (userData: User) => {
     setUser(userData);
-    console.log('User:', userData);
-    if (userData.role === 'Admin') navigate('/admin/profile');
-    else navigate('/member/profile');
     setIsLoggedIn(true);
   };
 
@@ -123,6 +112,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         setUser(userNull);
         setIsLoggedIn(false);
         navigate('/');
+        clearCart();
       }
     } catch (error) {
       console.log('Error during Logout:', error);
