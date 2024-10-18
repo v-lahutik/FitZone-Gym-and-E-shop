@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useContext } from 'react';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import { Outlet, useLocation } from 'react-router-dom';
 import Login from '../components/Auth/Login';
+import { LoginContext } from '../context/LoginContext';
 
 export default function PublicLayout() {
-  const [loginOpen, setLoginOpen] = useState<boolean>(false);
+  const { loginOpen, setLoginOpen } = useContext(LoginContext);
   const location = useLocation();
 
   useEffect(() => {

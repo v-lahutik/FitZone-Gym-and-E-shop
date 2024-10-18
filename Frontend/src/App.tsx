@@ -25,11 +25,13 @@ import Page404 from './components/Page404.tsx';
 import { CartProvider } from './context/CartContext.tsx';
 import PublicLayout from './Layouts/PublicLayout.tsx';
 import SingleProductPage from './components/Shop/SingleProductPage.tsx';
+import { LoginProvider } from './context/LoginContext.tsx';
 
 function App() {
   return (
     <DateProvider>
       <CartProvider>
+        <LoginProvider>
         <UserProvider>
           <Routes>
             {/* Public Routes */}
@@ -68,6 +70,7 @@ function App() {
             </Route>
           </Routes>
         </UserProvider>
+        </LoginProvider>
       </CartProvider>
     </DateProvider>
   );
