@@ -114,6 +114,9 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     state.cart = JSON.parse(storedCart);
   }
   // Function to add item to cart
+
+  const addToCart = (productId: string, image: string, productName: string, price: number, quantity: number) => {
+
   const addToCart = (
     productId: string,
     image: string,
@@ -128,6 +131,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       price,
       quantity
     });
+
 
     dispatch({
       type: 'ADD_TO_CART',
@@ -161,7 +165,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     return state.cart.reduce((total, item) => total + item.quantity, 0);
   };
 
-  console.log('cart', state.cart);
 
   return (
     <CartContext.Provider
