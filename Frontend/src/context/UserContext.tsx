@@ -7,14 +7,14 @@ import { User } from '../custom.Types/userTypes';
 import Swal from 'sweetalert2';
 
 const userNull: User = {
-  _id: null,
-  firstName: null,
-  lastName: null,
-  email: null,
-  membership: null,
+  _id: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  membership: '',
   address: null,
-  role: null,
-  profilePic: null,
+  role: '',
+  profilePic: '',
   is_activated: false
 };
 
