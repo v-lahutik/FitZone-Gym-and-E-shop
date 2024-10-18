@@ -4,6 +4,7 @@ import { UserContext } from '../../context/UserContext.tsx';
 import axios from 'axios';
 import { URL } from '../../utils/URL.ts';
 import Login from '../Auth/Login.tsx';
+import { LoginContext } from '../../context/LoginContext.tsx';
 import { User } from '../../custom.Types/userTypes.ts';
 import Swal from 'sweetalert2';
 
@@ -25,7 +26,7 @@ const Checkout: React.FC = () => {
   const { cart, clearCart } = useCart();
   const { user, isLoggedIn } = useContext(UserContext);
   const [shopUser, setShopUser] = useState<User>(user);
-  const [loginOpen, setLoginOpen] = useState<boolean>(false);
+  const {loginOpen, setLoginOpen}= useContext(LoginContext);
 
   const [formData, setFormData] = useState<CheckoutFormData>({
     firstName: '',
@@ -202,9 +203,9 @@ const Checkout: React.FC = () => {
               Login here
             </button>
             {loginOpen && (
-              <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-                <Login setLoginOpen={setLoginOpen} />
-              </div>
+             
+                <Login/>
+          
             )}
           </div>
         ) : (

@@ -27,73 +27,55 @@ import PublicLayout from './Layouts/PublicLayout.tsx';
 import SingleProductPage from './components/Shop/SingleProductPage.tsx';
 import Checkout from './components/Shop/Checkout.tsx';
 import PassResetHandlePage from './components/Auth/PassResetHandlePage.tsx';
-
 import { LoginProvider } from './context/LoginContext.tsx';
 
 function App() {
-
-
   return (
-
-      <DateProvider>
-        <CartProvider>
-          <LoginProvider>
-    <UserProvider>
-        <Routes>
-          {/* Public Routes */}
-            <Route path="/*" element={<Page404 />} />
-            <Route path="/verify/:uid" element={<VerifyHandlePage />} />
-            <Route path="/user-not-found" element={<UserNotFound />} />
-            <Route path="/reset-password" element={<PassResetHandlePage />} />
     <DateProvider>
       <CartProvider>
         <LoginProvider>
-        <UserProvider>
-          <Routes>
-            {/* Public Routes */}
-
-          <Route path="/" element={<PublicLayout />}>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/courses" element={<CoursesPage />} />
-            <Route path="/courses/:id" element={<SingleCoursePage />} />
-            <Route path="/shop" element={<Products />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/shop/:pid" element={<SingleProductPage />} />
-          </Route>
-            <Route path="/" element={<PublicLayout />}>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/courses" element={<CoursesPage />} />
-              <Route path="/courses/:id" element={<SingleCoursePage />} />
-              <Route path="/shop" element={<Products />} />
-              <Route path="/shop/:pid" element={<SingleProductPage />} />
+          <UserProvider>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/*" element={<Page404 />} />
               <Route path="/verify/:uid" element={<VerifyHandlePage />} />
               <Route path="/user-not-found" element={<UserNotFound />} />
-              <Route path="/*" element={<Page404 />} />
-            </Route>
+              <Route path="/reset-password" element={<PassResetHandlePage />} />
 
-            {/* Private Routes for Members */}
-            <Route path="/member" element={<MemberLayout />}>
-              <Route path="profile" element={<UserProfile />} />
-              <Route path="courses">
-                <Route path="week" element={<MembersCourseTable />} />
-                <Route path="booked" element={<BookedCourses />} />
+              {/* Public Routes */}
+
+              <Route path="/" element={<PublicLayout />}>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/courses" element={<CoursesPage />} />
+                <Route path="/courses/:id" element={<SingleCoursePage />} />
+                <Route path="/shop" element={<Products />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/shop/:pid" element={<SingleProductPage />} />
               </Route>
-              <Route path="orders" element={<Orders />} />
-            </Route>
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="courses">
-                <Route path="week" element={<CourseTable />} />
-                <Route path="templates" element={<CourseTemplateDisplay />} />
+
+              {/* Private Routes for Members */}
+              <Route path="/member" element={<MemberLayout />}>
+                <Route path="profile" element={<UserProfile />} />
+                <Route path="courses">
+                  <Route path="week" element={<MembersCourseTable />} />
+                  <Route path="booked" element={<BookedCourses />} />
+                </Route>
+                <Route path="orders" element={<Orders />} />
               </Route>
-              <Route path="members" element={<MembersTable />} />
-              <Route path="shop" element={<AdminProductsDisplay />} />
-              <Route path="orders" element={<AdminOrders />} />
-              <Route path="profile" element={<AdminProfile />} />
-            </Route>
-          </Routes>
-        </UserProvider>
+              {/* Admin Routes */}
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="courses">
+                  <Route path="week" element={<CourseTable />} />
+                  <Route path="templates" element={<CourseTemplateDisplay />} />
+                </Route>
+                <Route path="members" element={<MembersTable />} />
+                <Route path="shop" element={<AdminProductsDisplay />} />
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="profile" element={<AdminProfile />} />
+              </Route>
+            </Routes>
+          </UserProvider>
         </LoginProvider>
       </CartProvider>
     </DateProvider>
