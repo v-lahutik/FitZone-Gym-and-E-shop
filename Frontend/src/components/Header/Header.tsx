@@ -15,13 +15,14 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
   const userContext = useContext(UserContext);
+
+
   const { user, logout, isLoggedIn} = userContext || {};
   const [isScrolled, setIsScrolled] = useState(false);
   const [cartOpen, setCartOpen] = useState(false); // State to manage the cart open/close
-  const{getTotalQuantity}=useCart();
+  const { getTotalQuantity } = useCart();
 
   const ifHomePage = window.location.pathname === '/';
-
 
   const homeMenuItems = [
     { label: 'membership', link: '#membership' },
@@ -53,10 +54,6 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-
-  const homePage = window.location.origin;
-  const contactUrl = `${homePage}#contact`;
 
   return (
     <header
@@ -103,33 +100,34 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
             </NavLink>
 
             <li className="textLink">
-              {ifHomePage ? (
-                <a href="#contact">CONTACT</a>
-              ) : (
-                <a href={contactUrl}>CONTACT</a>
-              )}
+              <a href="/contact">CONTACT</a>
             </li>
           </ul>
         </nav>
       </div>
       <DropdownMenu menuItems={renderMenuItems()} />
-      
+
       <div className="basis-1/4 flex justify-end">
-      {isLoggedIn && user && logout ? ( <UserLoggedIn user={user} logout={logout} />) : (
-        <div>
-          <button
-            onClick={() => setLoginOpen(true)}
-            className="mt-3 rounded p-2 bg-primary text-white"
-          >
-            LOGIN
-          </button>
-        </div>
+        {isLoggedIn && user && logout ? (
+          <UserLoggedIn user={user} logout={logout} />
+        ) : (
+          <div>
+            <button
+              onClick={() => setLoginOpen(true)}
+              className="mt-3 rounded p-2 bg-primary text-white"
+            >
+              LOGIN
+            </button>
+          </div>
         )}
-        
-      {/* Cart Icon */}
-      <div className="relative ml-4 mt-5 textLink text-2xl sm:text-3xl cursor-pointer" onClick={() => setCartOpen(true)}>
+
+        {/* Cart Icon */}
+        <div
+          className="relative ml-4 mt-5 textLink text-2xl sm:text-3xl cursor-pointer"
+          onClick={() => setCartOpen(true)}
+        >
           <IoCart />
-          
+
           {/* Show total quantity if there are items in the cart */}
           {getTotalQuantity() > 0 && (
             <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-sm">
@@ -146,5 +144,3 @@ const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
 };
 
 export default Header;
-
-

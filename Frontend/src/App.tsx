@@ -25,11 +25,16 @@ import Page404 from './components/Page404.tsx';
 import { CartProvider } from './context/CartContext.tsx';
 import PublicLayout from './Layouts/PublicLayout.tsx';
 import SingleProductPage from './components/Shop/SingleProductPage.tsx';
+
+import ContactPage from './pages/ContactPage/ContactPage.tsx';
+import Messages from './components/Admin/Messages/Messages.tsx';
+
 import Checkout from './components/Shop/Checkout.tsx';
 import PassResetHandlePage from './components/Auth/PassResetHandlePage.tsx';
 import { LoginProvider } from './context/LoginContext.tsx';
 
 function App() {
+
   return (
     <DateProvider>
       <CartProvider>
@@ -51,6 +56,7 @@ function App() {
                 <Route path="/shop" element={<Products />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/shop/:pid" element={<SingleProductPage />} />
+                <Route path="/contact" element={<ContactPage />} />
               </Route>
 
               {/* Private Routes for Members */}
@@ -73,6 +79,7 @@ function App() {
                 <Route path="shop" element={<AdminProductsDisplay />} />
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="profile" element={<AdminProfile />} />
+                <Route path="emails" element={<Messages />} />
               </Route>
             </Routes>
           </UserProvider>
