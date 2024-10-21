@@ -1,5 +1,6 @@
 import './Hero.css';
 import Hero2 from '../../../assets/images/Hero/hero_1_1.jpg'
+import { Link } from 'react-router-dom';
 
 const Hero: React.FC = () => {
   return (
@@ -25,9 +26,11 @@ const Hero: React.FC = () => {
                 fitness facility equipped with various training machines, free
                 weights, and amenities.
               </p>
+              <Link to="/shop">
               <button className="bg-primary hover:bg-primary-dark text-white font-bold uppercase py-6 px-12 ">
-                view class schedule
+                view our shop
               </button>
+              </Link>
             </div>
             <div className="hidden lg:flex justify-center items-center self-end">
               <img
