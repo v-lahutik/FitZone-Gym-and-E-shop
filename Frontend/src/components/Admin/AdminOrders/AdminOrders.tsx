@@ -20,8 +20,12 @@ const AdminOrders: React.FC = () => {
           withCredentials: true
         });
         if (response.status === 200) {
-          setOrders(response.data);
-          setFilteredOrders(response.data);
+          const sortedOrders = response.data.sort(
+            (a: Orders, b: Orders) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+          setOrders(sortedOrders);
+          setFilteredOrders(sortedOrders);
         }
       } catch (error) {
         console.error('Error fetching orders:', error);

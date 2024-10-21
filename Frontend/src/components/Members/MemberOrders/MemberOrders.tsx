@@ -18,7 +18,10 @@ const MemberOrders: React.FC = () => {
           withCredentials: true
         });
         if (response.status === 200) {
-          setOrders(response.data);
+          const sortedOrders = response.data.sort(
+            (a: Orders, b: Orders) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+          setOrders(sortedOrders);
         }
       } catch (error) {
         console.error('Error fetching orders:', error);
