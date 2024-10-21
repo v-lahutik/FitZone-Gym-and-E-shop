@@ -27,28 +27,38 @@ import Page404 from './components/Page404.tsx';
 import { CartProvider } from './context/CartContext.tsx';
 import PublicLayout from './Layouts/PublicLayout.tsx';
 import SingleProductPage from './components/Shop/SingleProductPage.tsx';
+
 import ContactPage from './pages/ContactPage/ContactPage.tsx';
 import Messages from './components/Admin/Messages/Messages.tsx';
 
+import Checkout from './components/Shop/Checkout.tsx';
+import PassResetHandlePage from './components/Auth/PassResetHandlePage.tsx';
+
+
 function App() {
+
   return (
     <UserProvider>
       <DateProvider>
         <CartProvider>
-          <Routes>
-            {/* Public Routes */}
 
-            <Route path="/" element={<PublicLayout />}>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/courses" element={<CoursesPage />} />
-              <Route path="/courses/:id" element={<SingleCoursePage />} />
-              <Route path="/shop" element={<Products />} />
-              <Route path="/shop/:pid" element={<SingleProductPage />} />
-              <Route path="/verify/:uid" element={<VerifyHandlePage />} />
-              <Route path="/user-not-found" element={<UserNotFound />} />
-              <Route path="/*" element={<Page404 />} />
-              <Route path="/contact" element={<ContactPage />} />
-            </Route>
+        <Routes>
+          {/* Public Routes */}
+            <Route path="/*" element={<Page404 />} />
+            <Route path="/verify/:uid" element={<VerifyHandlePage />} />
+            <Route path="/user-not-found" element={<UserNotFound />} />
+            <Route path="/reset-password" element={<PassResetHandlePage />} />
+
+          <Route path="/" element={<PublicLayout />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/courses" element={<CoursesPage />} />
+            <Route path="/courses/:id" element={<SingleCoursePage />} />
+            <Route path="/shop" element={<Products />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/shop/:pid" element={<SingleProductPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+          </Route>
+
 
             {/* Private Routes for Members */}
             <Route

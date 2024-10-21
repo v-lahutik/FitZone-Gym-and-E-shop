@@ -8,58 +8,63 @@ import {CategoryDocument} from "../models/category.model";
 import Category from "../models/category.model";
 
  //After clicking on the "Place Order" button - new order is created
- export const createOrder = async (req: Request & {payload?: any}, res: Response) => {
-   try {
-     const payload = req.payload;
-     const { deliveryAddress } = req.body;
-     console.log("payload",req.payload);
-     if (!payload) {
-       return res.status(401).json({ message: "No valid token found, please log in first." });
-     }
-     const userId = payload.id
+export const createOrder = async (req: Request , res: Response) => {
+  try {
 
-     const user = await User.findById(userId);
-     if (!user) {
-       return res.status(404).json({ message: "User not found" });
-     }
-  // Retrieve user cart items
-     const products = user.cart; 
+    const { deliveryAddress, cart, user } = req.body; 
 
-     //check if cart is empty
-      if (products.length === 0) {
-        return res.status(400).json({ message: "Your cart is empty" });
+    let userId=user.shopUser._id
+
+     // create a new user if the user id does not exist for guests
+    if(!userId){
+      const newUser = await User.create({
+        firstName: user.shopUser.firstName,
+        lastName: user.shopUser.lastName,
+        email: user.shopUser.email,
+        address: deliveryAddress
+    })
+    console.log("new user", newUser);
+     userId = newUser._id
+  }
+    // Check if cart is provided in the request body
+    if (!cart || cart.length === 0) {
+      return res.status(400).json({ message: "Your cart is empty" });
+    }
+
+    // Calculate total price
+    let totalPrice = 0;
+    const products = [];
+
+    for (const item of cart) {
+      const product = await Product.findById(item.productId);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
       }
-      //calculate total price
-     let totalPrice = 0;
-     for (const item of products) {
-       const product = await Product.findById(item.productId);
-       if (!product) {
-         return res.status(404).json({ message: "Product not found" });
-       }
-       totalPrice += product.price * item.quantity;
-     }
-     console.log("product price", totalPrice);
-     // Generate a unique order number using UUID
-      const orderNumber = uuidv4();
+      totalPrice += product.price * item.quantity;
+      products.push({ productId: item.productId, quantity: item.quantity, price: product.price });
+    }
 
-     // Create and save the order
-     const newOrder = new Order({
-       userId,
-       orderNumber,
-       products,
-       totalPrice,
-       deliveryAddress
-     });
-     await newOrder.save();
+    // Generate a unique order number using UUID
+    const orderNumber = uuidv4();
 
-     // Clear the user's cart
-     user.cart = [];
-     await user.save();
-     return res.status(201).json(newOrder);
-   } catch (error) {
-     res.status(500).json({ error: "Server error" });
-   }
- };
+    // Create and save the order
+    const newOrder = await Order.create({
+      userId,
+      orderNumber,
+      products,
+      totalPrice,
+      deliveryAddress
+    });
+
+
+    return res.status(201).json(newOrder);
+  } catch (error) {
+    console.error("Error creating order:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+
 
 // User can view all their orders
 export const getOrders = async (req: Request & { payload?: any }, res: Response) => {
