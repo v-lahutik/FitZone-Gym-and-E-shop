@@ -1,10 +1,8 @@
 import { useState, useContext } from 'react';
-
 import { UserContext } from '../../context/UserContext';
 import { LoginContext } from '../../context/LoginContext';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 
-import Swal from 'sweetalert2';
 
 const Login: React.FC = () => {
   interface userLogin {

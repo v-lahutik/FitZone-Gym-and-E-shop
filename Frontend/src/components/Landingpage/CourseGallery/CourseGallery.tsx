@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
-import Boxing from '/src/assets/images/Courses/boxing.jpg';
 import Yoga from '/src/assets/images/Courses/yoga.jpg';
-import BodyWeight from '/src/assets/images/Courses/bodyweight.jpg';
 import { Link } from 'react-router-dom';
 
 function Carousel() {
