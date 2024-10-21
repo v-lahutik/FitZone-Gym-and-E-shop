@@ -26,7 +26,6 @@ export default function AdminSidebar({
 
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded'); // get the value of 'sidebar-expanded' from localStorage
 
-  const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
   const [isCourseSubmenuOpen, setIsCourseSubmenuOpen] = useState(false); // set isCourseSubmenuOpen to false
 
