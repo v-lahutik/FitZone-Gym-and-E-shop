@@ -30,7 +30,7 @@ function Carousel() {
           {/* Slide Content */}
           <div className="w-full h-[400px] flex flex-col bg-white rounded-lg shadow-lg">
             <img
-              src={Boxing}
+              src='https://res.cloudinary.com/dqwwj6av8/image/upload/v1728563396/o3jpdzrqtq4nyc0td1vf.jpg'
               alt="Boxing Classes"
               className="w-full h-2/3 object-cover rounded-t-lg"
             />
@@ -82,7 +82,7 @@ function Carousel() {
           {/* Slide Content */}
           <div className="w-full h-[400px] flex flex-col bg-white rounded-lg shadow-lg">
             <img
-              src={BodyWeight}
+              src='https://res.cloudinary.com/dqwwj6av8/image/upload/v1728375458/full-shot-people-training-together-gym_1_Cropped_fgf4m6.jpg'
               alt="Bodyweight Fitness Classes"
               className="w-full h-2/3 object-cover rounded-t-lg"
             />

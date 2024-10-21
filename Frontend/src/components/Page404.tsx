@@ -6,7 +6,7 @@ const Page404: React.FC = () => {
     <>
       <section
         id="hero-section"
-        className="hero bg-center flex items-center h-screen"
+        className="hero bg-cover min-h-screen flex items-center"
         style={{
           backgroundImage: "url('/src/assets/images/Hero/background_hero.png')"
         }}

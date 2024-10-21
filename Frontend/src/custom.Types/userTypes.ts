@@ -7,15 +7,16 @@ export interface Address {
   };
 
 export interface User {
-  _id: string ;
-  firstName: string;
-  lastName: string;
-  email: string;
-  membership: string;
+  _id: string 
+  firstName: string ;
+  lastName: string 
+  email: string 
+  membership: string 
   address: Address | null;
-  role: string;
-  profilePic: string;
-  is_activated: boolean;
+  role: string 
+  profilePic: string 
+  is_activated: boolean 
+
 }
   export interface Member {
     firstName: string;

@@ -72,6 +72,7 @@ const Products: React.FC = () => {
       filtered = filtered.filter((product) =>
         product.productName.toLowerCase().includes(searchTerm.toLowerCase())
       );
+      setCurrentPage(1)
     }
 
     // Filter by product status
@@ -79,6 +80,7 @@ const Products: React.FC = () => {
       filtered = filtered.filter(
         (product) => product.category.categoryName === filterCategory
       );
+      setCurrentPage(1)
     }
 
     // Filter by price (ascending)
@@ -129,12 +131,12 @@ const Products: React.FC = () => {
     if (stock !== undefined) {
       if (stock > 10) {
         badgeText = 'Available';
-        badgeStyle = 'bg-black text-white';
+        badgeStyle = 'bg-green-500 text-white';
       } else if (stock > 5) {
-        badgeText = 'Few Left';
+        badgeText = 'Low Stock';
         badgeStyle = 'bg-yellow-500 text-white';
       } else if (stock > 0) {
-        badgeText = 'Low Stock';
+        badgeText = 'Few Left';
         badgeStyle = 'bg-orange-600 text-white';
       } else {
         badgeText = 'Out of Stock';

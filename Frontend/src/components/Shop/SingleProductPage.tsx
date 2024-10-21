@@ -40,12 +40,12 @@ export default function SingleProductPage() {
       if (stock > 10) {
         return <span className="text-green-500">available</span>;
       } else if (stock > 5) {
-        return <span className="text-yellow-500">left few</span>;
-      } else if (stock === 0) {
-        return <span className="text-red-500">out of stock</span>;
+        return <span className="text-yellow-500">low stock</span>;
+      } else if (stock > 0) {
+        return <span className="text-orange-500">left few</span>;
       }
     }
-    return <span className="text-red-800">unavailable</span>;
+    return <span className="text-red-600">out of stock</span>;
   };
 
   useEffect(() => {
@@ -128,6 +128,9 @@ export default function SingleProductPage() {
         <div className="flex flex-wrap mb-5 container h-auto pt-20 max-w-[1280px] mx-auto">
           <div className="w-full md:w-7/12 lg:w-8/12 px-4">
             <div className="th-page page-single">
+              <Link to="/shop" className="text-red-500">
+              <span className='text-xl inline-block mb-8'>{'<< back to shop'}</span>
+              </Link>
               <div className="page-img">
                 <img
                   className="rounded-3xl"
@@ -218,7 +221,8 @@ export default function SingleProductPage() {
                   <li>
                     <button
                       onClick={() => handleAddToCart(product)}
-                      className="w-full flex items-center justify-center rounded-md bg-blackColor3 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary focus:outline-none focus:ring-4 focus:ring-blue-300"
+                      disabled={product?.stock === 0}
+                      className={`w-full flex items-center justify-center rounded-md bg-blackColor3 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary focus:outline-none focus:ring-4 focus:ring-blue-300 ${product?.stock === 0 ? 'cursor-not-allowed opacity-50' : ''}`}
                     >
                       Add to cart
                     </button>
