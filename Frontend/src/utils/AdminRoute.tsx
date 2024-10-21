@@ -26,8 +26,6 @@ export default function AdminRoute({ children }: { children: JSX.Element }) {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  console.log('userContext.user.role:', userContext?.user.role);
-  console.log('isAdmin:', isAdmin);
-  console.log('userContext logged in:', userContext?.isLoggedIn);
+
   return userContext?.isLoggedIn && isAdmin ? children : <Navigate to="/" />;
 }

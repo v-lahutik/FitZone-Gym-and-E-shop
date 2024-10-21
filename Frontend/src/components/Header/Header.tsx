@@ -15,18 +15,14 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ setLoginOpen }) => {
   const userContext = useContext(UserContext);
-  const { user, logout, isLoggedIn, authenticate } = userContext || {};
+
+
+  const { user, logout, isLoggedIn} = userContext || {};
   const [isScrolled, setIsScrolled] = useState(false);
   const [cartOpen, setCartOpen] = useState(false); // State to manage the cart open/close
   const { getTotalQuantity } = useCart();
 
   const ifHomePage = window.location.pathname === '/';
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      authenticate?.();
-    }
-  }, [userContext?.isLoggedIn]);
 
   const homeMenuItems = [
     { label: 'membership', link: '#membership' },

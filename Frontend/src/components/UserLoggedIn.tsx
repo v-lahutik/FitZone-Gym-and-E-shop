@@ -61,7 +61,7 @@ interface LoggedInProps {
        
         <li
            onClick={() => logout()}
-          className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
+          className="cursor-pointer block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 "
         >
           Sign out
         </li>
