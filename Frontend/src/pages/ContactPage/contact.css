@@ -1,0 +1,72 @@
+.contact-feature2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 20px;
+  background: var(--white-color);
+  border-radius: 30px;
+  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.06);
+  padding: 40px;
+}
+.box-icon {
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
+  border-radius: 16px;
+  text-align: center;
+  color: var(--white-color);
+  font-size: 30px;
+}
+.contact-icon {
+  color: var(--first-color);
+  -webkit-font-smoothing: antialiased;
+  display: var(--fa-display, inline-block);
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-rendering: auto;
+}
+.media-body {
+  margin-bottom: -0.4em;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+.contact-feature_label {
+  font-size: 24px;
+  font-weight: 500;
+  font-family: var(--title-font);
+  color: var(--title-color);
+  margin-bottom: 0px;
+  margin-top: -0.4em;
+}
+.contact-feature_link {
+  color: var(--body-color);
+  display: block;
+}
+.contact-page-form-wrap {
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0px 10px 50px rgba(2, 29, 53, 0.06);
+  background: var(--white-color);
+}
+.contact-page-form-wrap .contact-page-form {
+  padding: 60px 0 60px 60px;
+}
+.form-group {
+  position: relative;
+}
+.form-group svg {
+  color: var(--body-color);
+  position: absolute;
+  right: 24px;
+  top: 19px;
+}
+textarea {
+  min-height: 154px;
+  padding-top: 16px;
+  padding-bottom: 17px;
+  border-radius: 30px;
+}

@@ -10,6 +10,7 @@ import { IoSchoolOutline } from 'react-icons/io5';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { RxAvatar } from 'react-icons/rx';
 import { FaHome } from 'react-icons/fa';
+import { MdOutlineMailOutline } from 'react-icons/md';
 
 interface SidebarProps {
   // interface for SidebarProps
@@ -24,7 +25,7 @@ export default function AdminSidebar({
   // SidebarProps is passed as an argument to AdminSidebar
 
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded'); // get the value of 'sidebar-expanded' from localStorage
-  const [sidebarExpanded, setSidebarExpanded] = useState(false)
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [isCourseSubmenuOpen, setIsCourseSubmenuOpen] = useState(false); // set isCourseSubmenuOpen to false
 
   const toggleCourseSubmenu = () => {
@@ -209,6 +210,20 @@ export default function AdminSidebar({
                 >
                   <RxAvatar />
                   Profile
+                </NavLink>
+              </li>
+              <li onClick={() => setIsCourseSubmenuOpen(false)}>
+                <NavLink
+                  to="/admin/emails"
+                  className={({
+                    isActive
+                  }) => `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-textSidebar duration-300 ease-in-out hover:bg-graydark ${
+                    isActive ? 'bg-graydark text-white' : ''
+                  }
+                  `}
+                >
+                  <MdOutlineMailOutline />
+                  Messages
                 </NavLink>
               </li>
               {/* <!-- Menu Item Users --> */}
