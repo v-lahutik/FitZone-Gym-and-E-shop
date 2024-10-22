@@ -1,10 +1,40 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './PricingTable.css';
 import { allFeatures, PricingPlan } from '../../../custom.Types/PricingPlan';
 import { FaRegCircleCheck } from 'react-icons/fa6';
 import Swal from 'sweetalert2';
 
 export default function PricingTable() {
+
+  const subtitleRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const subtitleElement = subtitleRef.current;
+
+    if (!subtitleElement) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            subtitleElement.classList.add('fly-in');
+            observer.disconnect(); // Stop observing once the animation is triggered
+          }
+        });
+      },
+      { threshold: 0.1 } // Trigger when 20% of the element is visible
+    );
+
+    observer.observe(subtitleElement);
+
+    return () => {
+      if (subtitleElement) {
+        observer.unobserve(subtitleElement);
+      }
+    };
+  }, []);
+
+
   const plans: PricingPlan[] = PricingPlan;
   const features: string[] = allFeatures;
 
@@ -42,7 +72,7 @@ export default function PricingTable() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-center md:justify-start auto-cols-auto">
           <div className="">
             <div className="title-area md:text-start text-center">
-              <span className="md:justify-start  text-primary text-xl text-semibold uppercase font-kanit subtitle after-lg-none mb-4">
+              <span ref={subtitleRef} className="md:justify-start  text-primary text-xl text-semibold uppercase font-kanit subtitle after-lg-none mb-4">
                 Pricing Plan
               </span>
               <h2 className="justify-center md:justify-start text-4xl mb-10 font-kanit font-semibold">
