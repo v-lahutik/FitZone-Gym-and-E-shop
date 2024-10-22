@@ -12,7 +12,21 @@ body {
   @apply bg-[#141414] font-archivo;
 }
 
+@keyframes flyInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+
 .subtitle {
+  /* Keep animation styles but do not apply them immediately */
+  opacity: 0; /* Initially hidden */
   margin-bottom: 35px;
   font-weight: 600;
   display: flex;
@@ -20,7 +34,14 @@ body {
   gap: 10px;
   font-size: 18px;
   margin-top: -0.34em;
+  transition: opacity 0.5s ease-in-out; /* For smooth reveal */
 }
+
+.subtitle.fly-in {
+  animation: flyInLeft 2s ease-in-out;
+  opacity: 1; /* Reveal once animated */
+}
+
 .subtitle::before {
   content: "";
   position: relative;

@@ -5,3 +5,59 @@
 #hero-section {
   background-image: url('../../../assets/images/Hero/background_hero.png');
 }
+
+
+
+@keyframes flyInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes flyInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.heroEaseIn {
+  animation: flyInRight 2.5s ease-in-out;
+}
+.fly-in-left,
+.fly-in-right {
+  display: inline-block;
+  opacity: 0; /* Initially hide the elements */
+  animation-fill-mode: forwards; /* Ensure the animation stays at the end state */
+}
+
+.fly-in-left {
+  display: inline-block;
+  animation: flyInLeft 1s forwards;
+}
+
+.fly-in-right {
+  display: inline-block;
+  animation: flyInRight 1s forwards;
+}
+
+.fly-in-left.ready {
+  animation-delay: 0s;
+}
+
+.fly-in-right:nth-child(2) {
+  animation-delay: 1s;
+}
+
+.fly-in-left.yourBody {
+  animation-delay: 1.8s;
+}
