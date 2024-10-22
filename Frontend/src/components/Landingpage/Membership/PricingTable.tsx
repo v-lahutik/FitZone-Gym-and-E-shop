@@ -32,7 +32,8 @@ export default function PricingTable() {
     Swal.fire({
       title: 'Select!',
       text: `You selected the ${plan.name}`,
-      icon: 'info'
+      icon: 'info',
+      confirmButtonColor: '#333'
     })
   };
 

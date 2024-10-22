@@ -83,7 +83,8 @@ const PassResetHandlePage: React.FC = () => {
         Swal.fire({
           title: 'Reset!',
           text: 'Your password has been successfully reset to new!',
-          icon: 'success'
+          icon: 'success',
+          confirmButtonColor: '#333'
         }).then(() => navigate(`/`));
       }
 
@@ -99,7 +100,8 @@ const PassResetHandlePage: React.FC = () => {
           Swal.fire({
             title: 'Error!',
             text: `${error.response.data.message} Please try again !`,
-            icon: 'error'
+            icon: 'error',
+            confirmButtonColor: '#333'
           })
         }
         console.log(error.response);
