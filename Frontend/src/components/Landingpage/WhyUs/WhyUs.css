@@ -7,3 +7,25 @@
   box-shadow: 0 0 10px rgba(242, 238, 238, 0.5);
   margin: 50px auto;
 }
+
+.whyUsBox:hover {
+  border-color: red;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); 
+}
+
+.whyUsBox::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 20px;
+  border: 2px solid red;
+  clip-path: polygon(0 0, 0% 0%, 0% 100%, 0% 100%);
+  transition: clip-path 0.5s ease;
+}
+
+.whyUsBox:hover::before {
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+}
