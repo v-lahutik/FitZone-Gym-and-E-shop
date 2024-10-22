@@ -181,7 +181,7 @@ const MembersTable: React.FC = () => {
               <tr
                 key={member._id}
                 onClick={() => openForm(member)}
-                className="border-t border-[#eee] cursor-pointer"
+                className="border-t border-[#eee] cursor-pointer hover:bg-slate-200 transform duration-300 ease-in-out"
               >
                 <td className="px-6 py-4 text-sm text-gray-900">
                   {member.lastName}
