@@ -153,7 +153,7 @@ const ContactPage = () => {
             <div className="grid lg:grid-cols-2 gap-5">
               <div className="mr-10 lg:mr-0">
                 <div className="contact-form-v2 contact-page-form">
-                  <h2 className="font-kanit font-semibold text-[48px] mb-6">
+                  <h2 className="font-kanit font-semibold text-[48px] mb-6 ml-5">
                     Get In Touch!
                   </h2>
                   <form onSubmit={handleSubmit} className="contact-form">

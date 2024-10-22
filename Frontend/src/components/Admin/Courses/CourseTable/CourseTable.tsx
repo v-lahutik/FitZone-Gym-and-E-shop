@@ -108,7 +108,7 @@ const CourseTable: React.FC = () => {
         <table className="min-w-full table-fixed border-collapse border border-gray-300">
           <thead>
             <tr>
-              <th className="w-1/12 p-2 bg-primary text-white border border-gray-300 sticky left-0">
+              <th className="w-1/12 p-2 bg-primary text-white border border-gray-300">
                 Time
               </th>
               {weekdays.map((day) => (
@@ -126,7 +126,7 @@ const CourseTable: React.FC = () => {
             {timeSlots.map((slot, rowIndex) => {
               return (
                 <tr key={slot}>
-                  <td className="p-1 text-center text-xs border bg-white border-gray-300 sticky left-0 ">
+                  <td className="p-1 text-center text-xs border bg-white border-gray-300">
                     {slot}
                   </td>
                   {/*loop over weekdays to create columns for this row*/}
