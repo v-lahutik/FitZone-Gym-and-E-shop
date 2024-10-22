@@ -17,19 +17,22 @@ const VerifyHandlePage: React.FC = () => {
       Swal.fire({
         title: 'Activated!',
         text: 'Your account is already activated.',
-        icon: 'success'
+        icon: 'success',
+        confirmButtonColor: '#333'
       }).then(() => navigate(`/`)); // Redirect to home page
     } else if (status === 'verified-success') {
       Swal.fire({
         title: 'Activated!',
         text: 'Your account has been successfully verified!',
-        icon: 'success'
+        icon: 'success',
+        confirmButtonColor: '#333'
       }).then(() => navigate(`/`));
     } else {
       Swal.fire({
         title: 'Error!',
         text: 'Error in verification! something went wrong!',
-        icon: 'error'
+        icon: 'error',
+        confirmButtonColor: '#333'
       }).then(() => navigate(`/`));
     }
   }, [status, userId, navigate]);

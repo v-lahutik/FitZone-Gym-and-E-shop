@@ -272,3 +272,23 @@ export const deleteProductPopUp = (): Promise<boolean> => {
     }
   });
 };
+
+// checkout
+export const OrderCheckPopUp = (): Promise<boolean> => {
+  return Swal.fire({
+    title: 'Are you sure?',
+    text: "Do you want to place this order ??",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Order it!',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+};

@@ -34,7 +34,8 @@ export const handleUpdateUser = async (
         Swal.fire({
           title: 'Updated!',
           text: msg,
-          icon: 'success'
+          icon: 'success',
+          confirmButtonColor: '#333'
         });
         closeForm();
       } catch (error) {
@@ -65,7 +66,8 @@ export const handleRegisterUser = async (
         Swal.fire({
           title: 'Registered!',
           text: msg,
-          icon: 'success'
+          icon: 'success',
+          confirmButtonColor: '#333'
         });
         closeForm();
       } catch (error) {
@@ -95,7 +97,8 @@ export const handleDeleteUser = async (
         Swal.fire({
           title: 'Deleted!',
           text: msg,
-          icon: 'success'
+          icon: 'success',
+          confirmButtonColor: '#333'
         });
         closeForm();
       } catch (error) {
@@ -115,7 +118,8 @@ const errorAlert = (err: AxiosError) => {
       Swal.fire({
         title: 'Error!',
         text: `${data?.msg || 'Something went wrong'}`,
-        icon: 'error'
+        icon: 'error',
+        confirmButtonColor: '#333'
       });
     } else if (axiosError.request) {
       // The request was made but no response was received
@@ -123,7 +127,8 @@ const errorAlert = (err: AxiosError) => {
       Swal.fire({
         title: 'Error!',
         text: 'No response from the server. Please check your connection.',
-        icon: 'error'
+        icon: 'error',
+        confirmButtonColor: '#333'
       });
     } else {
       // Something else happened in setting up the request
@@ -131,7 +136,8 @@ const errorAlert = (err: AxiosError) => {
       Swal.fire({
         title: 'Error!',
         text: 'An unexpected error occurred.',
-        icon: 'error'
+        icon: 'error',
+        confirmButtonColor: '#333'
       });
     }
   } else {
@@ -140,7 +146,8 @@ const errorAlert = (err: AxiosError) => {
     Swal.fire({
       title: 'Error!',
       text: 'An unexpected error occurred.',
-      icon: 'error'
+      icon: 'error',
+      confirmButtonColor: '#333'
     });
   }
 };

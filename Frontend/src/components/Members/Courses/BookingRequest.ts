@@ -26,7 +26,8 @@ export const bookNewCourse = async (course: Course) => {
       Swal.fire({
         title: 'Booked!',
         text: msg,
-        icon: 'success'
+        icon: 'success',
+        confirmButtonColor: '#333'
     })
     } catch (error) {
       errorAlert(error as AxiosError);
@@ -52,7 +53,8 @@ export const cancelBookedCourse = async (course: Course) => {
         Swal.fire({
           title: 'Canceled!',
           text: msg,
-          icon: 'success'
+          icon: 'success',
+          confirmButtonColor: '#333'
       });
       } catch (err) {
         errorAlert(err as AxiosError);
@@ -71,7 +73,8 @@ const errorAlert = (err: AxiosError) => {
       Swal.fire({
         title: 'Error!',
         text: `${data?.msg || 'Something went wrong'}`,
-        icon: 'error'
+        icon: 'error',
+        confirmButtonColor: '#333'
     })
     } else if (axiosError.request) {
       // The request was made but no response was received
@@ -79,7 +82,8 @@ const errorAlert = (err: AxiosError) => {
       Swal.fire({
         title: 'Error!',
         text: 'No response from the server. Please check your connection.',
-        icon: 'error'
+        icon: 'error',
+        confirmButtonColor: '#333'
     })
     } else {
       // Something else happened in setting up the request
@@ -87,7 +91,8 @@ const errorAlert = (err: AxiosError) => {
       Swal.fire({
         title: 'Error!',
         text: 'An unexpected error occurred.',
-        icon: 'error'
+        icon: 'error',
+        confirmButtonColor: '#333'
     })
     }
   } else {
@@ -96,7 +101,8 @@ const errorAlert = (err: AxiosError) => {
     Swal.fire({
       title: 'Error!',
       text: 'An unexpected error occurred.',
-      icon: 'error'
+      icon: 'error',
+      confirmButtonColor: '#333'
   })
   }
 };

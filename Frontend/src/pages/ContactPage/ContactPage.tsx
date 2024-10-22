@@ -10,6 +10,7 @@ import { FaRegClock } from 'react-icons/fa6';
 import { FaRegUser } from 'react-icons/fa';
 import { FaRegEnvelope } from 'react-icons/fa6';
 import { BsPencil } from 'react-icons/bs';
+import Swal from 'sweetalert2';
 
 const ContactPage = () => {
   const location = useLocation();
@@ -45,13 +46,28 @@ const ContactPage = () => {
       });
 
       if (response.ok) {
-        alert('Message sent!');
+        Swal.fire({
+          title: 'Sent!',
+          text: 'Message sent!',
+          icon: 'success',
+          confirmButtonColor: '#333'
+        });
         setFormData({ name: '', email: '', message: '' });
       } else {
-        alert('Error sending message');
+        Swal.fire({
+          title: 'Error!',
+          text: 'Error sending message',
+          icon: 'error',
+          confirmButtonColor: '#333'
+        });
       }
     } catch (error) {
-      console.error('Error sending message:', error);
+      Swal.fire({
+        title: 'Error!',
+        text: `${error}`,
+        icon: 'error',
+        confirmButtonColor: '#333'
+      });
     }
   };
 

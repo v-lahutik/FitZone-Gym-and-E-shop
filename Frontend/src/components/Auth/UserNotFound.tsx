@@ -16,19 +16,22 @@ const UserNotFound: React.FC = () => {
       Swal.fire({
         title: 'User not Found',
         text: 'There is no such user, you need to register first !',
-        icon: 'error'
+        icon: 'error',
+        confirmButtonColor: '#333'
       }).then(() => navigate(`/`)); // Redirect to home page
     } else if (status === 'verify-error') {
       Swal.fire({
         title: 'No Verification!',
         text: 'There is no verification code',
-        icon: 'error'
+        icon: 'error',
+        confirmButtonColor: '#333'
       }).then(() => navigate(`/`));
     } else {
       Swal.fire({
         title: 'Error!',
         text: 'Error in verification! something went wrong!',
-        icon: 'error'
+        icon: 'error',
+        confirmButtonColor: '#333'
       }).then(() => navigate(`/`));
     }
   }, [status, navigate]);
