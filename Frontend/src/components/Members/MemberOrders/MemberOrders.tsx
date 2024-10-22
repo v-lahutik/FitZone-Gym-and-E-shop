@@ -164,9 +164,9 @@ const MemberOrders: React.FC = () => {
                           }
                         >
                           {expandedOrder === order.orderNumber ? (
-                            <IoIosArrowUp />
+                            <IoIosArrowUp className='text-2xl'/>
                           ) : (
-                            <IoIosArrowDown />
+                            <IoIosArrowDown className='text-2xl'/>
                           )}
                         </button>
                       </div>
