@@ -8,6 +8,7 @@ import { LoginContext } from '../../context/LoginContext.tsx';
 import { User } from '../../custom.Types/userTypes.ts';
 import Swal from 'sweetalert2';
 import { OrderCheckPopUp } from '../../utils/helperFunction.ts';
+import { useNavigate } from 'react-router-dom';
 
 interface CheckoutFormData {
   firstName: string;
@@ -24,6 +25,7 @@ interface CheckoutFormData {
 }
 
 const Checkout: React.FC = () => {
+  const navigate = useNavigate();
   const { cart, clearCart } = useCart();
   const { user, isLoggedIn } = useContext(UserContext);
   const [shopUser, setShopUser] = useState<User>(user);
@@ -139,6 +141,13 @@ const Checkout: React.FC = () => {
           confirmButtonText: 'OK'
   
         })
+        //if user is logged in, redirect to members/orders page
+        if (isLoggedIn) {
+          navigate('/member/orders');
+        }
+        else {
+          navigate('/');
+        }
   
       } catch (error) {
         console.error('Error creating order:', error);
