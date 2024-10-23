@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 import Yoga from '/src/assets/images/Courses/yoga.jpg';
 import { Link } from 'react-router-dom';
 
 function Carousel() {
+
+  
+
   // State to manage the active slide
   const [activeSlide, setActiveSlide] = useState(1);
 
@@ -123,6 +126,35 @@ function Carousel() {
 }
 
 const CourseGallery: React.FC = () => {
+
+  const subtitleRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const subtitleElement = subtitleRef.current;
+
+    if (!subtitleElement) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            subtitleElement.classList.add('fly-in');
+            observer.disconnect(); // Stop observing once the animation is triggered
+          }
+        });
+      },
+      { threshold: 0.1 } // Trigger when 20% of the element is visible
+    );
+
+    observer.observe(subtitleElement);
+
+    return () => {
+      if (subtitleElement) {
+        observer.unobserve(subtitleElement);
+      }
+    };
+  }, []);
+
   return (
     <>
       <section id="courses" className="bg-blackColor2 my-14">
@@ -130,7 +162,7 @@ const CourseGallery: React.FC = () => {
           <h1 className="sm:text-4xl text-2xl font-kanit mb-14">
             Get fit together with one of our many courses
           </h1>
-          <h3 className="text-primary text-xl text-semibold uppercase font-kanit subtitle col-span-4">
+          <h3 ref={subtitleRef} className="text-primary text-xl text-semibold uppercase font-kanit subtitle col-span-4">
             A selection of our courses
           </h3>
 

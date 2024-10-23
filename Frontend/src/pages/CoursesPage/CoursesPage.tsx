@@ -83,8 +83,11 @@ export default function CoursesPage() {
         </div>
       </section>
       <section id="courses-section" className="bg-white py-10 pb-20">
-        <div className="mb-5 container h-auto pt-20 max-w-[1280px] mx-auto">
-          <div className=" px-4 ">
+        <h2 className="text-4xl text-center font-semibold mt-5 text-bodydark1">
+          Our Course Collection
+        </h2>
+        <div className="mb-5 container h-auto pt-10 max-w-[1280px] mx-auto">
+          <div className="px-4 ">
             {courses.length > 0 ? (
               <div className="grid  lg:grid-cols-3 md:grid-cols-2 gap-5  mt-5 md:mt-16">
                 {courses.map((course: CourseTemplate) => (

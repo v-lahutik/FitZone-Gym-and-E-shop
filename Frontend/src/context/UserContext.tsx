@@ -99,7 +99,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         Swal.fire({
           title: 'Error!',
           text: 'Unauthorized access. You were logged out. Please log in again.',
-          icon: 'error'
+          icon: 'error',
+          confirmButtonColor: '#333'
         });
       }
     }
@@ -136,7 +137,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         Swal.fire({
           title: 'Welcome!',
           text: 'You have successfully logged in.',
-          icon: 'success'
+          icon: 'success',
+          confirmButtonColor: '#333'
         });
         return { success: true };
       }
@@ -176,7 +178,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         Swal.fire({
           title: 'See you soon!',
           text: 'You have successfully logged out.',
-          icon: 'info'
+          icon: 'info',
+          confirmButtonColor: '#333'
         });
       }
     } catch (error) {

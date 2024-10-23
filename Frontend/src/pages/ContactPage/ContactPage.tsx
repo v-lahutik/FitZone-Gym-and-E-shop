@@ -11,6 +11,7 @@ import { FaRegClock } from 'react-icons/fa6';
 import { FaRegUser } from 'react-icons/fa';
 import { FaRegEnvelope } from 'react-icons/fa6';
 import { BsPencil } from 'react-icons/bs';
+import Swal from 'sweetalert2';
 
 const ContactPage = () => {
   const location = useLocation();
@@ -46,13 +47,28 @@ const ContactPage = () => {
       });
 
       if (response.ok) {
-        alert('Message sent!');
+        Swal.fire({
+          title: 'Sent!',
+          text: 'Message sent!',
+          icon: 'success',
+          confirmButtonColor: '#333'
+        });
         setFormData({ name: '', email: '', message: '' });
       } else {
-        alert('Error sending message');
+        Swal.fire({
+          title: 'Error!',
+          text: 'Error sending message',
+          icon: 'error',
+          confirmButtonColor: '#333'
+        });
       }
     } catch (error) {
-      console.error('Error sending message:', error);
+      Swal.fire({
+        title: 'Error!',
+        text: `${error}`,
+        icon: 'error',
+        confirmButtonColor: '#333'
+      });
     }
   };
 
@@ -154,7 +170,7 @@ const ContactPage = () => {
             <div className="grid lg:grid-cols-2 gap-5">
               <div className="mr-10 lg:mr-0">
                 <div className="contact-form-v2 contact-page-form">
-                  <h2 className="font-kanit font-semibold text-[48px] mb-6">
+                  <h2 className="font-kanit font-semibold text-[48px] mb-6 ml-5">
                     Get In Touch!
                   </h2>
                   <form onSubmit={handleSubmit} className="contact-form">

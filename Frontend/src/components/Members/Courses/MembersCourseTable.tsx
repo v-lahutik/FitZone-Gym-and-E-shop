@@ -221,17 +221,6 @@ const MembersCourseTable: React.FC = () => {
 
                         const isSpanned = dailySpannedCells.has(cellKey);
 
-                        // if (!isSpanned && courseForSlot) {
-                        //   const { startIndex, endIndex } = getCoursePosition(
-                        //     courseForSlot.time.start,
-                        //     courseForSlot.time.end
-                        //   );
-                        //   const rowSpan = endIndex - startIndex;
-                        //   // Mark cells that are spanned by this course
-                        //   for (let i = startIndex; i < endIndex; i++) {
-                        //     dailySpannedCells.add(`${currentDay}-${i}`);
-                        //   }
-
                         return (
                           <tr key={slot}>
                             <td className="p-1 text-center text-xs border bg-white border-gray-300">

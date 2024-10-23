@@ -7,6 +7,8 @@ import Login from '../Auth/Login.tsx';
 import { LoginContext } from '../../context/LoginContext.tsx';
 import { User } from '../../custom.Types/userTypes.ts';
 import Swal from 'sweetalert2';
+import { OrderCheckPopUp } from '../../utils/helperFunction.ts';
+import { useNavigate } from 'react-router-dom';
 
 interface CheckoutFormData {
   firstName: string;
@@ -23,6 +25,7 @@ interface CheckoutFormData {
 }
 
 const Checkout: React.FC = () => {
+  const navigate = useNavigate();
   const { cart, clearCart } = useCart();
   const { user, isLoggedIn } = useContext(UserContext);
   const [shopUser, setShopUser] = useState<User>(user);
@@ -90,64 +93,74 @@ const Checkout: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Convert streetNumber to a number before sending
-    const orderData = {
-      deliveryAddress: {
-        streetNumber: formData.streetNumber,
-        streetName: formData.streetName,
-        city: formData.city,
-        postCode: formData.postCode,
-        country: formData.country
-      },
-      cart: cart.map((product) => ({
-        productId: product.productId,
-        quantity: product.quantity
-      })),
-      user: { shopUser }
-    };
-
-    try {
-      const response = await axios.post(`${URL}/users/orders`, orderData);
-      console.log('Order created successfully:', response.data);
-
-      // Reset the form fields
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        streetNumber: '',
-        streetName: '',
-        city: '',
-        postCode: '',
-        country: '',
-        cardNumber: '',
-        expiryDate: '',
-        cvc: ''
-      });
-
-      //clear cart function from cart context
-      clearCart();
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Order placed successfully',
-        text: 'Thank you for shopping with us!',
-        confirmButtonColor: '#333',
-        confirmButtonText: 'OK'
-
-      })
-
-    } catch (error) {
-      console.error('Error creating order:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong! Please try again.',
-        confirmButtonColor: '#333',
-        confirmButtonText: 'OK'
-      })
+    const isConfirmed = await OrderCheckPopUp();
+    if (isConfirmed) {
+      // Convert streetNumber to a number before sending
+      const orderData = {
+        deliveryAddress: {
+          streetNumber: formData.streetNumber,
+          streetName: formData.streetName,
+          city: formData.city,
+          postCode: formData.postCode,
+          country: formData.country
+        },
+        cart: cart.map((product) => ({
+          productId: product.productId,
+          quantity: product.quantity
+        })),
+        user: { shopUser }
+      };
+      
+      try {
+        const response = await axios.post(`${URL}/users/orders`, orderData);
+        console.log('Order created successfully:', response.data);
+  
+        // Reset the form fields
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          streetNumber: '',
+          streetName: '',
+          city: '',
+          postCode: '',
+          country: '',
+          cardNumber: '',
+          expiryDate: '',
+          cvc: ''
+        });
+  
+        //clear cart function from cart context
+        clearCart();
+  
+        Swal.fire({
+          icon: 'success',
+          title: 'Order placed successfully',
+          text: 'Thank you for shopping with us!',
+          confirmButtonColor: '#333',
+          confirmButtonText: 'OK'
+  
+        })
+        //if user is logged in, redirect to members/orders page
+        if (isLoggedIn) {
+          navigate('/member/orders');
+        }
+        else {
+          navigate('/');
+        }
+  
+      } catch (error) {
+        console.error('Error creating order:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong! Please try again.',
+          confirmButtonColor: '#333',
+          confirmButtonText: 'OK'
+        })
+      }
     }
+
   };
 
   return (

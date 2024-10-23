@@ -52,7 +52,8 @@ const ForgotPass: React.FC = () => {
         await Swal.fire({
           title: 'Sent!',
           text: `${res.data.message} Please go to your email to check it!`,
-          icon: 'success'
+          icon: 'success',
+          confirmButtonColor: '#333'
         });
         setResetPassOpen(false);
       }
@@ -60,7 +61,8 @@ const ForgotPass: React.FC = () => {
         await Swal.fire({
           title: 'Error!',
           text: res.data.message,
-          icon: 'error'
+          icon: 'error',
+          confirmButtonColor: '#333'
         });
         setResetPassOpen(false);
       }

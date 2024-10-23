@@ -79,7 +79,9 @@ const BookedCourses: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {bookedCourses.map((course, key) => (
+              {bookedCourses.map((course, key) => {
+                 const isPastCourse = new Date(course.date).getTime() < new Date().getTime()
+                 return(
                 <React.Fragment key={key}>
                   <tr className={`${ extendDetail === course._id
                         ? 'bg-gray-200 dark:bg-gray-700' // Highlighted background when expanded
@@ -123,7 +125,12 @@ const BookedCourses: React.FC = () => {
                             await cancelBookedCourse(course);
                             setCourseCancel(true);
                           }}
-                          className="rounded-lg bg-gradient-to-r from-primary via-primary to-yellow-500 p-2 hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+                          className={`rounded-lg p-2 focus:outline-none focus:ring active:text-opacity-75 ${
+                            isPastCourse
+                              ? 'bg-gradient-to-r from-gray-400 to-gray-500 opacity-50 cursor-not-allowed'
+                              : 'bg-gradient-to-r from-primary via-primary to-yellow-500 hover:text-white'
+                          }`}
+                          disabled={isPastCourse}
                         >
                           Cancel Course
                         </button>
@@ -157,7 +164,8 @@ const BookedCourses: React.FC = () => {
                     </tr>
                   )}
                 </React.Fragment>
-              ))}
+              );
+            })}
             </tbody>
           </table>
         )}
