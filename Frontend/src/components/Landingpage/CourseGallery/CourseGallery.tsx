@@ -106,7 +106,7 @@ const CarouselItem: React.FC = () => {
 
             return (
               <div
-                key={course._id}
+                key={`${course._id} - ${index}`}
                 className={`carousel-item p-4 ${isActive ? 'active' : ''}`}
               >
                 <div className="h-[400px] flex flex-col bg-white rounded-lg">
