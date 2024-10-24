@@ -5,11 +5,14 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { URL } from '../../../utils/URL';
 import './CourseGallery.css';
+import { CourseTemplate } from '../../../custom.Types/courseTemplatesType';
 
 const CarouselItem: React.FC = () => {
-  const [courses, setCourses] = useState<any[]>([]);
+  const [courses, setCourses] = useState<CourseTemplate[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   // Check if the screen size is mobile or not
   const updateIsMobile = () => {
@@ -28,7 +31,16 @@ const CarouselItem: React.FC = () => {
       try {
         const response = await axios.get(`${URL}/public/courseTemplates`);
         const data = response.data;
-        setCourses(data.allTemplates);
+        const uniqueCourses = data.allTemplates.reduce(
+          (acc: CourseTemplate[], course: CourseTemplate) => {
+            if (!acc.some((c) => c.courseName === course.courseName)) {
+              acc.push(course);
+            }
+            return acc;
+          }, []
+        );
+        setCourses(uniqueCourses);
+        setActiveIndex(Math.floor(uniqueCourses.length / 2));
       } catch (error) {
         console.error('Error fetching courses data', error);
       }
@@ -39,16 +51,9 @@ const CarouselItem: React.FC = () => {
 
   // Function to change slides
   const handleSlideChange = (direction: number) => {
-    const totalItems = courses.length;
-    setActiveIndex((prev) => {
-      const newIndex = prev + direction;
-      if (newIndex < 0) {
-        return totalItems - 1; // Wrap around to the last item if going backward
-      } else if (newIndex >= totalItems) {
-        return 0; // Wrap around to the first item if going forward
-      }
-      return newIndex;
-    });
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setActiveIndex((prev) => prev + direction);
   };
 
   // Auto-slide every 3.5 seconds
@@ -67,6 +72,18 @@ const CarouselItem: React.FC = () => {
     ? `-${activeIndex * 100}%` // Slide 100% per item for mobile
     : `-${(activeIndex * 100) / 3}%`; // Slide 33.33% per item for larger screens
 
+  // Handle transition end to create the infinite loop effect
+  const handleTransitionEnd = () => {
+    setIsTransitioning(false);
+    if (activeIndex >= totalCourses) {
+      setActiveIndex(0);
+    } else if (activeIndex < 0) {
+      setActiveIndex(totalCourses - 1);
+    }
+  };
+
+
+
   return (
     <div className="min-h-[50vh] bg-blackColor2 p-3 relative">
       <div className="relative w-full overflow-hidden">
@@ -74,19 +91,22 @@ const CarouselItem: React.FC = () => {
         <div
           className="carousel-wrapper"
           style={{
-            transform: `translateX(${translateX})`
+            transform: `translateX(${translateX})`,
+            transition: isTransitioning ? 'transform 0.5s ease' : 'none',
           }}
+          onTransitionEnd={handleTransitionEnd}
+          ref={carouselRef}
         >
-          {/* Render all courses */}
-          {courses.map((course, index) => {
+          {/* Render all courses twice for infinite loop effect */}
+          {[...courses, ...courses].map((course, index) => {
             // Determine if the current course is the middle one (active) for larger screens
             const isActive =
               !isMobile &&
-              index === (activeIndex + Math.floor(3 / 2)) % totalCourses;
+              index % totalCourses === (activeIndex + 1) % totalCourses;
 
             return (
               <div
-                key={course._id}
+                key={`${course._id} - ${index}`}
                 className={`carousel-item p-4 ${isActive ? 'active' : ''}`}
               >
                 <div className="h-[400px] flex flex-col bg-white rounded-lg">
