@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { URL } from '../../utils/URL.ts';
 import { TbShoppingCart } from 'react-icons/tb';
-import { FaCheck } from "react-icons/fa";
+import { FaCheck } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext.tsx';
+import { ThreeCircles } from 'react-loader-spinner';
+import Swal from 'sweetalert2';
 
 export type Product = {
   _id: string;
@@ -24,7 +26,7 @@ const Products: React.FC = () => {
   const [switchedIcons, setSwitchedIcons] = useState<{
     [key: string]: boolean;
   }>({}); // State to manage the cart icon switch
-
+  const [loading, setLoading] = useState<boolean>(false); // for loading effect
 
   const { addToCart } = useCart();
 
@@ -59,9 +61,26 @@ const Products: React.FC = () => {
   const [itemsPerPage, setItemPerPage] = useState<number>(12);
 
   useEffect(() => {
-    axios.get(`${URL}/products`).then((response) => {
-      setProducts(response.data);
-    });
+    const fetchProductData = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`${URL}/products`);
+        setProducts(response.data);
+        // axios.get(`${URL}/products`).then((response) => {
+        //   setProducts(response.data);
+        // });
+      } catch (error) {
+        Swal.fire({
+          title: 'Error!',
+          text: `${error || 'Something went wrong'}`,
+          icon: 'error',
+          confirmButtonColor: '#333'
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProductData();
   }, []);
 
   useEffect(() => {
@@ -72,7 +91,7 @@ const Products: React.FC = () => {
       filtered = filtered.filter((product) =>
         product.productName.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      setCurrentPage(1)
+      setCurrentPage(1);
     }
 
     // Filter by product status
@@ -80,7 +99,7 @@ const Products: React.FC = () => {
       filtered = filtered.filter(
         (product) => product.category.categoryName === filterCategory
       );
-      setCurrentPage(1)
+      setCurrentPage(1);
     }
 
     // Filter by price (ascending)
@@ -125,9 +144,9 @@ const Products: React.FC = () => {
 
   // stock appearance
   const getStockBadge = (stock: number) => {
-    let badgeText:string = 'Unavailable';
-    let badgeStyle:string = 'bg-red-800 text-white';
-  
+    let badgeText: string = 'Unavailable';
+    let badgeStyle: string = 'bg-red-800 text-white';
+
     if (stock !== undefined) {
       if (stock > 10) {
         badgeText = 'Available';
@@ -143,8 +162,8 @@ const Products: React.FC = () => {
         badgeStyle = 'bg-primary text-white'; // Replace 'bg-primary' with your desired color class for out of stock
       }
     }
-    return {badgeText,badgeStyle}
-  } 
+    return { badgeText, badgeStyle };
+  };
   return (
     <div className="bg-white">
       <section
@@ -219,82 +238,99 @@ const Products: React.FC = () => {
       </div>
 
       {/* Grid Section */}
-      <section className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 justify-items-center justify-center  gap-1 mt-10 mb-5">
-        {/* Product cards */}
-        {displayedItems.map((product) =>{ 
-          const { badgeText, badgeStyle } = getStockBadge(product.stock);
-          return (
-          <div
-            key={product._id}
-            className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md hover:scale-105 transition transform duration-300 hover:bg-slate-100"
-          >
-            <Link to={product._id}>
-              <div className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl items-center justify-center">
-                <img
-                  className="object-cover"
-                  src={product.image}
-                  alt={product.productName}
-                />
-                <span
-                  className={`absolute top-0 left-0 m-2 rounded-full px-2 text-center text-sm font-medium ${badgeStyle}`}
-                >
-                  {badgeText}
-                </span>
-              </div>
-            </Link>
-            <div className="mt-4 px-5 pb-5">
-              <h5 className="text-xl tracking-tight text-slate-900">
-                {product.productName}
-              </h5>
-              <p className="text-gray-600 line-clamp-2 hover:line-clamp-4 h-12">
-                {product.description}
-              </p>
-
-              <div className="mt-2 mb-5 flex items-center justify-between">
-                <p>
-                  <span className="text-xl font-bold text-slate-900">
-                    €{product.price}
-                  </span>
-                  {/* Optional: Add a line-through for original price if available for sale*/}
-                  {/* <span className="text-sm text-slate-900 line-through">${originalPrice}</span> */}
-                </p>
-                <div className="flex items-center">
-                  {/* Stars for rating */}
-                  {[...Array(Math.round(product.averageRating))].map((_, index) => (
-                    <svg
-                      key={index}
-                      aria-hidden="true"
-                      className="h-5 w-5 text-primary"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
+      {loading ? (
+        <div className="flex justify-center items-center p-10">
+          <ThreeCircles
+            visible={true}
+            height="100"
+            width="100"
+            color="#ff0000"
+            ariaLabel="three-circles-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        </div>
+      ) : (
+        <section className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 justify-items-center justify-center  gap-1 mt-10 mb-5">
+          {/* Product cards */}
+          {displayedItems.map((product) => {
+            const { badgeText, badgeStyle } = getStockBadge(product.stock);
+            return (
+              <div
+                key={product._id}
+                className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md hover:scale-105 transition transform duration-300 hover:bg-slate-100"
+              >
+                <Link to={product._id}>
+                  <div className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl items-center justify-center">
+                    <img
+                      className="object-cover"
+                      src={product.image}
+                      alt={product.productName}
+                    />
+                    <span
+                      className={`absolute top-0 left-0 m-2 rounded-full px-2 text-center text-sm font-medium ${badgeStyle}`}
                     >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                    </svg>
-                  ))}
-                  <span className="mr-2 ml-3 rounded bg-primary px-2.5 py-0.5 text-white text-xs font-semibold">
-                    {product.averageRating}
-                  </span>
+                      {badgeText}
+                    </span>
+                  </div>
+                </Link>
+                <div className="mt-4 px-5 pb-5">
+                  <h5 className="text-xl tracking-tight text-slate-900">
+                    {product.productName}
+                  </h5>
+                  <p className="text-gray-600 line-clamp-2 hover:line-clamp-4 h-12">
+                    {product.description}
+                  </p>
+
+                  <div className="mt-2 mb-5 flex items-center justify-between">
+                    <p>
+                      <span className="text-xl font-bold text-slate-900">
+                        €{product.price}
+                      </span>
+                      {/* Optional: Add a line-through for original price if available for sale*/}
+                      {/* <span className="text-sm text-slate-900 line-through">${originalPrice}</span> */}
+                    </p>
+                    <div className="flex items-center">
+                      {/* Stars for rating */}
+                      {[...Array(Math.round(product.averageRating))].map(
+                        (_, index) => (
+                          <svg
+                            key={index}
+                            aria-hidden="true"
+                            className="h-5 w-5 text-primary"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                          </svg>
+                        )
+                      )}
+                      <span className="mr-2 ml-3 rounded bg-primary px-2.5 py-0.5 text-white text-xs font-semibold">
+                        {product.averageRating}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    disabled={product.stock === 0}
+                    className={`w-full flex items-center justify-center rounded-md bg-blackColor3 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary
+              ${product.stock === 0 ? 'cursor-not-allowed opacity-50' : ''}`}
+                  >
+                    {/* Conditionally render the icons based on the productId */}
+                    {switchedIcons[product._id] ? (
+                      <FaCheck className="mr-2 h-6 w-6" />
+                    ) : (
+                      <TbShoppingCart className="mr-2 h-6 w-6" />
+                    )}
+                    Add to cart
+                  </button>
                 </div>
               </div>
-              <button
-                onClick={() => handleAddToCart(product)}
-                disabled={product.stock === 0}
-                className={`w-full flex items-center justify-center rounded-md bg-blackColor3 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary
-              ${product.stock === 0 ? 'cursor-not-allowed opacity-50' : ''}`}
-              >
-                {/* Conditionally render the icons based on the productId */}
-                {switchedIcons[product._id] ? (
-                  <FaCheck className="mr-2 h-6 w-6" />
-                ) : (
-                  <TbShoppingCart className="mr-2 h-6 w-6" />
-                )}
-                Add to cart
-              </button>
-            </div>
-          </div>
-        )})}
-      </section>
+            );
+          })}
+        </section>
+      )}
       <div className="flex justify-between m-4 p-4">
         <button
           onClick={() => paginate(currentPage - 1)}
