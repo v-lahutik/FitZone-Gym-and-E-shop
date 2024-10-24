@@ -18,20 +18,21 @@ const BookedCourses: React.FC = () => {
           withCredentials: true
         });
         if (response.status === 200) {
-          console.log('Data fetched:', response); // Development purpose
+          //console.log('Data fetched:', response); // Development purpose
           const allCourses = response.data.allCourses;
           const userID = response.data.payload.id;
-          const present = new Date();
-          const myBookedCourses = allCourses.filter((course: Course) => {
-            return (
-              course.participants.includes(userID) &&
-              present.getTime() < new Date(course.date).getTime()
-            );
-          });
-          console.log(present);
-          setBookedCourses(myBookedCourses);
-          setCourseCancel(false);
-        }
+          const myBookedCourses = allCourses.filter((course: Course) => 
+          course.participants.includes(userID)
+        );
+
+         // Sort by date (newest first)
+         const sortedCourses = myBookedCourses.sort((a: Course, b: Course) => 
+         new Date(b.date).getTime() - new Date(a.date).getTime()
+       );
+
+       setBookedCourses(sortedCourses);
+       setCourseCancel(false);
+     }
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.error('Error fetching courses:', error.response?.data);
@@ -43,7 +44,6 @@ const BookedCourses: React.FC = () => {
     fetchCourses();
   }, [courseCancel]);
 
-  console.log(bookedCourses); // development purpose
 
   // Toggle order row expansion
   const toggleCourseDetail = (idNumber: string) => {
@@ -127,7 +127,7 @@ const BookedCourses: React.FC = () => {
                           }}
                           className={`rounded-lg p-2 focus:outline-none focus:ring active:text-opacity-75 ${
                             isPastCourse
-                              ? 'bg-gradient-to-r from-gray-400 to-gray-500 opacity-50 cursor-not-allowed'
+                              ? 'bg-gradient-to-r from-primary via-primary to-yellow-500 opacity-50 cursor-not-allowed'
                               : 'bg-gradient-to-r from-primary via-primary to-yellow-500 hover:text-white'
                           }`}
                           disabled={isPastCourse}
