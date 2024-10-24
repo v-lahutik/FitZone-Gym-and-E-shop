@@ -5,6 +5,7 @@ import './CoursePage.css';
 import axios from 'axios';
 import { URL } from '../../utils/URL';
 import { CourseTemplate } from '../../custom.Types/courseTemplatesType';
+import { ThreeCircles } from 'react-loader-spinner';
 
 export default function CoursesPage() {
   const location = useLocation();
@@ -117,8 +118,16 @@ export default function CoursesPage() {
                 ))}
               </div>
             ) : (
-              <div className="flex justify-center items-center h-[400px]">
-                <p className="text-lg">No courses available</p>
+              <div className="flex justify-center items-center">
+                <ThreeCircles
+                  visible={true}
+                  height="100"
+                  width="100"
+                  color="#ff0000"
+                  ariaLabel="three-circles-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
               </div>
             )}
           </div>
