@@ -15,7 +15,7 @@ const AdminHeader = (props: {
   const userContext = useContext(UserContext);
   const { user, logout } = userContext || {};
   return (
-    <header className="sticky top-0 z-999 flex w-full bg-blackColor2 drop-shadow-sm ">
+    <header className="sticky top-0 z-30 flex w-full bg-blackColor2 drop-shadow-sm ">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-sm md:px-6 2xl:px-11">
         <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
           {/* <!-- Hamburger Toggle BTN --> */}

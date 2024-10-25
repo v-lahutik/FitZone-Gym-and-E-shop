@@ -1,0 +1,41 @@
+.carousel-wrapper {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+}
+
+.carousel-item {
+  flex: 0 0 33.33%;
+  transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out; /* Smooth scaling and opacity transitions */
+  
+}
+
+/* Apply scale and effects for active item in the middle */
+.carousel-item.active {
+  /* transform: scale(1.1); Slightly enlarge the active item */
+  opacity: 1; /* Full opacity */
+ 
+}
+
+/* For non-active items */
+.carousel-item:not(.active) {
+  transform: scale(0.8); /* Slightly reduce the size of non-active items */
+  opacity: 0.7; /* Make non-active items slightly transparent */
+}
+
+/* Mobile Styles */
+@media (max-width: 767px) {
+  .carousel-item {
+    flex: 0 0 100%; /* Full width for mobile */
+  }
+
+  .carousel-item.active {
+    transform: none; /* No scaling effect on mobile */
+    opacity: 1; /* Keep opacity */
+  }
+
+  .carousel-item:not(.active) {
+    transform: none; /* No transform on non-active items */
+    opacity: 1; /* Keep full opacity */
+  }
+}

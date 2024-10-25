@@ -1,121 +1,148 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
-import Yoga from '/src/assets/images/Courses/yoga.jpg';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { URL } from '../../../utils/URL';
+import './CourseGallery.css';
+import { CourseTemplate } from '../../../custom.Types/courseTemplatesType';
 
-function Carousel() {
+const CarouselItem: React.FC = () => {
+  const [courses, setCourses] = useState<CourseTemplate[]>([]);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
-  
+  // Check if the screen size is mobile or not
+  const updateIsMobile = () => {
+    setIsMobile(window.innerWidth <= 767);
+  };
 
-  // State to manage the active slide
-  const [activeSlide, setActiveSlide] = useState(1);
+  useEffect(() => {
+    updateIsMobile();
+    window.addEventListener('resize', updateIsMobile);
+    return () => window.removeEventListener('resize', updateIsMobile);
+  }, []);
+
+  // Fetch courses
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get(`${URL}/public/courseTemplates`);
+        const data = response.data;
+        const uniqueCourses = data.allTemplates.reduce(
+          (acc: CourseTemplate[], course: CourseTemplate) => {
+            if (!acc.some((c) => c.courseName === course.courseName)) {
+              acc.push(course);
+            }
+            return acc;
+          }, []
+        );
+        setCourses(uniqueCourses);
+        setActiveIndex(Math.floor(uniqueCourses.length / 2));
+      } catch (error) {
+        console.error('Error fetching courses data', error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   // Function to change slides
-  const handleSlideChange = (slideNumber: number) => {
-    setActiveSlide(slideNumber);
+  const handleSlideChange = (direction: number) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setActiveIndex((prev) => prev + direction);
   };
+
+  // Auto-slide every 3.5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleSlideChange(1);
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [courses]);
+
+  const totalCourses = courses.length;
+
+  // For mobile, translate by 100%; for desktop, translate by one-third (33.33%)
+  const translateX = isMobile
+    ? `-${activeIndex * 100}%` // Slide 100% per item for mobile
+    : `-${(activeIndex * 100) / 3}%`; // Slide 33.33% per item for larger screens
+
+  // Handle transition end to create the infinite loop effect
+  const handleTransitionEnd = () => {
+    setIsTransitioning(false);
+    if (activeIndex >= totalCourses) {
+      setActiveIndex(0);
+    } else if (activeIndex < 0) {
+      setActiveIndex(totalCourses - 1);
+    }
+  };
+
+
 
   return (
     <div className="min-h-[50vh] bg-blackColor2 p-3 relative">
-      {/* Main container for the carousel */}
-      <div className="relative w-full max-w-xl mx-auto">
-        {/* First Slide */}
+      <div className="relative w-full overflow-hidden">
+        {/* Wrapper for the slides */}
         <div
-          className={`absolute inset-0 transition-all duration-300 ${
-            activeSlide === 1
-              ? 'opacity-100 z-5 visible'
-              : 'opacity-0 z-0 invisible'
-          }`}
+          className="carousel-wrapper"
+          style={{
+            transform: `translateX(${translateX})`,
+            transition: isTransitioning ? 'transform 0.5s ease' : 'none',
+          }}
+          onTransitionEnd={handleTransitionEnd}
+          ref={carouselRef}
         >
-          {/* Slide Content */}
-          <div className="w-full h-[400px] flex flex-col bg-white rounded-lg shadow-lg">
-            <img
-              src='https://res.cloudinary.com/dqwwj6av8/image/upload/v1728563396/o3jpdzrqtq4nyc0td1vf.jpg'
-              alt="Boxing Classes"
-              className="w-full h-2/3 object-cover rounded-t-lg"
-            />
-            <div className="flex flex-col justify-center px-8 h-1/3">
-              <h1 className="text-gray-900 font-bold text-2xl tracking-tight">
-                Boxing Classes (Beginner & Advanced)
-              </h1>
-              <p className="text-gray-600 leading-6">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              </p>
-            </div>
-          </div>
-        </div>
+          {/* Render all courses twice for infinite loop effect */}
+          {[...courses, ...courses].map((course, index) => {
+            // Determine if the current course is the middle one (active) for larger screens
+            const isActive =
+              !isMobile &&
+              index % totalCourses === (activeIndex + 1) % totalCourses;
 
-        {/* Second Slide */}
-        <div
-          className={`absolute inset-0 transition-all duration-300 ${
-            activeSlide === 2
-              ? 'opacity-100 z-5 visible'
-              : 'opacity-0 z-0 invisible'
-          }`}
-        >
-          {/* Slide Content */}
-          <div className="w-full h-[400px] flex flex-col bg-white rounded-lg shadow-lg">
-            <img
-              src={Yoga}
-              alt="Yoga Classes"
-              className="w-full h-2/3 object-cover rounded-t-lg"
-            />
-            <div className="flex flex-col justify-center px-8 h-1/3">
-              <h1 className="text-gray-900 font-bold text-2xl tracking-tight">
-                Yoga Classes
-              </h1>
-              <p className="text-gray-600 leading-6">
-                Egestas diam in arcu cursus euismod quis.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Third Slide */}
-        <div
-          className={`absolute inset-0 transition-all duration-300 ${
-            activeSlide === 3
-              ? 'opacity-100 z-5 visible'
-              : 'opacity-0 z-0 invisible'
-          }`}
-        >
-          {/* Slide Content */}
-          <div className="w-full h-[400px] flex flex-col bg-white rounded-lg shadow-lg">
-            <img
-              src='https://res.cloudinary.com/dqwwj6av8/image/upload/v1728375458/full-shot-people-training-together-gym_1_Cropped_fgf4m6.jpg'
-              alt="Bodyweight Fitness Classes"
-              className="w-full h-2/3 object-cover rounded-t-lg"
-            />
-            <div className="flex flex-col justify-center px-8 h-1/3">
-              <h1 className="text-gray-900 font-bold text-2xl tracking-tight">
-                Bodyweight Fitness Classes
-              </h1>
-              <p className="text-gray-600 leading-6">
-                Fusce id velit ut tortor egestas diam in arcu.
-              </p>
-            </div>
-          </div>
+            return (
+              <div
+                key={`${course._id} - ${index}`}
+                className={`carousel-item p-4 ${isActive ? 'active' : ''}`}
+              >
+                <div className="h-[400px] flex flex-col bg-white rounded-lg">
+                  <img
+                    src={course.coursePic}
+                    alt={course.courseName}
+                    className="w-full h-2/3 object-cover rounded-t-lg"
+                  />
+                  <div className="flex flex-col justify-center px-4 py-2 h-1/3">
+                    <h1 className="text-gray-900 font-bold text-xl text-center">
+                      {course.courseName}
+                    </h1>
+                    <p className="text-gray-600 text-center">
+                      {course.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Arrow Controls */}
-        <div className="absolute top-[266px] transform -translate-y-1/2 w-full flex justify-between z-10">
+        <div className="absolute top-[50%] transform -translate-y-1/2 w-full flex justify-between z-10">
           {/* Left Arrow */}
           <button
-            onClick={() =>
-              handleSlideChange(activeSlide === 1 ? 3 : activeSlide - 1)
-            }
-            className="bg-primary rounded-full transform -translate-x-5 hover:scale-110 transition-all"
+            onClick={() => handleSlideChange(-1)}
+            className="bg-primary rounded-full transform hover:scale-110 transition-all"
           >
             <FaRegArrowAltCircleLeft className="text-white h-10 w-10" />
           </button>
 
           {/* Right Arrow */}
           <button
-            onClick={() =>
-              handleSlideChange(activeSlide === 3 ? 1 : activeSlide + 1)
-            }
-            className="bg-primary rounded-full transform translate-x-5 hover:scale-110 transition-all"
+            onClick={() => handleSlideChange(1)}
+            className="bg-primary rounded-full transform hover:scale-110 transition-all"
           >
             <FaRegArrowAltCircleRight className="text-white h-10 w-10" />
           </button>
@@ -123,17 +150,13 @@ function Carousel() {
       </div>
     </div>
   );
-}
+};
 
 const CourseGallery: React.FC = () => {
-
   const subtitleRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const subtitleElement = subtitleRef.current;
-
     if (!subtitleElement) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -145,16 +168,13 @@ const CourseGallery: React.FC = () => {
       },
       { threshold: 0.1 } // Trigger when 20% of the element is visible
     );
-
     observer.observe(subtitleElement);
-
     return () => {
       if (subtitleElement) {
         observer.unobserve(subtitleElement);
       }
     };
   }, []);
-
   return (
     <>
       <section id="courses" className="bg-blackColor2 my-14">
@@ -162,11 +182,13 @@ const CourseGallery: React.FC = () => {
           <h1 className="sm:text-4xl text-2xl font-kanit mb-14">
             Get fit together with one of our many courses
           </h1>
-          <h3 ref={subtitleRef} className="text-primary text-xl text-semibold uppercase font-kanit subtitle col-span-4">
+          <h3
+            ref={subtitleRef}
+            className="text-primary text-xl text-semibold uppercase font-kanit subtitle col-span-4"
+          >
             A selection of our courses
           </h3>
-
-          <Carousel />
+          <CarouselItem />
           <div>
             <Link to="/courses">
               <button className="bg-primary hover:bg-primary-dark text-white font-bold uppercase py-6 px-12 ">

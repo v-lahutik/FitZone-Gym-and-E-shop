@@ -1,11 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import './PricingTable.css';
-import { allFeatures, PricingPlan } from '../../../custom.Types/PricingPlan';
+import { PricingPlan } from '../../../custom.Types/PricingPlan';
 import { FaRegCircleCheck } from 'react-icons/fa6';
-import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 export default function PricingTable() {
-
   const subtitleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,37 +33,13 @@ export default function PricingTable() {
     };
   }, []);
 
-
   const plans: PricingPlan[] = PricingPlan;
-  const features: string[] = allFeatures;
+  // const features: string[] = allFeatures;
 
   const [yearlyPrice, setYearlyPrice] = useState<boolean>(false);
-  const [selectedPlan, setSelectedPlan] = useState({} as PricingPlan);
-  const [isSelected, setIsSelected] = useState(false);
-
-  useEffect(() => {
-    if (Object.keys(selectedPlan).length > 0) {
-      setIsSelected(true);
-    } else {
-      setIsSelected(false);
-    }
-  }, [selectedPlan]);
 
   const handlePricingSwitch = (planType: 'monthly' | 'yearly') => {
     setYearlyPrice(planType === 'yearly');
-  };
-
-  const getPrice = (plan: PricingPlan) =>
-    yearlyPrice ? plan.yearlyPrice : plan.monthlyPrice;
-
-  const handleBuyNow = (plan: PricingPlan) => {
-    setSelectedPlan(plan);
-    Swal.fire({
-      title: 'Select!',
-      text: `You selected the ${plan.name}`,
-      icon: 'info',
-      confirmButtonColor: '#333'
-    })
   };
 
   return (
@@ -73,7 +48,10 @@ export default function PricingTable() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-center md:justify-start auto-cols-auto">
           <div className="">
             <div className="title-area md:text-start text-center">
-              <span ref={subtitleRef} className="md:justify-start  text-primary text-xl text-semibold uppercase font-kanit subtitle after-lg-none mb-4">
+              <span
+                ref={subtitleRef}
+                className="md:justify-start  text-primary text-xl text-semibold uppercase font-kanit subtitle after-lg-none mb-4"
+              >
                 Pricing Plan
               </span>
               <h2 className="justify-center md:justify-start text-4xl mb-10 font-kanit font-semibold">
@@ -117,40 +95,31 @@ export default function PricingTable() {
                   </span>
                 </h4>
                 <ul className="my-5">
-                  {features.map((feature, featureIndex) => (
+                  {plan.features.map((feature, featureIndex) => (
                     <li
                       key={featureIndex}
                       className="text-bodyColor flex gap-3 items-center leading-9"
                     >
-                      {plan.features.includes(feature) ? (
-                        <FaRegCircleCheck className="text-primary" />
-                      ) : (
-                        <FaRegCircleCheck className="text-bodyColor" />
-                      )}
+                      <FaRegCircleCheck
+                        className={
+                          feature.includes('No')
+                            ? 'text-bodyColor'
+                            : 'text-primary'
+                        }
+                      />
                       {feature}
                     </li>
                   ))}
                 </ul>
               </div>
-              <button
-                onClick={() => handleBuyNow(plan)}
-                type="button"
-                className="w-full bg-titleColor hover:bg-primary text-white py-3 transition-all duration-300"
-              >
-                Buy Now
-              </button>
+              <Link to="/contact">
+                <button className="w-full bg-titleColor hover:bg-primary text-white py-3 transition-all duration-300">
+                  Contact Us
+                </button>
+              </Link>
             </div>
           ))}
         </div>
-        {isSelected === false ? null : (
-          <div style={{ marginTop: '20px' }}>
-            <h2>You have selected the {selectedPlan.name} plan.</h2>
-            <p>
-              Price: {getPrice(selectedPlan)} USD /{' '}
-              {yearlyPrice ? 'Year' : 'Month'}
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );

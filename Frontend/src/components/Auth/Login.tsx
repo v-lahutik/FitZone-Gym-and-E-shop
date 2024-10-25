@@ -17,8 +17,7 @@ const Login: React.FC = () => {
   const { setLoginOpen, setResetPassOpen } = useContext(LoginContext);
   const userContext = useContext(UserContext);
   const [errorMessage, setErrorMessage] = useState('');
-  const {login} = userContext || {};
-
+  const { login } = userContext || {};
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserLogin({ ...userLogin, [e.target.name]: e.target.value });
@@ -32,12 +31,12 @@ const Login: React.FC = () => {
     if (result.success) {
       setLoginOpen(false);
     } else {
-      setErrorMessage( result.error || 'Login failed');
+      setErrorMessage(result.error || 'Login failed');
     }
   };
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-30">
       <div className="z-30 w-full absolute max-w-md py-6 px-12 h-min bg-white rounded shadow-xl ">
         <div
           onClick={() => setLoginOpen(false)}
@@ -52,7 +51,9 @@ const Login: React.FC = () => {
           Welcome back! Please login to your account.
         </p>
         <form action="" onSubmit={submitForm}>
-          {errorMessage && <div className="text-red-500 text-sm">{errorMessage}</div>}
+          {errorMessage && (
+            <div className="text-red-500 text-sm">{errorMessage}</div>
+          )}
 
           <div className="mb-6">
             <input
