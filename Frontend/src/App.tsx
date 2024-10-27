@@ -32,9 +32,9 @@ import Messages from './components/Admin/Messages/Messages.tsx';
 import Checkout from './components/Shop/Checkout.tsx';
 import PassResetHandlePage from './components/Auth/PassResetHandlePage.tsx';
 import { LoginProvider } from './context/LoginContext.tsx';
+import ServiceDetails from './pages/Services/ServiceDetails.tsx';
 
 function App() {
-
   return (
     <DateProvider>
       <CartProvider>
@@ -57,6 +57,7 @@ function App() {
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/shop/:pid" element={<SingleProductPage />} />
                 <Route path="/contact" element={<ContactPage />} />
+                <Route path="/services/:slug" element={<ServiceDetails />} />
               </Route>
 
               {/* Private Routes for Members */}
