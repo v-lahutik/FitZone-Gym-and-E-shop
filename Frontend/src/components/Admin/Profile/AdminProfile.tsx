@@ -73,7 +73,7 @@ const AdminProfile: React.FC = () => {
     }
 
     try {
-      const response = await axios.post(
+      await axios.post(
         `${URL}/users/changePassword`,
         {
           currentPassword,

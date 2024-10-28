@@ -2,7 +2,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { URL } from '../../utils/URL';
-import { useParams } from 'react-router-dom';
 import { CourseTemplate } from '../../custom.Types/courseTemplatesType';
 import { FaArrowRight } from 'react-icons/fa6';
 import './CoursePage.css';
@@ -12,7 +11,7 @@ export default function SingleCoursePage() {
   const [course, setCourse] = useState<CourseTemplate | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [services, setServices] = useState<Service[]>([]);
-  
+
 
 
 
