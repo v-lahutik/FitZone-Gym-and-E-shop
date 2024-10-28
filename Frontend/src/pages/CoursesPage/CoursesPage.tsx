@@ -12,9 +12,8 @@ export default function CoursesPage() {
   const pathnames = location.pathname.split('/').filter((x) => x);
 
   const [courses, setCourses] = useState([]);
-  console.log('🚀 ~ CoursesPage ~ courses:', courses);
+
   const [loading, setLoading] = useState(true);
-  console.log('🚀 ~ CoursesPage ~ loading:', loading);
 
   // fetch  courses
   useEffect(() => {
@@ -89,7 +88,7 @@ export default function CoursesPage() {
         </h2>
         <div className="mb-5 container h-auto pt-10 max-w-[1280px] mx-auto">
           <div className="px-4 ">
-            {courses.length > 0 ? (
+            {!loading && courses.length > 0 ? (
               <div className="grid  lg:grid-cols-3 md:grid-cols-2 gap-5  mt-5 md:mt-16">
                 {courses.map((course: CourseTemplate) => (
                   <div

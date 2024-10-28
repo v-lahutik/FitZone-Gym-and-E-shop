@@ -112,8 +112,7 @@ const Checkout: React.FC = () => {
       };
       
       try {
-        const response = await axios.post(`${URL}/users/orders`, orderData);
-        console.log('Order created successfully:', response.data);
+        await axios.post(`${URL}/users/orders`, orderData)
   
         // Reset the form fields
         setFormData({
@@ -209,7 +208,7 @@ const Checkout: React.FC = () => {
             <button
               onClick={() => {
                 setLoginOpen(true);
-                console.log('loginOpen', loginOpen);
+     
               }}
               className="text-primary hover:underline"
             >

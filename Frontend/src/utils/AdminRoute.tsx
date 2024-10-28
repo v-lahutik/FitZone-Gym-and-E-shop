@@ -8,7 +8,7 @@ export default function AdminRoute({ children }: { children: JSX.Element }) {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    console.log('useEffect for AdminRoute');
+
     // wait for user to load in userContext
     if (!userContext?.userLoading) {
       if (userContext?.user.role === 'Admin') {

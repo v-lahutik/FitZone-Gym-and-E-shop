@@ -44,7 +44,7 @@ const CourseTemplateDisplay: React.FC = () => {
           withCredentials: true
         });
         const data = response.data.allTemplates;
-        // console.log(data);
+
         setTemplates(data);
         setFilteredTemplates(data);
       } catch (error) {

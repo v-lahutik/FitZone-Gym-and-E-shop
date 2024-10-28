@@ -34,7 +34,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ): void => {
     const { name, value } = e.target;
-    console.log(name, value);
+
     setLocalProduct({ ...localProduct, [name]: value });
   };
 

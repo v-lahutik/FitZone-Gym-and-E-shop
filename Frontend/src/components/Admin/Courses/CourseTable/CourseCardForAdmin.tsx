@@ -22,7 +22,7 @@ const CourseCardForAdmin: React.FC<CourseCardForAdminProps> = ({
   closeCard,
   setCourseChanged
 }) => {
-  console.log(course);
+
   return (
     <>
       <div className="w-[320px] m-auto text-white border border-gray-300 rounded-lg p-2 bg-blight shadow-xl">

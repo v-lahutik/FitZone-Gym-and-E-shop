@@ -12,12 +12,10 @@ export default function SingleCoursePage() {
   const [loading, setLoading] = useState(true);
 
 
-  const { id } = useParams();
-  console.log('🚀 ~ SingleCoursePage ~ id:', id);
 
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
-  console.log('🚀 ~ SingleCoursePage ~ pathnames:', pathnames);
+
 
 
   // fetch course
@@ -28,7 +26,7 @@ export default function SingleCoursePage() {
           `${URL}/public/courseTemplates/${pathnames[1]}`
         );
         const data = response.data;
-        console.log('🚀 ~ fetchCourses ~ data:', data);
+
         setCourse(data.template);
         setLoading(false);
       } catch (error) {
@@ -42,7 +40,7 @@ export default function SingleCoursePage() {
     fetchCourse();
   }, []);
 
-  console.log('course', course);
+
 
   return (
     <>

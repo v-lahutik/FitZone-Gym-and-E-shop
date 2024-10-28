@@ -8,7 +8,6 @@ export default function AdminRoute({ children }: { children: JSX.Element }) {
   const [isMember, setIsMember] = useState(false);
 
   useEffect(() => {
-    console.log('useEffect for MemberRoute');
     // wait for user to load in userContext
     if (!userContext?.userLoading) {
       if (userContext?.user.role === 'Member') {

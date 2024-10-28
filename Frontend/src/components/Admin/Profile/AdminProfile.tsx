@@ -86,7 +86,7 @@ const AdminProfile: React.FC = () => {
         }
       );
 
-      console.log('Password changed successfully:', response.data);
+  
       setSuccessMessage('Password changed successfully!');
       setCurrentPassword('');
       setNewPassword('');

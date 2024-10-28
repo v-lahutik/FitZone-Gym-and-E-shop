@@ -33,7 +33,7 @@ const CourseTable: React.FC = () => {
       const data = response.data.allCoursesForWeek;
       setCourses(data);
       setCourseChanged(false);
-      console.log('Courses for week', data);
+
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error(

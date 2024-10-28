@@ -9,7 +9,6 @@ const UserNotFound: React.FC = () => {
   // Get query parameters (like userId) from the URL
   const params = new URLSearchParams(location.search);
   const status = params.get('status');
-  console.log(status);
 
   useEffect(() => {
     if (status === 'user-not-found') {

@@ -22,10 +22,7 @@ export async function uploadImage(image: string) {
                 width: 500,
                 crop: 'fill',}
               ]});
-    
-    
-    console.log(`Successfully uploaded ${image}`);
-    console.log(`> Result: ${result.secure_url}`);
+
     
     return result.secure_url;
     
@@ -53,9 +50,7 @@ for(const image of images){
                 width: 500,
                 crop: 'fit',}
               ]});
-        
-        console.log(`Successfully uploaded ${image}`);
-        console.log(`> Result: ${result.secure_url}`);
+  
     } catch (error) {
         console.error('Error uploading image:', error);
     }

@@ -42,7 +42,7 @@ export const AdminProductsDisplay: React.FC = () => {
       });
       const data = response.data;
       setAllProducts(data);
-      console.log('product date', data);
+
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error('Error fetching products data', error.response?.data);

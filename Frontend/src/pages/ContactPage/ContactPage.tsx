@@ -37,7 +37,7 @@ const ContactPage = () => {
     e.preventDefault();
     // Logic for sending form data
     try {
-      console.log('Form submitted', formData);
+  
       const response = await fetch(`${URL}/public/contact`, {
         method: 'POST',
         headers: {

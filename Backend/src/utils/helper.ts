@@ -53,7 +53,6 @@ export const sendVerificationEmail = async (user: UserDocument, token: string) =
       html: emailTemplate(user.firstName, token, user._id)
     });
 
-    console.log("Email sent:", info.response); 
 
   } catch (error) {
     console.error("Error sending email:", error);
@@ -81,7 +80,6 @@ export const sendResetPasswordEmail = async (user: UserDocument, token: string) 
       html: resetPasswordTemplate(user.firstName, token, user._id)
     });
 
-    console.log("Email sent:", info.response);
 
   } catch (error) {
     console.error("Error sending email:", error);
@@ -92,7 +90,7 @@ export const sendResetPasswordEmail = async (user: UserDocument, token: string) 
 // email template for register verification
 
 export const emailTemplate = (name: string, token:string, userId: ObjectId) => {
-  console.log("token", token, "userId", userId);
+
   const link = `https://localhost:8000/users/verify/${token}/${userId}`
 
   return `

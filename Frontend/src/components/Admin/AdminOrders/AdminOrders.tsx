@@ -173,7 +173,7 @@ const AdminOrders: React.FC = () => {
             <tbody>
               {filteredOrders.map(
                 (order, key) => (
-                  console.log(' orders', orders),
+          
                   (
                     <React.Fragment key={key}>
                       <tr

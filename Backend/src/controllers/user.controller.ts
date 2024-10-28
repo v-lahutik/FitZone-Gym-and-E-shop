@@ -191,7 +191,7 @@ export const forgotPassword = async (
     }
 
     const resetToken = await createToken(user);
-    console.log("reset token", resetToken);
+
 
     await sendResetPasswordEmail(user, resetToken);
     res
@@ -218,10 +218,6 @@ export const verifyResetLink = async (
     });
 
     if (!verifyEntry) {
-      console.log("verifyEntry", verifyEntry);
-      console.log("Token:", token);
-      console.log("User ID:", userId);
-      console.log("Current Time:", Date.now());
       return res.redirect(`${process.env.FE_URL}/verify-link-not-found/?status=verify-error`)
       // return res.status(400).json({ message: "Invalid or expired token." });
     }
@@ -248,9 +244,7 @@ export const resetPasswordHandler = async (
     });
 
     if (!verifyEntry) {
-      console.log("verifyEntry", verifyEntry);
-      console.log("Token:", token);
-      console.log("User ID:", userId);
+
       return res.status(403).json({ message: "Invalid or expired token." });
     }
 

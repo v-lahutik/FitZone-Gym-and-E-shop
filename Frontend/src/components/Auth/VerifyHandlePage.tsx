@@ -10,7 +10,7 @@ const VerifyHandlePage: React.FC = () => {
   const params = new URLSearchParams(location.search);
   const userId = params.get('userId');
   const status = params.get('status');
-  console.log(status);
+
 
   useEffect(() => {
     if (status === 'already-activated') {

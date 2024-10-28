@@ -2,7 +2,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { URL } from '../../utils/URL';
-import { useParams } from 'react-router-dom';
 import './ProductsPage.css';
 import { Product } from './Products';
 import { useCart } from '../../context/CartContext';
@@ -13,12 +12,9 @@ export default function SingleProductPage() {
   const [loginOpen] = useState<boolean>(false);
   const [starNum, setStarNum] = useState<number>();
 
-  const { pid } = useParams();
-  console.log('🚀 ~ SingleProductPage ~ id:', pid);
 
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
-  console.log('🚀 ~ SingleCoursePage ~ pathnames:', pathnames);
 
   const { addToCart } = useCart();
 
@@ -70,7 +66,7 @@ export default function SingleProductPage() {
           `${URL}/public/products/${pathnames[1]}`
         );
         const data = await response.data;
-        console.log('🚀 ~ fetchProducts ~ data:', data);
+
         setProduct(data.product);
         setStarNum(Math.round(data.product.averageRating));
         setLoading(false);

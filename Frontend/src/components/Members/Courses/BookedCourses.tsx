@@ -18,7 +18,7 @@ const BookedCourses: React.FC = () => {
           withCredentials: true
         });
         if (response.status === 200) {
-          //console.log('Data fetched:', response); // Development purpose
+
           const allCourses = response.data.allCourses;
           const userID = response.data.payload.id;
           const myBookedCourses = allCourses.filter((course: Course) => 

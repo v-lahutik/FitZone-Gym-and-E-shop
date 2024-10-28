@@ -32,8 +32,7 @@ const ForgotPass: React.FC = () => {
     e.preventDefault();
     try {
       await emailSchema.validate(email, { abortEarly: false }); //validate user data
-      console.log('email for reset pass:', email);
-
+      
       setErrors(null); // clear errors
       setBeError(null); // clear errors
 
@@ -44,7 +43,7 @@ const ForgotPass: React.FC = () => {
         data: email,
         withCredentials: true
       }).catch((err) => {
-        console.log(err);
+  
         throw err;
       });
       // pop ups after email sent
@@ -66,12 +65,12 @@ const ForgotPass: React.FC = () => {
         });
         setResetPassOpen(false);
       }
-      console.log(res.data);
+ 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       // backend error
       if (error.response) {
-        console.log(error.response);
+
         setBeError(error.response.data.msg);
       }
 

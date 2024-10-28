@@ -60,7 +60,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   //check for cookies to authenticate user
 
   const authenticate = async () => {
-    console.log('authenticating user');
+
     try {
       const response = await axios.get(`${URL}/users/authenticate`, {
         withCredentials: true
@@ -87,7 +87,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.log('useEffect 2 for UserProvider');
+
     if (!userLoading) {
       // Redirect user if they try to access a page they are not authorized to
 
@@ -120,7 +120,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     userLogin: Logintype
   ): Promise<{ success: boolean; error?: string }> => {
     try {
-      console.log('logging in');
+
       await loginSchema.validate(userLogin, { abortEarly: false }); //validate user data
 
       // send request to backend

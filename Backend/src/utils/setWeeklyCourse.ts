@@ -11,10 +11,10 @@ export const createWeeklyCourses = async () => {
   //set to run on sunday - (0) = 8 days til monday
   
   const daysUntilNextMonday = 8 - today.getDay();
-  console.log("daysUntilNextMonday:", daysUntilNextMonday);
+
   const startOfNextNextWeek = new Date();
   startOfNextNextWeek.setDate(today.getDate() + daysUntilNextMonday + 7);
-  console.log("startOfNextNextWeek:", startOfNextNextWeek);
+
 
   //create weekly courses for the week after next week
   const weeklyCourses = allCourses.map((course) => {

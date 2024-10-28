@@ -13,8 +13,6 @@ const PassResetHandlePage: React.FC = () => {
   const params = new URLSearchParams(location.search);
   const userId = params.get('userId');
   const token = params.get('token');
-  const status = params.get('status');
-  console.log(status);
 
   const [newPassword, setNewPassword] = useState<newPassword>({
     newPassword: '',
@@ -60,13 +58,13 @@ const PassResetHandlePage: React.FC = () => {
       )
   });
 
-  console.log(newPassword);
+
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('form submit');
+
     try {
       await newPasswordSchema.validate(newPassword, { abortEarly: false }); //validate user data
-      console.log('LOGIN INFORMATION:', newPassword);
+
 
       setErrors(null); // clear errors
       setBeError(null); // clear errors
@@ -104,7 +102,6 @@ const PassResetHandlePage: React.FC = () => {
             confirmButtonColor: '#333'
           })
         }
-        console.log(error.response);
         setBeError(error.response.data.msg);
       }
 

@@ -39,7 +39,7 @@ const CourseTemplateForm: React.FC<CourseFormProps> = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    console.log(name, value);
+
     if (name === 'start' || name === 'end') {
       setLocalCourse({
         ...localCourse,

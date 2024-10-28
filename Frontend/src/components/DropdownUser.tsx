@@ -12,7 +12,7 @@ interface DropdownUserProps {
 export default function DropdownUser({ user, logout }: DropdownUserProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log('user from header', user);
+
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const toggleDropdown = () => {
     setIsOpen(!isOpen);

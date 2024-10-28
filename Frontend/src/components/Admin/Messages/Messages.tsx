@@ -20,7 +20,7 @@ export default function Messages() {
   //const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
   const [selectedEmailId, setSelectedEmailId] = useState<string | null>(null);
 
-  console.log('🚀 ~ Messages ~ emails:', emails);
+
 
   const fetchEmails = async () => {
     try {
@@ -30,7 +30,7 @@ export default function Messages() {
         withCredentials: true
       });
       const data: Email[] = await response.data;
-      console.log('🚀 ~ fetchEmails ~ data:', data);
+
       setEmails(data);
     } catch (error) {
       console.error('Error fetching emails:', error);
@@ -97,7 +97,7 @@ export default function Messages() {
   };
 
   const handleRowClick = (id: string) => {
-    console.log(id);
+
     setSelectedEmailId(id === selectedEmailId ? null : id); // Toggle email details view
   };
 
