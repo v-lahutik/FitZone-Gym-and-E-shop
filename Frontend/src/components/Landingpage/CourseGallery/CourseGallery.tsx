@@ -130,11 +130,12 @@ const CarouselItem: React.FC = () => {
         </div>
 
         {/* Arrow Controls */}
-        <div className=" absolute top-[50%] transform -translate-y-1/2 w-full flex justify-between z-10">
+
+        <div className="absolute top-[63%] transform -translate-y-1/2 w-full flex justify-between z-10">
           {/* Left Arrow */}
           <button
             onClick={() => handleSlideChange(-1)}
-            className=" bg-primary rounded-full transform hover:scale-110 transition-all"
+            className="hidden sm:block bg-primary rounded-full transform hover:scale-110 transition-all"
           >
             <FaRegArrowAltCircleLeft className="text-white h-10 w-10" />
           </button>
@@ -142,7 +143,7 @@ const CarouselItem: React.FC = () => {
           {/* Right Arrow */}
           <button
             onClick={() => handleSlideChange(1)}
-            className="bg-primary rounded-full transform hover:scale-110 transition-all"
+            className="hidden sm:block bg-primary rounded-full transform hover:scale-110 transition-all"
           >
             <FaRegArrowAltCircleRight className="text-white h-10 w-10" />
           </button>

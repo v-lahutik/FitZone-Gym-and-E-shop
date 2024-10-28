@@ -127,13 +127,34 @@ const MembersCourseTable: React.FC = () => {
   };
 
   // to check if the date is in the past
-  const checkDate = (date: string) => {
+  const checkDateAndTime = (course: Course) => {
     const present = new Date();
-    if (present.getTime() > new Date(date).getTime()) {
-      setIsPast(true);
-    } else {
-      setIsPast(false);
+   const courseDate = new Date (course.date);
+   
+   // Remove time component for date comparison
+  const presentDateOnly = new Date(present.getFullYear(), present.getMonth(), present.getDate());
+  const courseDateOnly = new Date(courseDate.getFullYear(), courseDate.getMonth(), courseDate.getDate());
+
+
+  // Compare dates without time
+  if (courseDateOnly < presentDateOnly) {
+    setIsPast(true);
+    return;
+  }
+
+
+    if (courseDate.toDateString() === present.toDateString()) {
+      const courseStart = parseInt(course.time.start.split(':')[0]);
+      const currentHour = present.getHours();
+     console.log(courseStart, currentHour);
+  
+      if (currentHour >= courseStart) {
+        setIsPast(true);
+        return;
+      }
     }
+  
+    setIsPast(false);
   };
 
   //  calculate which rows the course spans based on time
@@ -255,7 +276,7 @@ const MembersCourseTable: React.FC = () => {
                                       <div
                                         onClick={() => {
                                           openCard(courseForSlot);
-                                          checkDate(courseForSlot.date);
+                                          checkDateAndTime(courseForSlot);
                                         }}
                                         className="bg-white shadow rounded-lg p-2 hover:cursor-pointer hover:bg-green-200 duration-300 ease-in-out"
                                       >
@@ -392,7 +413,7 @@ const MembersCourseTable: React.FC = () => {
                                   <div
                                     onClick={() => {
                                       openCard(courseForSlot);
-                                      checkDate(courseForSlot.date);
+                                      checkDateAndTime(courseForSlot);
                                     }}
                                     className="bg-white shadow rounded-lg p-2 hover:cursor-pointer hover:bg-green-200 duration-300 ease-in-out"
                                   >
