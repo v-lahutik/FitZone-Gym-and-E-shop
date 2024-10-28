@@ -85,7 +85,7 @@ const CarouselItem: React.FC = () => {
 
 
   return (
-    <div className="min-h-[50vh] bg-blackColor2 p-3 relative">
+    <div className="min-h-[50vh] min-w-[50vw] bg-blackColor2 p-3 relative">
       <div className="relative w-full overflow-hidden">
         {/* Wrapper for the slides */}
         <div
@@ -130,6 +130,7 @@ const CarouselItem: React.FC = () => {
         </div>
 
         {/* Arrow Controls */}
+
         <div className="absolute top-[63%] transform -translate-y-1/2 w-full flex justify-between z-10">
           {/* Left Arrow */}
           <button
