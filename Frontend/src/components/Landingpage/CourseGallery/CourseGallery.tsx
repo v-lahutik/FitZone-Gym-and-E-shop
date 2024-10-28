@@ -130,7 +130,7 @@ const CarouselItem: React.FC = () => {
         </div>
 
         {/* Arrow Controls */}
-        <div className="absolute top-[50%] transform -translate-y-1/2 w-full flex justify-between z-10">
+        <div className="absolute top-[63%] transform -translate-y-1/2 w-full flex justify-between z-10">
           {/* Left Arrow */}
           <button
             onClick={() => handleSlideChange(-1)}
