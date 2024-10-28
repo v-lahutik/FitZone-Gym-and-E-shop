@@ -13,7 +13,7 @@ export const createWeeklyCourses = async () => {
   const daysUntilNextMonday = 8 - today.getDay();
   console.log("daysUntilNextMonday:", daysUntilNextMonday);
   const startOfNextNextWeek = new Date();
-  startOfNextNextWeek.setDate(today.getDate() + daysUntilNextMonday + 7);
+  startOfNextNextWeek.setDate(today.getDate() + daysUntilNextMonday);
   console.log("startOfNextNextWeek:", startOfNextNextWeek);
 
   //create weekly courses for the week after next week
