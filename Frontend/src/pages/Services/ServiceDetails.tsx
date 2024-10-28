@@ -40,11 +40,6 @@ export default function ServiceDetails() {
                   </Link>
                 </li>
 
-                <li>
-                  <Link to="/courses" className="text-white mr-1">
-                    Services &gt;
-                  </Link>
-                </li>
                 <li className="text-white">
                   {service?.name ? service?.name : 'Loading...'}
                 </li>
@@ -73,7 +68,7 @@ export default function ServiceDetails() {
                     dangerouslySetInnerHTML={{
                       __html: service?.description ?? ''
                     }}
-                    className="mt-2 text-body text-archivo"
+                    className="mt-2 text-body text-archivo service-description"
                   ></div>
                 </div>
               )}
