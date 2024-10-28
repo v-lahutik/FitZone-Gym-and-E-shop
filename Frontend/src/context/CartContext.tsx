@@ -35,15 +35,17 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       if (existingItemIndex >= 0) {
         const updatedCart = [...state.cart];
         updatedCart[existingItemIndex].quantity += action.payload.quantity;
-        return { ...state, cart: updatedCart };
+        const newState = { ...state, cart: updatedCart };
+        localStorage.setItem('cart', JSON.stringify(newState.cart));
+        return newState;
       }
       
 
       // If item is new, add it to the cart
-      return {
-        ...state,
-        cart: [...state.cart, action.payload],
-      };
+      const newState = { ...state, cart: [...state.cart, action.payload] };
+      localStorage.setItem('cart', JSON.stringify(newState.cart));
+      // If item is new, add it to the cart
+      return newState;
     }
     case 'CHANGE_QUANTITY': {
       const updatedCart = state.cart.map(item => 
@@ -51,27 +53,25 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
           ? { ...item, quantity: action.payload.quantity }
           : item
       );
-      return {
-        ...state,
-        cart: updatedCart,
-      };
+      const newState = { ...state, cart: updatedCart };
+      localStorage.setItem('cart', JSON.stringify(newState.cart));
+      return newState;
     }
     case 'REMOVE_FROM_CART': {
       const updatedCart = state.cart.filter(
         (item) => item.productId.toString() !== action.payload.productId.toString()
       );
-      return {
-        ...state,
-        cart: updatedCart,
-      };
+      const newState = { ...state, cart: updatedCart };
+      localStorage.setItem('cart', JSON.stringify(newState.cart));
+      return newState;
     }
 
     case 'CLEAR_CART':
+      localStorage.removeItem('cart');
       return {
         ...state,
-        cart: [],
+        cart: []
       };
-
     default:
       return state;
   }
@@ -97,6 +97,11 @@ interface CartProviderProps {
 export const CartProvider = ({ children }: CartProviderProps) => {
   const [state, dispatch] = useReducer(cartReducer, initialCartState);
 
+  const storedCart = localStorage.getItem('cart');
+
+  if (storedCart) {
+    state.cart = JSON.parse(storedCart);
+  }
   // Function to add item to cart
   const addToCart = (productId: string, image: string, productName: string, price: number, quantity: number) => {
     dispatch({

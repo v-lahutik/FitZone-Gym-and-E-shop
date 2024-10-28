@@ -3,6 +3,7 @@ import { UserContext } from '../../context/UserContext';
 import { LoginContext } from '../../context/LoginContext';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 
+
 const Login: React.FC = () => {
   interface userLogin {
     email: string;
@@ -78,7 +79,7 @@ const Login: React.FC = () => {
             />
           </div>
 
-          <span
+          <div
             onClick={() => {
               setResetPassOpen(true);
               setLoginOpen(false);
@@ -86,7 +87,7 @@ const Login: React.FC = () => {
             className="text-sm font-thin text-gray-800 mt-2 inline-block hover:text-primary cursor-pointer"
           >
             Forgot Password?
-          </span>
+          </div>
           <button className="cursor-pointer py-2 px-4 block mt-8 mb-6 bg-primary text-white font-bold w-full text-center rounded">
             Login
           </button>

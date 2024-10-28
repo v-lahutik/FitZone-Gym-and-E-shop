@@ -4,6 +4,7 @@ import './contact.css';
 import { URL } from '../../utils/URL';
 
 // icons
+import HeroImage from "../../assets/images/Hero/hero_1_1.jpg"
 import { IoLocationOutline } from 'react-icons/io5';
 import { FiPhone } from 'react-icons/fi';
 import { FaRegClock } from 'react-icons/fa6';
@@ -230,7 +231,7 @@ const ContactPage = () => {
               <div className=" hidden lg:block">
                 <div className="">
                   <img
-                    src="/src/assets/images/Hero/hero_1_1.jpg"
+                    src={HeroImage}
                     alt="Contact"
                   />
                 </div>

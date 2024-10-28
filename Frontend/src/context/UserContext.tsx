@@ -150,7 +150,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           return { success: false, error: error.response.data.msg };
         } else if (error.request) {
           // Request was made but no response (possibly a network error)
-          return { success: false, error: "Error, please try again" };
+          return { success: false, error: 'possible network error!' };
         } else {
           // Some other error occurred during setup of the request
           return { success: false, error: error.message };
