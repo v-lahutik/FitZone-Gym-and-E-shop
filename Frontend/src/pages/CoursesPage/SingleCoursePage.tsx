@@ -6,17 +6,18 @@ import { useParams } from 'react-router-dom';
 import { CourseTemplate } from '../../custom.Types/courseTemplatesType';
 import { FaArrowRight } from 'react-icons/fa6';
 import './CoursePage.css';
+import { Service, servicesData } from '../Services/data';
 
 export default function SingleCoursePage() {
   const [course, setCourse] = useState<CourseTemplate | undefined>(undefined);
   const [loading, setLoading] = useState(true);
+  const [services, setServices] = useState<Service[]>([]);
+  
 
 
 
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
-
-
 
   // fetch course
   useEffect(() => {
@@ -38,6 +39,10 @@ export default function SingleCoursePage() {
       }
     };
     fetchCourse();
+  }, []);
+
+  useEffect(() => {
+    setServices(servicesData);
   }, []);
 
 
@@ -107,27 +112,13 @@ export default function SingleCoursePage() {
               <div className="widget mb-8">
                 <h3 className="widget-title h4">Our Services</h3>
                 <ul className="categories">
-                  <li>
-                    <a href="">
-                      Training programs
-                      <FaArrowRight />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="">
-                      Courses <FaArrowRight />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="">
-                      Personal Trainers <FaArrowRight />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="">
-                      Sauna <FaArrowRight />
-                    </a>
-                  </li>
+                  {services.map((service) => (
+                    <li key={service.id}>
+                      <Link to={`/services/${service.slug}`}>
+                        {service.name} <FaArrowRight />
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="widget mb-8">
