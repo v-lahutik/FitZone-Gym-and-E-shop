@@ -51,10 +51,6 @@ export default function SingleCoursePage() {
       <section
         id="breadcrumb-section"
         className="hero bg-cover bg-center flex items-center h-[30vh]"
-        style={{
-          backgroundImage:
-            "url('/src/assets/images/Hero/Background-breadcrumb.png')"
-        }}
       >
         <div className="container mx-auto max-w-[1280px] px-4 ">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center">

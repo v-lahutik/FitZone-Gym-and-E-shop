@@ -10,10 +10,8 @@ import { ThreeCircles } from 'react-loader-spinner';
 export default function CoursesPage() {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
-  console.log('🚀 ~ CoursesPage ~ pathnames:', pathnames);
 
   const [courses, setCourses] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   // fetch  courses
