@@ -29,8 +29,8 @@ cron.schedule('0 6 * * 0', async () => {
 // middlewares
 app.use(express.json());
 
-// app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-app.use(cors({ origin: "https://fit-zone-tedp.onrender.com", credentials: true }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+// app.use(cors({ origin: "https://fit-zone-tedp.onrender.com", credentials: true }));
 app.use(morgan("dev"));
 
 app.use(cookieParser());
