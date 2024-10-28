@@ -73,7 +73,6 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.body);
     const { email, loginPassword } = req.body;
 
     if (!email || !loginPassword) {

@@ -11,7 +11,7 @@ import CourseTemplate from "../models/courseTemplate.model";
 
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
-    console.log('get all users');
+  
     try {
         const users = await User.find()
         res.status(200).json(users);
@@ -57,7 +57,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 }
 
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
-    console.log('update user running');
+
     try {
         const { firstName, lastName, email, address, membership, role ,is_activated, cart} = req.body;
         const { uid } = req.params; 

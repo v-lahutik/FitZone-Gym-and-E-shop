@@ -44,7 +44,7 @@ const MembersCourseTable: React.FC = () => {
   }, []);
 
   const fetchCoursesForWeek = async (startDate: Date, endDate: Date) => {
-    console.log('fetching courses');
+   
     try {
       setIsLoading(true);
       const response = await axios({

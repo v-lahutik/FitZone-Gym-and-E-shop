@@ -35,7 +35,6 @@ export const getAllMessages = async (
 ): Promise<void> => {
   try {
     const messages = await Contact.find({});
-    console.log('🚀 ~ messages:', messages);
     res.status(200).json(messages);
   } catch (error) {
     next(error);

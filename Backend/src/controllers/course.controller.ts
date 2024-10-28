@@ -22,7 +22,7 @@ export const getAllCourses = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("req.query", req.query);
+
   try {
     const { startDate, endDate } = req.query;
 
@@ -41,7 +41,6 @@ export const getAllCourses = async (
         $lte: end,
       },
     });
-    console.log("allCoursesForWeek", allCoursesForWeek);
     res
       .status(200)
       .json({ msg: "get all course data successfully", allCoursesForWeek });

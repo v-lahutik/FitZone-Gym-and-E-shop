@@ -23,7 +23,6 @@ export const createOrder = async (req: Request , res: Response) => {
         email: user.shopUser.email,
         address: deliveryAddress
     })
-    console.log("new user", newUser);
      userId = newUser._id
   }
     // Check if cart is provided in the request body
