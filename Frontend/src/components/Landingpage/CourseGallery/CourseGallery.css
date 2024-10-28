@@ -25,9 +25,6 @@
 
 /* Mobile Styles */
 @media (max-width: 767px) {
-  .arrow {
-    display: none; /* Hide arrows on mobile */
-  }
   .carousel-item {
     flex: 0 0 100%; /* Full width for mobile */
   }
